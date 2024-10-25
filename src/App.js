@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import FileUploadComponent from './pages/admin/FileUploadComponent';
 
 function App() {
   return (
@@ -9,7 +10,8 @@ function App() {
 
 
     
-      <h1>Ayushi Vashisth</h1>
+      {/* <h1>Ayushi Vashisth</h1> */}
+      <FileUploadComponent />
     </div>
   );
 }
