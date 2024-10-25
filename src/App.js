@@ -9,7 +9,7 @@ function App() {
 
 
     
-      <h1>Ayushi</h1>
+      <h1>Ayushi Vashisth</h1>
     </div>
   );
 }
