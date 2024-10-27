@@ -21,7 +21,7 @@
 }
 
 .navbar-toggle {
-  display: none; /* Hide toggle for larger screens */
+  display: none; 
   flex-direction: column;
   cursor: pointer;
 }
@@ -54,10 +54,9 @@
   color: var(--primary-color);
 }
 
-/* Responsive Styles */
 @media (max-width: 768px) {
   .navbar-toggle {
-    display: flex; /* Show toggle on mobile */
+    display: flex; 
   }
 
   .navbar-links {
@@ -74,10 +73,10 @@
   }
 
   .navbar-links.open {
-    max-height: 200px; /* Set max-height for dropdown */
+    max-height: 200px;
   }
 
   .navbar-link {
-    padding: var(--spacing-md) 0; /* Add padding for links in dropdown */
+    padding: var(--spacing-md) 0; 
   }
 }
