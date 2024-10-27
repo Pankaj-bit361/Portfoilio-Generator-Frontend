@@ -4,7 +4,7 @@ import { Mail, Lock } from "lucide-react";
 import "./login.css";
 import googleIcon from "../assets/google.svg";
 import { useGoogleLogin } from '@react-oauth/google';
-import { config } from "../common/config";
+import { config } from "../config/api";
 import { useNavigate } from "react-router-dom";
 
 const LoginSignupForm = () => {

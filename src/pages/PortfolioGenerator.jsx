@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import PDFUploader from "./PDFUploader";
-import TemplateSelector from "./TemplateSelector";
-import AIAssistant from "./AIAssistant";
+import PDFUploader from "../components/PDFUploader";
+import TemplateSelector from "../components/TemplateSelector";
+import AIAssistant from "../components/AIAssistant";
 import {
   Github,
   Linkedin,
@@ -13,9 +13,11 @@ import {
   Plus,
   Trash2,
   GraduationCap,
-  Award
+  Award,
+  Contact,
+  UserRound
 } from "lucide-react";
-// import { getPortfolioData } from "./fileUpload";
+import { getPortfolioData } from "../components/fileUpload";
 
 function PortfolioGenerator({ setPortfolioData }) {
   const navigate = useNavigate();
@@ -55,22 +57,26 @@ function PortfolioGenerator({ setPortfolioData }) {
     ]
   });
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const data = await getPortfolioData();
-  //       console.log("Fetched Portfolio Data:", data);
-  //       setFormData((prevData) => ({
-  //         ...prevData,
-  //         ...data
-  //       }));
-  //     } catch (error) {
-  //       console.error("Error loading portfolio data:", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const portfolioId = urlParams.get("portfolioId");
 
-  //   fetchData();
-  // }, []);
+        if (portfolioId) {
+          const data = await getPortfolioData(portfolioId);
+          if (data) {
+            console.log("Fetched Portfolio Data:", data);
+            setFormData(data);
+          }
+        }
+      } catch (error) {
+        console.error("Error loading portfolio data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleTemplateSelect = (template) => setSelectedTemplate(template);
   const handleAISuggestion = (suggestions) =>
@@ -162,6 +168,22 @@ function PortfolioGenerator({ setPortfolioData }) {
           <div className="form-section">
             <h3 className="form-title">Personal Information</h3>
             <div className="form-grid">
+              <div className="input-group full-width">
+                <UserRound className="input-icon" />
+                <input
+                  type="text"
+                  placeholder="Name"
+                  value={formData.home.name}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      home: { ...formData.home, name: e.target.value }
+                    })
+                  }
+                  className="form-input"
+                />
+              </div>
+
               <div className="input-group">
                 <Mail className="input-icon" />
                 <input
@@ -172,6 +194,21 @@ function PortfolioGenerator({ setPortfolioData }) {
                     setFormData({
                       ...formData,
                       contact: { ...formData.contact, email: e.target.value }
+                    })
+                  }
+                  className="form-input"
+                />
+              </div>
+              <div className="input-group full-width">
+                <Contact className="input-icon" />
+                <input
+                  type="text"
+                  placeholder="Profession"
+                  value={formData.home.profession}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      home: { ...formData.home, profession: e.target.value }
                     })
                   }
                   className="form-input"
@@ -450,6 +487,17 @@ function PortfolioGenerator({ setPortfolioData }) {
                     onChange={(e) => {
                       const newProjects = [...formData.projects];
                       newProjects[index].githubRepo = e.target.value;
+                      setFormData({ ...formData, projects: newProjects });
+                    }}
+                    className="form-input"
+                  />
+                  <input
+                    type="url"
+                    placeholder="Live Demo"
+                    value={project.liveDemo}
+                    onChange={(e) => {
+                      const newProjects = [...formData.projects];
+                      newProjects[index].liveDemo = e.target.value;
                       setFormData({ ...formData, projects: newProjects });
                     }}
                     className="form-input"
