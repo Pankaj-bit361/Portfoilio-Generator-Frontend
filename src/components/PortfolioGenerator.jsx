@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import PDFUploader from "./PDFUploader";
@@ -15,6 +15,7 @@ import {
   GraduationCap,
   Award
 } from "lucide-react";
+// import { getPortfolioData } from "./fileUpload";
 
 function PortfolioGenerator({ setPortfolioData }) {
   const navigate = useNavigate();
@@ -22,22 +23,59 @@ function PortfolioGenerator({ setPortfolioData }) {
   const [formData, setFormData] = useState({
     contact: { phone: "", email: "", location: "", github: "", linkedin: "" },
     home: { name: "", tagline: "", summary: "" },
-    education: [],
-    certificates: [],
+    education: [
+      {
+        degree: "",
+        school: "",
+        dates: "",
+        grade: ""
+      }
+    ],
+    certificates: [
+      {
+        title: "",
+        issuer: "",
+        date: "",
+        credentialUrl: ""
+      }
+    ],
     skills: {
       technical: { advanced: [], intermediate: [], tools: [] },
       soft: []
     },
-    projects: []
+    projects: [
+      {
+        title: "",
+        description: "",
+        techStack: [],
+        features: [],
+        githubRepo: "",
+        liveDemo: ""
+      }
+    ]
   });
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const data = await getPortfolioData();
+  //       console.log("Fetched Portfolio Data:", data);
+  //       setFormData((prevData) => ({
+  //         ...prevData,
+  //         ...data
+  //       }));
+  //     } catch (error) {
+  //       console.error("Error loading portfolio data:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   const handleTemplateSelect = (template) => setSelectedTemplate(template);
   const handleAISuggestion = (suggestions) =>
     setFormData((prev) => ({ ...prev, ...suggestions }));
-
-  const handlePDFData = (data) => {
-    setFormData((prev) => ({ ...prev, ...data }));
-  };
+  const handlePDFData = (data) => setFormData((prev) => ({ ...prev, ...data }));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,20 +83,17 @@ function PortfolioGenerator({ setPortfolioData }) {
     navigate("/preview");
   };
 
-  const addProject = () => {
+  const removeEducation = (index) => {
     setFormData((prev) => ({
       ...prev,
-      projects: [
-        ...prev.projects,
-        {
-          title: "",
-          description: "",
-          techStack: [],
-          features: [],
-          githubRepo: "",
-          liveDemo: ""
-        }
-      ]
+      education: prev.education.filter((_, i) => i !== index)
+    }));
+  };
+
+  const removeCertificates = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      certificates: prev.certificates.filter((_, i) => i !== index)
     }));
   };
 
@@ -74,12 +109,7 @@ function PortfolioGenerator({ setPortfolioData }) {
       ...prev,
       education: [
         ...prev.education,
-        {
-          degree: "",
-          school: "",
-          dates: "",
-          grade: ""
-        }
+        { degree: "", school: "", dates: "", grade: "" } // Each field initialized
       ]
     }));
   };
@@ -89,11 +119,23 @@ function PortfolioGenerator({ setPortfolioData }) {
       ...prev,
       certificates: [
         ...prev.certificates,
+        { title: "", issuer: "", date: "", credentialUrl: "" }
+      ]
+    }));
+  };
+
+  const addProject = () => {
+    setFormData((prev) => ({
+      ...prev,
+      projects: [
+        ...prev.projects,
         {
           title: "",
-          issuer: "",
-          date: "",
-          credentialUrl: ""
+          description: "",
+          techStack: [],
+          features: [],
+          githubRepo: "",
+          liveDemo: ""
         }
       ]
     }));
@@ -213,7 +255,7 @@ function PortfolioGenerator({ setPortfolioData }) {
 
             {formData.education.map((edu, index) => (
               <div key={index} className="project-card">
-                <div className="space-y-4">
+                <div className="project-card-content">
                   <input
                     type="text"
                     placeholder="Degree"
@@ -237,31 +279,35 @@ function PortfolioGenerator({ setPortfolioData }) {
                     }}
                     className="form-input"
                   />
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <input
-                      type="text"
-                      placeholder="Dates"
-                      value={edu.dates}
-                      onChange={(e) => {
-                        const newEducation = [...formData.education];
-                        newEducation[index].dates = e.target.value;
-                        setFormData({ ...formData, education: newEducation });
-                      }}
-                      className="form-input"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Grade/CGPA"
-                      value={edu.grade}
-                      onChange={(e) => {
-                        const newEducation = [...formData.education];
-                        newEducation[index].grade = e.target.value;
-                        setFormData({ ...formData, education: newEducation });
-                      }}
-                      className="form-input"
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    placeholder="Dates"
+                    value={edu.dates}
+                    onChange={(e) => {
+                      const newEducation = [...formData.education];
+                      newEducation[index].dates = e.target.value;
+                      setFormData({ ...formData, education: newEducation });
+                    }}
+                    className="form-input"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Grade/CGPA"
+                    value={edu.grade}
+                    onChange={(e) => {
+                      const newEducation = [...formData.education];
+                      newEducation[index].grade = e.target.value;
+                      setFormData({ ...formData, education: newEducation });
+                    }}
+                    className="form-input"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeEducation(index)}
+                    className="remove-button"
+                  >
+                    <Trash2 className="icon" />
+                  </button>
                 </div>
               </div>
             ))}
@@ -282,7 +328,7 @@ function PortfolioGenerator({ setPortfolioData }) {
 
             {formData.certificates.map((cert, index) => (
               <div key={index} className="project-card">
-                <div className="space-y-4">
+                <div className="project-card-content">
                   <input
                     type="text"
                     placeholder="Title"
@@ -312,37 +358,41 @@ function PortfolioGenerator({ setPortfolioData }) {
                     }}
                     className="form-input"
                   />
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <input
-                      type="text"
-                      placeholder="Date"
-                      value={cert.date}
-                      onChange={(e) => {
-                        const newCertificates = [...formData.certificates];
-                        newCertificates[index].date = e.target.value;
-                        setFormData({
-                          ...formData,
-                          certificates: newCertificates
-                        });
-                      }}
-                      className="form-input"
-                    />
-                    <input
-                      type="url"
-                      placeholder="Credential URL"
-                      value={cert.credentialUrl}
-                      onChange={(e) => {
-                        const newCertificates = [...formData.certificates];
-                        newCertificates[index].credentialUrl = e.target.value;
-                        setFormData({
-                          ...formData,
-                          certificates: newCertificates
-                        });
-                      }}
-                      className="form-input"
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    placeholder="Date"
+                    value={cert.date}
+                    onChange={(e) => {
+                      const newCertificates = [...formData.certificates];
+                      newCertificates[index].date = e.target.value;
+                      setFormData({
+                        ...formData,
+                        certificates: newCertificates
+                      });
+                    }}
+                    className="form-input"
+                  />
+                  <input
+                    type="url"
+                    placeholder="Credential URL"
+                    value={cert.credentialUrl}
+                    onChange={(e) => {
+                      const newCertificates = [...formData.certificates];
+                      newCertificates[index].credentialUrl = e.target.value;
+                      setFormData({
+                        ...formData,
+                        certificates: newCertificates
+                      });
+                    }}
+                    className="form-input"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeCertificates(index)}
+                    className="remove-button"
+                  >
+                    <Trash2 className="icon" />
+                  </button>
                 </div>
               </div>
             ))}
@@ -352,18 +402,14 @@ function PortfolioGenerator({ setPortfolioData }) {
           <div className="form-section">
             <div className="section-header">
               <h3 className="form-title">Projects</h3>
-              <button
-                type="button"
-                onClick={addProject}
-                className="add-button"
-              >
+              <button type="button" onClick={addProject} className="add-button">
                 <Plus className="icon" /> Add Project
               </button>
             </div>
 
             {formData.projects.map((project, index) => (
               <div key={index} className="project-card">
-                <div className="space-y-4">
+                <div className="project-card-content">
                   <input
                     type="text"
                     placeholder="Project Title"
@@ -386,45 +432,44 @@ function PortfolioGenerator({ setPortfolioData }) {
                     }}
                     className="form-textarea"
                   ></textarea>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <input
-                      type="text"
-                      placeholder="Tech Stack"
-                      value={project.techStack.join(", ")}
-                      onChange={(e) => {
-                        const newProjects = [...formData.projects];
-                        newProjects[index].techStack = e.target.value.split(", ");
-                        setFormData({ ...formData, projects: newProjects });
-                      }}
-                      className="form-input"
-                    />
-                    <input
-                      type="url"
-                      placeholder="GitHub Repo"
-                      value={project.githubRepo}
-                      onChange={(e) => {
-                        const newProjects = [...formData.projects];
-                        newProjects[index].githubRepo = e.target.value;
-                        setFormData({ ...formData, projects: newProjects });
-                      }}
-                      className="form-input"
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    placeholder="Tech Stack"
+                    value={project.techStack.join(", ")}
+                    onChange={(e) => {
+                      const newProjects = [...formData.projects];
+                      newProjects[index].techStack = e.target.value.split(", ");
+                      setFormData({ ...formData, projects: newProjects });
+                    }}
+                    className="form-input"
+                  />
+                  <input
+                    type="url"
+                    placeholder="GitHub Repo"
+                    value={project.githubRepo}
+                    onChange={(e) => {
+                      const newProjects = [...formData.projects];
+                      newProjects[index].githubRepo = e.target.value;
+                      setFormData({ ...formData, projects: newProjects });
+                    }}
+                    className="form-input"
+                  />
 
                   <button
                     type="button"
                     onClick={() => removeProject(index)}
                     className="remove-button"
                   >
-                    <Trash2 className="icon" /> Remove Project
+                    <Trash2 className="icon" />
                   </button>
                 </div>
               </div>
             ))}
           </div>
 
-          <button type="submit" className="submit-button">Generate Portfolio</button>
+          <button type="submit" className="submit-button">
+            Generate Portfolio
+          </button>
         </form>
       </div>
     </motion.div>

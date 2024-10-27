@@ -1,9 +1,9 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Upload, FileText, X, CheckCircle, Copy, Download } from "lucide-react";
 import * as pdfjs from "pdfjs-dist";
-import { Card, CardContent } from "./components/CardComoponet";
-import { GenerateDataFromApi } from "./components/fileUpload";
+import { Card, CardContent } from "./CardComoponet";
+import { GenerateDataFromApi } from "./fileUpload";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
@@ -42,7 +42,7 @@ const FileUploadComponent = () => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => resolve(e.target.result);
-      reader.onerror = (e) => reject(new Error("Failed to read text file"));
+      reader.onerror = () => reject(new Error("Failed to read text file"));
       reader.readAsText(file);
     });
   };
