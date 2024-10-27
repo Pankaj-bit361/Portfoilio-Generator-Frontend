@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,11 +10,7 @@ function Navbar() {
   };
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      className="navbar"
-    >
+    <motion.nav initial={{ y: -100 }} animate={{ y: 0 }} className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-brand">
           Portfolio Generator
@@ -26,9 +22,12 @@ function Navbar() {
           <span className="navbar-toggle-icon"></span>
         </div>
 
-        <div className={`navbar-links ${isOpen ? 'open' : ''}`}>
+        <div className={`navbar-links ${isOpen ? "open" : ""}`}>
           <Link to="/" className="navbar-link" onClick={toggleMenu}>
             Home
+          </Link>
+          <Link to="/login" className="navbar-link" onClick={toggleMenu}>
+            Login
           </Link>
           <Link to="/generator" className="navbar-link" onClick={toggleMenu}>
             Create Portfolio
