@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion';
 
 function TemplateSelector({ selectedTemplate, onSelect }) {
+  
+
+  
   const templates = [
     {
       id: 'modern',

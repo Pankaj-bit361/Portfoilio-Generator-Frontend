@@ -1,5 +1,5 @@
 import axios from "axios";
-import { config } from "../common/config";
+import { config } from "./api";
 
 export const generateOtp = async ({ email }) => {
   try {

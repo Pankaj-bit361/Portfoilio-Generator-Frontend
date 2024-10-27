@@ -7,18 +7,28 @@
 }
 
 .uploader-label {
-  display: inline-block;
+  display: flex;
   background-color: var(--primary-color);
   color: var(--background-primary);
-  padding: var(--spacing-sm) var(--spacing-xl);
+  padding: var(--spacing-sm);
   border-radius: var(--border-radius-md);
   cursor: pointer;
   transition: background-color var(--transition-fast);
+  width: 45%;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
 }
 .uploader-text {
   margin-top: var(--spacing-md);
   color: var(--text-secondary);
   font-size: var(--font-size-sm);
+}
+.uploader-label-section {
+  display: flex;
+  flex-direction: row;
+  /* gap: var(--spacing-sm); */
+  align-items: center;
 }
 
 .upload-resume-button {
@@ -29,7 +39,6 @@
   background-color: var(--primary-color);
   color: var(--background-primary);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;

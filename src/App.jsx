@@ -3,13 +3,13 @@ import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Home from "./components/Home";
-import PortfolioGenerator from "./components/PortfolioGenerator";
+import Home from "./pages/Home";
+import PortfolioGenerator from "./pages/PortfolioGenerator";
 import Preview from "./components/Preview";
 import "./styles/index.css";
 import Signup from "./pages/Signup";
 import LoginSignupForm from "./pages/Login";
-import { config } from "./common/config";
+import { config } from "./config/api";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
               <Route path="/signup" element={<Signup />} />
             </Routes>
           </main>
-          {/* <Footer /> */}
+          <Footer />
         </div>
       </GoogleOAuthProvider>
     </BrowserRouter>
