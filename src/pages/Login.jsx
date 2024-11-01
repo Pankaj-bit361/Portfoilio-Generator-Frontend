@@ -1,24 +1,27 @@
-
 import React, { useState, useEffect } from "react";
 import { Mail, Lock } from "lucide-react";
 import "./login.css";
 import googleIcon from "../assets/google.svg";
-import { useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from "@react-oauth/google";
+import OTPInput from "react-otp-input";
 import { config } from "../config/api";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Loader1 from "../components/GlassLoader";
+import GlassLoader from "../components/GlassLoader";
 
 const LoginSignupForm = () => {
   const [formState, setFormState] = useState({
     email: "",
-    otp: "",
     password: "",
     confirmPassword: "",
   });
 
+  const [otp, setOtp] = useState("");
   const [isSignIn, setIsSignIn] = useState(true);
   const [showOTP, setShowOTP] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -30,6 +33,12 @@ const LoginSignupForm = () => {
   const handleToggle = () => {
     setIsSignIn(!isSignIn);
     setShowOTP(false);
+    setOtp("");
+    setFormState({
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
   };
 
   const handleInputChange = (e) => {
@@ -44,19 +53,15 @@ const LoginSignupForm = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const response = await fetch(`${config.BASE_URL}api/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: formState.email })
+      const response = await axios.post(`${config.BASE_URL}api/auth/login`, {
+        email: formState.email,
       });
-      
-      if (response.ok) {
+
+      if (response.data) {
         setShowOTP(true);
       }
     } catch (error) {
-      console.error('OTP Error:', error);
+      console.error("OTP Error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -67,83 +72,92 @@ const LoginSignupForm = () => {
     try {
       setIsLoading(true);
       if (isSignIn && showOTP) {
-        const response = await fetch(`${config.BASE_URL}api/auth/verify-otp`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
+        const response = await axios.post(
+          `${config.BASE_URL}api/auth/verify-otp`,
+          {
             email: formState.email,
-            otp: formState.otp,
-          })
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-          // Store tokens and redirect
-          localStorage.setItem('accessToken', data.tokens.accessToken);
-          localStorage.setItem('refreshToken', data.tokens.refreshToken);
-          navigate('/generator')
+            otp: otp,
+          }
+        );
+        if (response.data) {
+          localStorage.setItem(
+            "accessToken",
+            response.data.data.tokens.accessToken
+          );
+          localStorage.setItem(
+            "refreshToken",
+            response.data.data.tokens.refreshToken
+          );
+          console.log(response.data.data.user);
+          localStorage.setItem(
+            "portfolioUser",
+            JSON.stringify(response.data.data.user)
+          );
+          navigate("/generator");
         }
       }
     } catch (error) {
-      console.error('Submit Error:', error);
+      console.error("Submit Error:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Google OAuth Integration
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
       setIsLoading(true);
-      
-      // First, get the ID token from Google
-      const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-        headers: {
-          'Authorization': `Bearer ${credentialResponse.access_token}`
+
+      const userInfoResponse = await axios.get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {
+          headers: {
+            Authorization: `Bearer ${credentialResponse.access_token}`,
+          },
         }
-      });
+      );
 
-      const userInfo = await response.json();
-
-      // Now send the ID token to your backend
-      const authResponse = await fetch(`${config.BASE_URL}api/auth/google`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const authResponse = await axios.post(
+        `${config.BASE_URL}api/auth/google`,
+        {
           token: credentialResponse.access_token,
-          userInfo: userInfo // Send user info directly
-        })
-      });
-
-      const data = await authResponse.json();
-      if (authResponse.ok) {
-        localStorage.setItem('accessToken', data.tokens.accessToken);
-        localStorage.setItem('refreshToken', data.tokens.refreshToken);
-        navigate('/generator')
-
-    } else {
-        throw new Error(data.message || 'Google login failed');
+          userInfo: userInfoResponse.data,
+        }
+      );
+      if (authResponse.data) {
+        localStorage.setItem(
+          "accessToken",
+          authResponse.data.tokens.accessToken
+        );
+        localStorage.setItem(
+          "refreshToken",
+          authResponse.data.tokens.refreshToken
+        );
+        localStorage.setItem(
+          "portfolioUser",
+          JSON.stringify(authResponse.data.user)
+        );
+        navigate("/generator");
       }
     } catch (error) {
-      console.error('Google login error:', error);
+      console.error("Google login error:", error);
     } finally {
       setIsLoading(false);
     }
   };
+
   const googleLogin = useGoogleLogin({
     onSuccess: handleGoogleSuccess,
-    onError: () => console.error('Google login failed'),
-    flow: 'implicit'
+    onError: () => console.error("Google login failed"),
+    flow: "implicit",
   });
 
-
-  
   return (
-    <div id="container" className={`container ${isSignIn ? "sign-in" : "sign-up"}`}>
+    <div
+      id="container"
+      className={`container ${isSignIn ? "sign-in" : "sign-up"}`}
+    >
+      {isLoading && <GlassLoader />}
+
       <div className="row">
         {/* SIGN UP */}
         <div className="col align-items-center flex-col sign-up">
@@ -151,8 +165,8 @@ const LoginSignupForm = () => {
             <div className="form sign-up">
               <div className="input-group">
                 <Mail size={24} />
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   name="email"
                   placeholder="Email"
                   value={formState.email}
@@ -161,8 +175,8 @@ const LoginSignupForm = () => {
               </div>
               <div className="input-group">
                 <Lock size={24} />
-                <input 
-                  type="password" 
+                <input
+                  type="password"
                   name="password"
                   placeholder="Password"
                   value={formState.password}
@@ -171,8 +185,8 @@ const LoginSignupForm = () => {
               </div>
               <div className="input-group">
                 <Lock size={24} />
-                <input 
-                  type="password" 
+                <input
+                  type="password"
                   name="confirmPassword"
                   placeholder="Confirm password"
                   value={formState.confirmPassword}
@@ -189,15 +203,17 @@ const LoginSignupForm = () => {
             </div>
           </div>
         </div>
-
         {/* SIGN IN */}
         <div className="col align-items-center flex-col sign-in">
           <div className="form-wrapper align-items-center">
-            <form className="form sign-in" onSubmit={showOTP ? handleSubmit : handleGetOTP}>
+            <form
+              className="form sign-in"
+              onSubmit={showOTP ? handleSubmit : handleGetOTP}
+            >
               <div className="input-group">
                 <Mail size={24} />
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   name="email"
                   placeholder="Email"
                   value={formState.email}
@@ -205,16 +221,31 @@ const LoginSignupForm = () => {
                 />
               </div>
               {showOTP && (
-                <div className="input-group">
-                  <Lock size={24} />
-                  <input 
-                    type="text" 
-                    name="otp"
-                    placeholder="Enter 6-digit OTP"
-                    maxLength="6"
-                    value={formState.otp}
-                    onChange={handleInputChange}
+                <div className="flex flex-col q-justify-center items-center gap-4 my-4">
+                  <OTPInput
+                    value={otp}
+                    onChange={setOtp}
+                    numInputs={6}
+                    renderInput={(props) => <input {...props} />}
+                    focusStyle={{
+                      border: "2px solid #3b82f6",
+                    }}
+                    className="q-justify-center"
+                    shouldAutoFocus
+                    inputType="tel"
                   />
+                  <p className="text-sm text-gray-500 text-left mt-2">
+                    Didn't receive code?{" "}
+                    <span
+                      type="button"
+                      onClick={handleGetOTP}
+                      className="text-sm text-voilet-400"
+                      disabled={isLoading}
+                      style={{ fontWeight: 600, color: "var(--primary-color)" }}
+                    >
+                      Resend
+                    </span>
+                  </p>
                 </div>
               )}
               <button type="submit" disabled={isLoading}>
@@ -225,7 +256,7 @@ const LoginSignupForm = () => {
                 <span>or</span>
               </div>
 
-              <button 
+              <button
                 type="button"
                 onClick={() => googleLogin()}
                 className="google-btn"

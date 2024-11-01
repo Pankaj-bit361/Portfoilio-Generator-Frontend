@@ -7,7 +7,6 @@ import Home from "./pages/Home";
 import PortfolioGenerator from "./pages/PortfolioGenerator";
 import Preview from "./components/Preview";
 import "./styles/index.css";
-import Signup from "./pages/Signup";
 import LoginSignupForm from "./pages/Login";
 import { config } from "./config/api";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -34,10 +33,9 @@ function App() {
                 element={<Preview portfolioData={portfolioData} />}
               />
               <Route path="/login" element={<LoginSignupForm />} />
-              <Route path="/signup" element={<Signup />} />
             </Routes>
           </main>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </GoogleOAuthProvider>
     </BrowserRouter>
