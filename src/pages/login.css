@@ -73,7 +73,7 @@
   font-size: 1rem;
   background-color: var(--gray);
   border-radius: 0.5rem;
-  border: 0.125rem solid var(--white);
+  order: 2px solid #e2e8f0;
   outline: none;
   color: #000;
 }
@@ -242,6 +242,19 @@
     margin: 0.5rem;
     font-size: 2rem;
   }
+
+  .q-justify-center > div {
+    justify-content: space-between;
+  }
+  .q-justify-center > div input {
+    width: 50px !important;
+    height: 50px !important;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 1.25rem;
+    text-align: center;
+    outline: none;
+  }
 }
 
 .divider {
@@ -295,4 +308,25 @@ input[name="otp"] {
 
 input[name="otp"]:focus {
   border: 0.125rem solid var(--primary-color);
+}
+@media screen and (max-width: 900px) {
+  .q-justify-center > div input {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  .input-group input {
+    width: 100%;
+    padding: 0.8rem 3rem;
+    font-size: 0.8rem;
+    border-radius: 0.5rem;
+    border: 2px solid #e2e8f0;
+    outline: none;
+  }
+}
+@media screen and (max-width: 600px) {
+  .container.sign-in .col.sign-in,
+  .container.sign-up .col.sign-up {
+    /* transform: translateY(-50%); */
+    border-radius: 0px;
+  }
 }
