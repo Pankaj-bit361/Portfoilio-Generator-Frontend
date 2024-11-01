@@ -6,12 +6,14 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  
+
   const navigate = useNavigate();
 
   console.log("user", user);
 
   const login = (userData, tokens) => {
+    console.log("userData", userData);
+    console.log("tokens", tokens);
     setUser({
       ...userData,
       accessToken: tokens.accessToken,
