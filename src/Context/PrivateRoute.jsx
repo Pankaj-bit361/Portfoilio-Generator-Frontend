@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
-
   const location = useLocation();
 
   if (!isAuthenticated()) {
