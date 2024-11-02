@@ -10,7 +10,7 @@ const PrivateRoute = ({ children }) => {
 
   if (!isAuthenticated()) {
     toast.info('Please log in first.', {
-      position: "bottom-center",
+      position: "top-center",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
