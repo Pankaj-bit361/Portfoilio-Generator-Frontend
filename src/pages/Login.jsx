@@ -92,12 +92,12 @@ const LoginSignupForm = () => {
             "refreshToken",
             response.data.data.tokens.refreshToken
           );
-          console.log(response.data.data.user);
+          // console.log(response.data.data.user);
           localStorage.setItem(
             "portfolioUser",
             JSON.stringify(response.data.data.user)
           );
-          console.log(response.data.data.tokens);
+          // console.log(response.data.data.tokens);
           login(response.data.data.user, response.data.data.tokens);
           toast.success("Login successful!");
           navigate("/generator");
@@ -146,7 +146,7 @@ const LoginSignupForm = () => {
           "portfolioUser",
           JSON.stringify(authResponse.data.user)
         );
-        console.log(authResponse.data.tokens);
+        // console.log(authResponse.data.tokens);
         login(authResponse.data.user, authResponse.data.tokens);
         toast.success("Login successful!");
         navigate("/generator");
