@@ -8,7 +8,6 @@
 }
 
 * {
-  font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -239,9 +238,10 @@
     font-size: 2rem;
   }
 }
-
+    
 .q-justify-center > div {
   justify-content: space-between;
+  width: 100%;
 }
 
 .q-justify-center > div input {
@@ -329,5 +329,3 @@ input[name="otp"]:focus {
     border-radius: 0px;
   }
 }
-
-

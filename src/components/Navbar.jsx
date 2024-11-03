@@ -29,7 +29,7 @@ function Navbar() {
           <Link to="/login" className="navbar-link" onClick={toggleMenu}>
             Login
           </Link>
-          <Link to="/generator" className="navbar-link" onClick={toggleMenu}>
+          <Link to="/generator/create" className="navbar-link" onClick={toggleMenu}>
             Create Portfolio
           </Link>
         </div>

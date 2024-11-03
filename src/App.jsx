@@ -10,6 +10,7 @@ import "./styles/index.css";
 import LoginSignupForm from "./pages/Login";
 import { config } from "./config/api";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import PortFolios from "./pages/PortFolios";
 
 function App() {
   const [portfolioData, setPortfolioData] = useState(null);
@@ -23,11 +24,24 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route
-                path="/generator"
+                path="/generator/create"
                 element={
-                  <PortfolioGenerator setPortfolioData={setPortfolioData} />
+                  <PortfolioGenerator
+                    setPortfolioData={setPortfolioData}
+                    type={"create"}
+                  />
                 }
               />
+              <Route
+                path="/generator/edit"
+                element={
+                  <PortfolioGenerator
+                    setPortfolioData={setPortfolioData}
+                    type={"edit"}
+                  />
+                }
+              />
+              <Route path="/portfolio" element={<PortFolios />} />
               <Route
                 path="/preview"
                 element={<Preview portfolioData={portfolioData} />}

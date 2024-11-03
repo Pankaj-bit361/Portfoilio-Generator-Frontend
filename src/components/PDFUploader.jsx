@@ -70,14 +70,6 @@ function PDFUploader({ onDataExtracted }) {
         const extractedText = await extractContentFromPdf(selectedFile);
         setExtractedContent(extractedText);
         console.log("Extracted content:", extractedText);
-        const apiResponse = await GenerateDataFromApi(extractedText);
-
-        if (apiResponse) {
-          onDataExtracted(apiResponse);
-          setIsComplete(true);
-        } else {
-          setError("Failed to process PDF content");
-        }
       } catch (error) {
         console.error("Error processing PDF:", error);
         setError("Error processing PDF file");
