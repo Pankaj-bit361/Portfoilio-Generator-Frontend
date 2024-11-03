@@ -58,9 +58,9 @@ function App() {
                 <Route
                   path="/portfolios"
                   element={
-                    <PrivateRoute>
+                    // <PrivateRoute>
                       <PortFolios />
-                    </PrivateRoute>
+                    // </PrivateRoute>
                   }
                 />
                 <Route
@@ -68,7 +68,7 @@ function App() {
                   element={
                     <PrivateRoute>
                       <Preview portfolioData={portfolioData} />
-                    // </PrivateRoute>
+                     </PrivateRoute>
                   }
                 />
               </Routes>
