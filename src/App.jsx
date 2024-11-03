@@ -33,10 +33,18 @@ function App() {
                 <Route path="/login" element={<LoginSignupForm />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route
-                  path="/generator"
+                  path="/generator/create"
                   element={
                     <PrivateRoute>
-                      <PortfolioGenerator setPortfolioData={setPortfolioData} />
+                      <PortfolioGenerator setPortfolioData={setPortfolioData}  type={'create'}  />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/generator/edit"
+                  element={
+                    <PrivateRoute>
+                      <PortfolioGenerator setPortfolioData={setPortfolioData} type={'edit'} />
                     </PrivateRoute>
                   }
                 />
