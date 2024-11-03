@@ -85,7 +85,7 @@ function Home() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => navigate("/generator")}
+            onClick={() => navigate("/generator/create")}
             className="home-button"
           >
             Get Started Now

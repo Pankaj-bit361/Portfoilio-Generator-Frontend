@@ -1,0 +1,127 @@
+.creative-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem;
+  z-index: 100;
+  mix-blend-mode: difference;
+}
+
+.nav-brand {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  color: var(--creative-text);
+  mix-blend-mode: difference;
+}
+
+.nav-toggle {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  width: 30px;
+  height: 25px;
+  background: transparent;
+  border: none;
+  cursor: none;
+  z-index: 101;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--creative-text);
+  position: absolute;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.nav-toggle span:nth-child(1) { top: 0; }
+.nav-toggle span:nth-child(2) { top: 50%; }
+.nav-toggle span:nth-child(3) { top: 100%; }
+
+.creative-navbar.open .nav-toggle span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+
+.creative-navbar.open .nav-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+.creative-navbar.open .nav-toggle span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.nav-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--creative-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s, visibility 0.5s;
+}
+
+.creative-navbar.open .nav-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav-link {
+  font-size: 4rem;
+  font-weight: bold;
+  color: var(--creative-text);
+  text-decoration: none;
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s, transform 0.5s, color 0.3s;
+}
+
+.creative-navbar.open .nav-link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nav-link:hover {
+  color: var(--hover-color);
+}
+
+.nav-link-number {
+  position: absolute;
+  top: 0;
+  left: -3rem;
+  font-size: 1rem;
+  font-family: var(--font-mono);
+  opacity: 0.5;
+}
+
+.creative-cursor {
+  width: 20px;
+  height: 20px;
+  background: var(--creative-accent);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  transition: transform 0.1s ease;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+@media (max-width: 768px) {
+  .nav-link {
+    font-size: 2.5rem;
+  }
+
+  .nav-link-number {
+    left: -2rem;
+  }
+}
