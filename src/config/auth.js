@@ -25,3 +25,5 @@ export const verifyOtp = async ({ email, otp }) => {
     console.log(error);
   }
 };
+
+
