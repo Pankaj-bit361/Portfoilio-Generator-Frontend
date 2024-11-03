@@ -36,7 +36,10 @@ function App() {
                   path="/generator/create"
                   element={
                     <PrivateRoute>
-                      <PortfolioGenerator setPortfolioData={setPortfolioData}  type={'create'}  />
+                      <PortfolioGenerator
+                        setPortfolioData={setPortfolioData}
+                        type={"create"}
+                      />
                     </PrivateRoute>
                   }
                 />
@@ -44,7 +47,19 @@ function App() {
                   path="/generator/edit"
                   element={
                     <PrivateRoute>
-                      <PortfolioGenerator setPortfolioData={setPortfolioData} type={'edit'} />
+                      <PortfolioGenerator
+                        setPortfolioData={setPortfolioData}
+                        type={"edit"}
+                      />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path="/portfolios"
+                  element={
+                    <PrivateRoute>
+                      <PortFolios />
                     </PrivateRoute>
                   }
                 />
@@ -53,7 +68,7 @@ function App() {
                   element={
                     <PrivateRoute>
                       <Preview portfolioData={portfolioData} />
-                    </PrivateRoute>
+                    // </PrivateRoute>
                   }
                 />
               </Routes>

@@ -100,7 +100,7 @@ const LoginSignupForm = () => {
           // console.log(response.data.data.tokens);
           login(response.data.data.user, response.data.data.tokens);
           toast.success("Login successful!");
-          navigate("/generator");
+          navigate("/generator/create");
         }else{
           toast.error("Invalid OTP. Please try again.");
         }
@@ -149,7 +149,7 @@ const LoginSignupForm = () => {
         // console.log(authResponse.data.tokens);
         login(authResponse.data.user, authResponse.data.tokens);
         toast.success("Login successful!");
-        navigate("/generator");
+        navigate("/generator/create");
       }else{
         toast.error("Error logging in. Please try again.");
       }

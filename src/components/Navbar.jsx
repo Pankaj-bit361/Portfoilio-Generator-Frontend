@@ -24,7 +24,7 @@ function Navbar() {
 
         <div className={`navbar-links ${isOpen ? "open" : ""}`}>
           <Link to="/" className="navbar-link" onClick={toggleMenu}>Home</Link>
-          <Link to="/generator" className="navbar-link" onClick={toggleMenu}>Create Portfolio</Link>
+          <Link to="/portfolios" className="navbar-link" onClick={toggleMenu}>Portfolios</Link>
 
           {user ? (
             <div className="profile-menu">
