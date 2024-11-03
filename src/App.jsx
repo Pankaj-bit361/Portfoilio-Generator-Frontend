@@ -35,23 +35,23 @@ function App() {
                 <Route
                   path="/generator/create"
                   element={
-                    <PrivateRoute>
+                    // <PrivateRoute>
                       <PortfolioGenerator
                         setPortfolioData={setPortfolioData}
                         type={"create"}
                       />
-                    </PrivateRoute>
+                    // </PrivateRoute>
                   }
                 />
                 <Route
                   path="/generator/edit"
                   element={
-                    <PrivateRoute>
+                    // <PrivateRoute>
                       <PortfolioGenerator
                         setPortfolioData={setPortfolioData}
                         type={"edit"}
                       />
-                    </PrivateRoute>
+                    // </PrivateRoute>
                   }
                 />
 
@@ -66,9 +66,9 @@ function App() {
                 <Route
                   path="/preview"
                   element={
-                    <PrivateRoute>
+                    // <PrivateRoute>
                       <Preview portfolioData={portfolioData} />
-                     </PrivateRoute>
+                    //  </PrivateRoute>
                   }
                 />
               </Routes>
