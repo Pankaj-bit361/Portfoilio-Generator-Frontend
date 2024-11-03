@@ -7,9 +7,14 @@ import Home from "./pages/Home";
 import PortfolioGenerator from "./pages/PortfolioGenerator";
 import Preview from "./components/Preview";
 import "./styles/index.css";
+import Signup from "./pages/Signup";
 import LoginSignupForm from "./pages/Login";
 import { config } from "./config/api";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { AuthProvider } from "./Context/AuthContext.jsx";
+import PrivateRoute from "./Context/PrivateRoute.jsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import PortFolios from "./pages/PortFolios";
 
 function App() {
@@ -17,41 +22,38 @@ function App() {
 
   return (
     <BrowserRouter>
-      <GoogleOAuthProvider clientId={config.REACT_APP_GOOGLE_CLIENT_ID}>
-        <div className="app">
-          <Navbar />
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route
-                path="/generator/create"
-                element={
-                  <PortfolioGenerator
-                    setPortfolioData={setPortfolioData}
-                    type={"create"}
-                  />
-                }
-              />
-              <Route
-                path="/generator/edit"
-                element={
-                  <PortfolioGenerator
-                    setPortfolioData={setPortfolioData}
-                    type={"edit"}
-                  />
-                }
-              />
-              <Route path="/portfolio" element={<PortFolios />} />
-              <Route
-                path="/preview"
-                element={<Preview portfolioData={portfolioData} />}
-              />
-              <Route path="/login" element={<LoginSignupForm />} />
-            </Routes>
-          </main>
-          {/* <Footer /> */}
-        </div>
-      </GoogleOAuthProvider>
+      <AuthProvider>
+        <GoogleOAuthProvider clientId={config.REACT_APP_GOOGLE_CLIENT_ID}>
+          <div className="app">
+            <ToastContainer />
+            <Navbar />
+            <main>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<LoginSignupForm />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route
+                  path="/generator"
+                  element={
+                    <PrivateRoute>
+                      <PortfolioGenerator setPortfolioData={setPortfolioData} />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/preview"
+                  element={
+                    <PrivateRoute>
+                      <Preview portfolioData={portfolioData} />
+                    </PrivateRoute>
+                  }
+                />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </GoogleOAuthProvider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

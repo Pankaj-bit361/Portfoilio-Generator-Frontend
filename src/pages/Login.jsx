@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loader1 from "../components/GlassLoader";
 import GlassLoader from "../components/GlassLoader";
+import { useAuth } from "../Context/AuthContext.jsx";
+import { toast } from "react-toastify";
 
 const LoginSignupForm = () => {
   const [formState, setFormState] = useState({
@@ -22,6 +24,7 @@ const LoginSignupForm = () => {
   const [showOTP, setShowOTP] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -61,6 +64,7 @@ const LoginSignupForm = () => {
         setShowOTP(true);
       }
     } catch (error) {
+      toast.error("Error getting OTP. Please try again.");
       console.error("OTP Error:", error);
     } finally {
       setIsLoading(false);
@@ -88,15 +92,21 @@ const LoginSignupForm = () => {
             "refreshToken",
             response.data.data.tokens.refreshToken
           );
-          console.log(response.data.data.user);
+          // console.log(response.data.data.user);
           localStorage.setItem(
             "portfolioUser",
             JSON.stringify(response.data.data.user)
           );
+          // console.log(response.data.data.tokens);
+          login(response.data.data.user, response.data.data.tokens);
+          toast.success("Login successful!");
           navigate("/generator");
+        }else{
+          toast.error("Invalid OTP. Please try again.");
         }
       }
     } catch (error) {
+      toast.error("Error submitting form. Please try again.");
       console.error("Submit Error:", error);
     } finally {
       setIsLoading(false);
@@ -136,10 +146,16 @@ const LoginSignupForm = () => {
           "portfolioUser",
           JSON.stringify(authResponse.data.user)
         );
+        // console.log(authResponse.data.tokens);
+        login(authResponse.data.user, authResponse.data.tokens);
+        toast.success("Login successful!");
         navigate("/generator");
+      }else{
+        toast.error("Error logging in. Please try again.");
       }
     } catch (error) {
       console.error("Google login error:", error);
+      toast.error("Error logging in. Please try again.");
     } finally {
       setIsLoading(false);
     }

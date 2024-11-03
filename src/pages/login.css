@@ -70,13 +70,17 @@
   width: 100%;
   padding: 1rem 3rem;
   font-size: 1rem;
+  background-color: var(--gray);
   border-radius: 0.5rem;
-  border: 2px solid #e2e8f0;
+  order: 2px solid #e2e8f0;
   outline: none;
+  color: #000;
 }
 
 .input-group input:focus {
   border: 0.125rem solid var(--primary-color);
+  color: #000;
+  background-color: var(--white);
 }
 
 .form button {
@@ -306,7 +310,6 @@ input[name="otp"] {
 input[name="otp"]:focus {
   border: 0.125rem solid var(--primary-color);
 }
-
 @media screen and (max-width: 900px) {
   .q-justify-center > div input {
     width: 40px !important;
@@ -321,7 +324,6 @@ input[name="otp"]:focus {
     outline: none;
   }
 }
-
 @media screen and (max-width: 600px) {
   .container.sign-in .col.sign-in,
   .container.sign-up .col.sign-up {
