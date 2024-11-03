@@ -15,6 +15,7 @@ import { AuthProvider } from "./Context/AuthContext.jsx";
 import PrivateRoute from "./Context/PrivateRoute.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PortFolios from "./pages/PortFolios";
 
 function App() {
   const [portfolioData, setPortfolioData] = useState(null);
@@ -32,10 +33,18 @@ function App() {
                 <Route path="/login" element={<LoginSignupForm />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route
-                  path="/generator"
+                  path="/generator/create"
                   element={
                     <PrivateRoute>
-                      <PortfolioGenerator setPortfolioData={setPortfolioData} />
+                      <PortfolioGenerator setPortfolioData={setPortfolioData}  type={'create'}  />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/generator/edit"
+                  element={
+                    <PrivateRoute>
+                      <PortfolioGenerator setPortfolioData={setPortfolioData} type={'edit'} />
                     </PrivateRoute>
                   }
                 />

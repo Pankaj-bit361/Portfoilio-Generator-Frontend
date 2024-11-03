@@ -8,7 +8,6 @@
 }
 
 * {
-  font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -242,19 +241,21 @@
     margin: 0.5rem;
     font-size: 2rem;
   }
+}
+    
+.q-justify-center > div {
+  justify-content: space-between;
+  width: 100%;
+}
 
-  .q-justify-center > div {
-    justify-content: space-between;
-  }
-  .q-justify-center > div input {
-    width: 50px !important;
-    height: 50px !important;
-    border: 2px solid #e2e8f0;
-    border-radius: 0.5rem;
-    font-size: 1.25rem;
-    text-align: center;
-    outline: none;
-  }
+.q-justify-center > div input {
+  width: 50px !important;
+  height: 50px !important;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 1.25rem;
+  text-align: center;
+  outline: none;
 }
 
 .divider {
