@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken
     });
-    navigate("/generator");
+    navigate("/generator/create");
   };
 
   const logout = () => {
