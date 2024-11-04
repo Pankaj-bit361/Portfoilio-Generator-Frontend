@@ -26,11 +26,16 @@ import {
 import { getPortfolioData } from "../components/fileUpload";
 import "./portfoliogenerator.css";
 import { data } from "autoprefixer";
+import { toast } from "react-toastify";
+import { config } from "../config/api";
+import { TbVariableMinus } from "react-icons/tb";
+import axios from "axios";
 
 function PortfolioGenerator({ setPortfolioData, type }) {
   const navigate = useNavigate();
   const [selectedTemplate, setSelectedTemplate] = useState("modern");
   const [loading, setLoading] = useState(false);
+  const [extractedContent, setExtractedContent] = useState("");
   const [formData, setFormData] = useState({
     contact: {
       phone: "",
@@ -139,7 +144,7 @@ function PortfolioGenerator({ setPortfolioData, type }) {
           });
           if (data) {
             console.log("Fetched Portfolio Data:", data);
-            console.log(data)
+            console.log(data);
             setFormData(data);
           }
         }
@@ -150,7 +155,6 @@ function PortfolioGenerator({ setPortfolioData, type }) {
 
     type == "edit" && fetchData();
   }, []);
-
 
   const handleTemplateSelect = (template) => setSelectedTemplate(template);
   const handleAISuggestion = (suggestions) =>
@@ -347,8 +351,27 @@ function PortfolioGenerator({ setPortfolioData, type }) {
     }));
   };
 
+  const generatePortfolio = async () => {
+    console.log("hsbmjndjhsbd fmsfd");
+    if (!extractedContent) {
+      toast.error("please upload the resume pdf");
+      return;
+    }
+    const body = {
+      resumeText: extractedContent,
+      template: selectedTemplate,
+    };
+    let userData = JSON.parse(localStorage.getItem("portfolioUser"));
 
-  
+    try {
+      const response = await axios.post(
+        `${config.BASE_URL}api/portfolio/generate?userId=${userData.userId}`,
+        body
+      );
+      console.log(response.data);
+    } catch (error) {}
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -358,7 +381,10 @@ function PortfolioGenerator({ setPortfolioData, type }) {
       <div className="generator-container">
         <h2 className="generator-title">Create Your Portfolio</h2>
 
-        <PDFUploader onDataExtracted={handlePDFData} />
+        <PDFUploader
+          onDataExtracted={handlePDFData}
+          setExtractedText={setExtractedContent}
+        />
         <TemplateSelector
           selectedTemplate={selectedTemplate}
           onSelect={handleTemplateSelect}
@@ -1210,9 +1236,11 @@ function PortfolioGenerator({ setPortfolioData, type }) {
             </button>
           </form>
         )}
-        <button type="submit" className="submit-button">
-          Generate Portfolio
-        </button>
+        {type == "create" && (
+          <button onClick={() => generatePortfolio()} className="submit-button">
+            Generate Portfolio
+          </button>
+        )}
       </div>
     </motion.div>
   );

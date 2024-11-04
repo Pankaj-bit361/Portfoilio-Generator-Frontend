@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,
     });
+    navigate("/generator/create");
     localStorage.setItem("portfolioUser", JSON.stringify(userData));
     localStorage.setItem("accessToken", tokens.accessToken);
     localStorage.setItem("refreshToken", tokens.refreshToken);

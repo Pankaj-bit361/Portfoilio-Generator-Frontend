@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, FileText, User } from "lucide-react";
 import "./login.css";
 import googleIcon from "../assets/google.svg";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -15,8 +15,8 @@ import { toast } from "react-toastify";
 const LoginSignupForm = () => {
   const [formState, setFormState] = useState({
     email: "",
-    password: "",
-    confirmPassword: "",
+    name: "",
+    bio: "",
   });
 
   const [otp, setOtp] = useState("");
@@ -71,6 +71,36 @@ const LoginSignupForm = () => {
     }
   };
 
+  const handleSignUp = async () => {
+    try {
+      setIsLoading(true);
+      if (formState && !formState.email) {
+      }
+
+      const response = await axios.post(`${config.BASE_URL}api/auth/signup`, {
+        email: formState.email,
+        name: formState.name,
+        bio: formState?.bio || "",
+      });
+      console.log(response.data);
+      if (response.data.success) {
+        toast.success("User Created successful!");
+        setIsSignIn(true);
+      } else {
+        toast.error("Error submitting form. Please try again.");
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error.response.data.message);
+      toast.error(
+        error.response.data.message
+          ? error.response.data.message
+          : "Error submitting form. Please try again."
+      );
+      setIsLoading(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -101,7 +131,7 @@ const LoginSignupForm = () => {
           login(response.data.data.user, response.data.data.tokens);
           toast.success("Login successful!");
           navigate("/generator/create");
-        }else{
+        } else {
           toast.error("Invalid OTP. Please try again.");
         }
       }
@@ -150,7 +180,7 @@ const LoginSignupForm = () => {
         login(authResponse.data.user, authResponse.data.tokens);
         toast.success("Login successful!");
         navigate("/generator/create");
-      }else{
+      } else {
         toast.error("Error logging in. Please try again.");
       }
     } catch (error) {
@@ -180,6 +210,16 @@ const LoginSignupForm = () => {
           <div className="form-wrapper align-items-center">
             <div className="form sign-up">
               <div className="input-group">
+                <User size={24} />
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Enter your name"
+                  value={formState.name}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="input-group">
                 <Mail size={24} />
                 <input
                   type="email"
@@ -189,27 +229,17 @@ const LoginSignupForm = () => {
                   onChange={handleInputChange}
                 />
               </div>
-              <div className="input-group">
-                <Lock size={24} />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={formState.password}
+              <div className="input-group2">
+                <FileText size={24} /> {/* Added icon for consistency */}
+                <textarea
+                  name="bio"
+                  placeholder="About"
+                  value={formState.bio}
                   onChange={handleInputChange}
+                  className="textarea-input" /* New class for specific textarea styling */
                 />
               </div>
-              <div className="input-group">
-                <Lock size={24} />
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  placeholder="Confirm password"
-                  value={formState.confirmPassword}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <button type="submit">Sign up</button>
+              <button onClick={handleSignUp}>Sign up</button>
               <p>
                 <span>Already have an account?</span>
                 <b onClick={handleToggle} className="pointer">

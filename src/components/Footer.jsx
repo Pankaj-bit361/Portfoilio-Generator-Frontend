@@ -15,7 +15,7 @@ function Footer() {
           <h4 className="footer-subtitle">Quick Links</h4>
           <ul className="footer-links">
             <li><a href="/">Home</a></li>
-            <li><a href="/generator">Create Portfolio</a></li>
+            <li><a href="/generator/create">Create Portfolio</a></li>
             <li><a href="#features">Features</a></li>
           </ul>
         </div>

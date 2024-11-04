@@ -44,7 +44,7 @@ async function extractContentFromPdf(file) {
   }
 }
 
-function PDFUploader({ onDataExtracted }) {
+function PDFUploader({ onDataExtracted, setExtractedText }) {
   const [file, setFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -56,6 +56,7 @@ function PDFUploader({ onDataExtracted }) {
     setFile(selectedFile);
     setError(null);
     setExtractedContent(null);
+    setExtractedText(null)
 
     if (selectedFile) {
       if (!selectedFile.type.includes("pdf")) {
@@ -69,6 +70,7 @@ function PDFUploader({ onDataExtracted }) {
       try {
         const extractedText = await extractContentFromPdf(selectedFile);
         setExtractedContent(extractedText);
+        setExtractedText(extractedText)
         console.log("Extracted content:", extractedText);
       } catch (error) {
         console.error("Error processing PDF:", error);
@@ -78,6 +80,9 @@ function PDFUploader({ onDataExtracted }) {
       }
     }
   };
+
+
+
 
   return (
     <div className="uploader">
