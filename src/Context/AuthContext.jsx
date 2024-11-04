@@ -1,60 +1,55 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("portfolioUser");
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    if (storedUser && accessToken) {
+      setUser({
+        ...JSON.parse(storedUser),
+        accessToken,
+        refreshToken,
+      });
+    }
+  }, []);
 
   const login = (userData, tokens) => {
     setUser({
       ...userData,
       accessToken: tokens.accessToken,
-      refreshToken: tokens.refreshToken
+      refreshToken: tokens.refreshToken,
     });
+    navigate("/generator/create");
+    localStorage.setItem("portfolioUser", JSON.stringify(userData));
+    localStorage.setItem("accessToken", tokens.accessToken);
+    localStorage.setItem("refreshToken", tokens.refreshToken);
+
     navigate("/generator/create");
   };
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem("portfolioUser");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+
     navigate("/login");
   };
 
   const isAuthenticated = () => {
-    return !!user?.accessToken;
+    return !!user?.accessToken || localStorage.getItem("accessToken") !== null;
   };
 
   const getAccessToken = () => {
-    return user?.accessToken;
-  };
-
-  const refreshAccessToken = async () => {
-    try {
-      const response = await fetch(`${config.BASE_URL}api/auth/refresh-token`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ refreshToken: user?.refreshToken })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUser((prev) => ({
-          ...prev,
-          accessToken: data.accessToken
-        }));
-        return data.accessToken;
-      }
-      logout();
-      return null;
-    } catch (error) {
-      console.error("Token refresh error:", error);
-      logout();
-      return null;
-    }
+    return user?.accessToken || localStorage.getItem("accessToken");
   };
 
   return (
@@ -65,7 +60,6 @@ export const AuthProvider = ({ children }) => {
         logout,
         isAuthenticated,
         getAccessToken,
-        refreshAccessToken
       }}
     >
       {children}
