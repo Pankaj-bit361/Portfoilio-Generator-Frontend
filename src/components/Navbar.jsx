@@ -12,24 +12,48 @@ function Navbar() {
   const handleLogout = () => logout();
 
   return (
-    <motion.nav initial={{ y: -100 }} animate={{ y: 0 }} className={`navbar ${isOpen ? "menu-open" : ""}`}>
+    <motion.nav
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      className={`navbar ${isOpen ? "menu-open" : ""}`}
+    >
       <div className="navbar-container">
-        <Link to="/" className="navbar-brand">Portfolio Generator</Link>
-        
+        <Link to="/" className="navbar-brand">
+          Portfolio Generator
+        </Link>
+
         <div className="navbar-toggle" onClick={toggleMenu}>
-          <span className={`navbar-toggle-icon ${isOpen ? "active" : ""}`}></span>
-          <span className={`navbar-toggle-icon ${isOpen ? "active" : ""}`}></span>
-          <span className={`navbar-toggle-icon ${isOpen ? "active" : ""}`}></span>
+          <span
+            className={`navbar-toggle-icon ${isOpen ? "active" : ""}`}
+          ></span>
+          <span
+            className={`navbar-toggle-icon ${isOpen ? "active" : ""}`}
+          ></span>
+          <span
+            className={`navbar-toggle-icon ${isOpen ? "active" : ""}`}
+          ></span>
         </div>
 
         <div className={`navbar-links ${isOpen ? "open" : ""}`}>
-          <Link to="/" className="navbar-link" onClick={toggleMenu}>Home</Link>
-          <Link to="/portfolios" className="navbar-link" onClick={toggleMenu}>Portfolios</Link>
+          <Link to="/" className="navbar-link" onClick={toggleMenu}>
+            Home
+          </Link>
+          <Link to="/portfolios" className="navbar-link" onClick={toggleMenu}>
+            Portfolios
+          </Link>
 
           {user ? (
             <div className="profile-menu">
               <div className="profile-info" onClick={toggleMenu}>
-                <img src={user.profileImage} alt="Profile" className="profile-pic" />
+                <img
+                  src={
+                    user.profileImage
+                      ? user.profileImage
+                      : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtuphMb4mq-EcVWhMVT8FCkv5dqZGgvn_QiA&s"
+                  }
+                  alt="Profile"
+                  className="profile-pic"
+                />
                 <span className="username">{user.name}</span>
                 <button className="logout-Btn" onClick={handleLogout}>
                   <div className="logout-sign">

@@ -26,7 +26,6 @@ function App() {
         <GoogleOAuthProvider clientId={config.REACT_APP_GOOGLE_CLIENT_ID}>
           <div className="app">
             <ToastContainer />
-            <Navbar />
             <main>
               <Routes>
                 <Route path="/" element={<Home />} />
@@ -35,45 +34,46 @@ function App() {
                 <Route
                   path="/generator/create"
                   element={
-                    // <PrivateRoute>
+                    <PrivateRoute>
                       <PortfolioGenerator
                         setPortfolioData={setPortfolioData}
                         type={"create"}
                       />
-                    // </PrivateRoute>
+                    </PrivateRoute>
                   }
                 />
                 <Route
                   path="/generator/edit"
                   element={
-                    // <PrivateRoute>
+                    <PrivateRoute>
                       <PortfolioGenerator
                         setPortfolioData={setPortfolioData}
                         type={"edit"}
                       />
-                    // </PrivateRoute>
+                    </PrivateRoute>
                   }
                 />
 
                 <Route
                   path="/portfolios"
                   element={
-                    // <PrivateRoute>
+                    <PrivateRoute>
                       <PortFolios />
-                    // </PrivateRoute>
+                    </PrivateRoute>
                   }
                 />
                 <Route
                   path="/preview"
                   element={
-                    // <PrivateRoute>
+                    <PrivateRoute>
+                      <Navbar />
                       <Preview portfolioData={portfolioData} />
-                    //  </PrivateRoute>
+                      <Footer />
+                    </PrivateRoute>
                   }
                 />
               </Routes>
             </main>
-            <Footer />
           </div>
         </GoogleOAuthProvider>
       </AuthProvider>

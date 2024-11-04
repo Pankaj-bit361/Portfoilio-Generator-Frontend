@@ -11,6 +11,7 @@ import Loader1 from "../components/GlassLoader";
 import GlassLoader from "../components/GlassLoader";
 import { useAuth } from "../Context/AuthContext.jsx";
 import { toast } from "react-toastify";
+import Navbar from "../components/Navbar.jsx";
 
 const LoginSignupForm = () => {
   const [formState, setFormState] = useState({
@@ -198,148 +199,154 @@ const LoginSignupForm = () => {
   });
 
   return (
-    <div
-      id="container"
-      className={`container ${isSignIn ? "sign-in" : "sign-up"}`}
-    >
-      {isLoading && <GlassLoader />}
+    <>
+      <Navbar />
+      <div
+        id="container"
+        className={`container ${isSignIn ? "sign-in" : "sign-up"}`}
+      >
+        {isLoading && <GlassLoader />}
 
-      <div className="row">
-        {/* SIGN UP */}
-        <div className="col align-items-center flex-col sign-up">
-          <div className="form-wrapper align-items-center">
-            <div className="form sign-up">
-              <div className="input-group">
-                <User size={24} />
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Enter your name"
-                  value={formState.name}
-                  onChange={handleInputChange}
-                />
+        <div className="row">
+          {/* SIGN UP */}
+          <div className="col align-items-center flex-col sign-up">
+            <div className="form-wrapper align-items-center">
+              <div className="form sign-up">
+                <div className="input-group">
+                  <User size={24} />
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter your name"
+                    value={formState.name}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="input-group">
+                  <Mail size={24} />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formState.email}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="input-group2">
+                  <FileText size={24} /> {/* Added icon for consistency */}
+                  <textarea
+                    name="bio"
+                    placeholder="About"
+                    value={formState.bio}
+                    onChange={handleInputChange}
+                    className="textarea-input" /* New class for specific textarea styling */
+                  />
+                </div>
+                <button onClick={handleSignUp}>Sign up</button>
+                <p>
+                  <span>Already have an account?</span>
+                  <b onClick={handleToggle} className="pointer">
+                    Sign in here
+                  </b>
+                </p>
               </div>
-              <div className="input-group">
-                <Mail size={24} />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={formState.email}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="input-group2">
-                <FileText size={24} /> {/* Added icon for consistency */}
-                <textarea
-                  name="bio"
-                  placeholder="About"
-                  value={formState.bio}
-                  onChange={handleInputChange}
-                  className="textarea-input" /* New class for specific textarea styling */
-                />
-              </div>
-              <button onClick={handleSignUp}>Sign up</button>
-              <p>
-                <span>Already have an account?</span>
-                <b onClick={handleToggle} className="pointer">
-                  Sign in here
-                </b>
-              </p>
+            </div>
+          </div>
+          {/* SIGN IN */}
+          <div className="col align-items-center flex-col sign-in">
+            <div className="form-wrapper align-items-center">
+              <form
+                className="form sign-in"
+                onSubmit={showOTP ? handleSubmit : handleGetOTP}
+              >
+                <div className="input-group">
+                  <Mail size={24} />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formState.email}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                {showOTP && (
+                  <div className="flex flex-col q-justify-center items-center gap-4 my-4">
+                    <OTPInput
+                      value={otp}
+                      onChange={setOtp}
+                      numInputs={6}
+                      renderInput={(props) => <input {...props} />}
+                      focusStyle={{
+                        border: "2px solid #3b82f6",
+                      }}
+                      className="q-justify-center"
+                      shouldAutoFocus
+                      inputType="tel"
+                    />
+                    <p className="text-sm text-gray-500 text-left mt-2">
+                      Didn't receive code?{" "}
+                      <span
+                        type="button"
+                        onClick={handleGetOTP}
+                        className="text-sm text-voilet-400"
+                        disabled={isLoading}
+                        style={{
+                          fontWeight: 600,
+                          color: "var(--primary-color)",
+                        }}
+                      >
+                        Resend
+                      </span>
+                    </p>
+                  </div>
+                )}
+                <button type="submit" disabled={isLoading}>
+                  {showOTP ? "Verify OTP" : "Get OTP"}
+                </button>
+
+                <div className="divider">
+                  <span>or</span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => googleLogin()}
+                  className="google-btn"
+                  disabled={isLoading}
+                >
+                  <img src={googleIcon} alt="Google" className="google-icon" />
+                  Sign in with Google
+                </button>
+
+                <p>
+                  <span>Don't have an account?</span>
+                  <b onClick={handleToggle} className="pointer">
+                    Sign up here
+                  </b>
+                </p>
+              </form>
             </div>
           </div>
         </div>
-        {/* SIGN IN */}
-        <div className="col align-items-center flex-col sign-in">
-          <div className="form-wrapper align-items-center">
-            <form
-              className="form sign-in"
-              onSubmit={showOTP ? handleSubmit : handleGetOTP}
-            >
-              <div className="input-group">
-                <Mail size={24} />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={formState.email}
-                  onChange={handleInputChange}
-                />
-              </div>
-              {showOTP && (
-                <div className="flex flex-col q-justify-center items-center gap-4 my-4">
-                  <OTPInput
-                    value={otp}
-                    onChange={setOtp}
-                    numInputs={6}
-                    renderInput={(props) => <input {...props} />}
-                    focusStyle={{
-                      border: "2px solid #3b82f6",
-                    }}
-                    className="q-justify-center"
-                    shouldAutoFocus
-                    inputType="tel"
-                  />
-                  <p className="text-sm text-gray-500 text-left mt-2">
-                    Didn't receive code?{" "}
-                    <span
-                      type="button"
-                      onClick={handleGetOTP}
-                      className="text-sm text-voilet-400"
-                      disabled={isLoading}
-                      style={{ fontWeight: 600, color: "var(--primary-color)" }}
-                    >
-                      Resend
-                    </span>
-                  </p>
-                </div>
-              )}
-              <button type="submit" disabled={isLoading}>
-                {showOTP ? "Verify OTP" : "Get OTP"}
-              </button>
 
-              <div className="divider">
-                <span>or</span>
-              </div>
+        {/* CONTENT SECTION */}
+        <div className="row content-row">
+          <div className="col align-items-center flex-col">
+            <div className="text sign-in">
+              <h2>Welcome Back</h2>
+            </div>
+            <div className="img sign-in"></div>
+          </div>
 
-              <button
-                type="button"
-                onClick={() => googleLogin()}
-                className="google-btn"
-                disabled={isLoading}
-              >
-                <img src={googleIcon} alt="Google" className="google-icon" />
-                Sign in with Google
-              </button>
-
-              <p>
-                <span>Don't have an account?</span>
-                <b onClick={handleToggle} className="pointer">
-                  Sign up here
-                </b>
-              </p>
-            </form>
+          <div className="col align-items-center flex-col">
+            <div className="img sign-up"></div>
+            <div className="text sign-up">
+              <h2>Join with us</h2>
+            </div>
           </div>
         </div>
       </div>
-
-      {/* CONTENT SECTION */}
-      <div className="row content-row">
-        <div className="col align-items-center flex-col">
-          <div className="text sign-in">
-            <h2>Welcome Back</h2>
-          </div>
-          <div className="img sign-in"></div>
-        </div>
-
-        <div className="col align-items-center flex-col">
-          <div className="img sign-up"></div>
-          <div className="text sign-up">
-            <h2>Join with us</h2>
-          </div>
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 
