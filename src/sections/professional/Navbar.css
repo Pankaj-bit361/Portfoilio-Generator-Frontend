@@ -1,0 +1,128 @@
+.professional-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: var(--professional-bg);
+  transition: all var(--transition-speed);
+  z-index: 100;
+}
+
+.professional-header.scrolled {
+  height: 60px;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-container {
+  max-width: var(--container-width);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-logo {
+  font-size: 2rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--professional-text);
+  display: flex;
+  align-items: center;
+}
+
+.logo-period {
+  color: var(--professional-accent);
+  margin-left: 2px;
+}
+
+.header-nav {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+.nav-item {
+  text-decoration: none;
+  color: var(--professional-text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  transition: all var(--transition-speed);
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: var(--professional-secondary);
+  color: var(--professional-accent);
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.action-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all var(--transition-speed);
+  background: var(--professional-secondary);
+  color: var(--professional-text);
+}
+
+.action-button.primary {
+  background: var(--professional-accent);
+  color: var(--professional-bg);
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+}
+
+.button-icon {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0 var(--spacing-md);
+  }
+
+  .nav-text,
+  .header-actions {
+    display: none;
+  }
+
+  .header-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--professional-bg);
+    padding: var(--spacing-sm);
+    box-shadow: var(--shadow);
+  }
+
+  .nav-item {
+    flex: 1;
+    justify-content: center;
+    padding: var(--spacing-sm);
+  }
+
+  .nav-icon {
+    font-size: 1.5rem;
+  }
+}

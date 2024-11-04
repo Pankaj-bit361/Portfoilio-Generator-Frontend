@@ -1,0 +1,23 @@
+.theme-switcher {
+  position: fixed;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  display: flex;
+  gap: var(--spacing-sm);
+  z-index: 1000;
+  padding: var(--spacing-sm);
+  background: var(--bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+@media (max-width: 768px) {
+  .theme-switcher {
+    bottom: var(--spacing-md);
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

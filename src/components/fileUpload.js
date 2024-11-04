@@ -1,13 +1,16 @@
 // components/fileUpload.js
 import axios from "axios";
 import { config } from "../config/api";
+import { useAuth } from "../Context/AuthContext";
 
 export const GenerateDataFromApi = async (resumeText) => {
+  const { user } = useAuth();
+  console.log("user", user, resumeText);
   if (!resumeText) return null;
 
   try {
     const response = await axios.post(
-      `${config.BASE_URL}api/portfolio/generate?userId=u-4fd96b42-e27f-4726-8b11-e3932c061ddc`,
+      `${config.BASE_URL}api/portfolio/generate?userId=${user.userId}`,
       { resumeText }
     );
     console.log("API Response:", response.data);
@@ -16,6 +19,7 @@ export const GenerateDataFromApi = async (resumeText) => {
       const portfolioData = await getPortfolioData(
         response.data.data.portfolioId
       );
+      console.log("Portfolio Data:", portfolioData);
       return portfolioData;
     }
     return response.data;
@@ -25,7 +29,6 @@ export const GenerateDataFromApi = async (resumeText) => {
   }
 };
 
-
 const transformSkills = (skillsData) => {
   if (!skillsData) return null;
 
@@ -33,14 +36,14 @@ const transformSkills = (skillsData) => {
     const combined = [...skills, ...frameworks];
     return {
       expert: combined
-        .filter(item => item.proficiency === "Expert")
-        .map(item => item.name),
+        .filter((item) => item.proficiency === "Expert")
+        .map((item) => item.name),
       advanced: combined
-        .filter(item => item.proficiency === "Advanced")
-        .map(item => item.name),
+        .filter((item) => item.proficiency === "Advanced")
+        .map((item) => item.name),
       intermediate: combined
-        .filter(item => item.proficiency === "Intermediate")
-        .map(item => item.name)
+        .filter((item) => item.proficiency === "Intermediate")
+        .map((item) => item.name)
     };
   };
 
@@ -54,9 +57,9 @@ const transformSkills = (skillsData) => {
       expert: technical.expert || [],
       advanced: technical.advanced || [],
       intermediate: technical.intermediate || [],
-      tools: skillsData.technical?.tools?.map(tool => tool.name) || []
+      tools: skillsData.technical?.tools?.map((tool) => tool.name) || []
     },
-    soft: skillsData.soft?.flatMap(category => category.skills) || []
+    soft: skillsData.soft?.flatMap((category) => category.skills) || []
   };
 };
 
@@ -79,8 +82,7 @@ const transformTheme = (themeData) => {
   };
 };
 
-
-export const getPortfolioData = async ({portfolioId, userId}) => {
+export const getPortfolioData = async ({ portfolioId, userId }) => {
   try {
     const response = await axios.get(
       `${config.BASE_URL}api/portfolio/${portfolioId}?userId=${userId}`
@@ -115,7 +117,7 @@ export const getPortfolioData = async ({portfolioId, userId}) => {
             date: cert.date || "",
             credentialUrl: cert.credentialUrl || ""
           })) || [],
-          skills: transformSkills(response.data.data.skills),
+        skills: transformSkills(response.data.data.skills),
         projects: response.data.data.projects.map((project) => ({
           title: project.title || "",
           description: project.description || "",
@@ -125,6 +127,7 @@ export const getPortfolioData = async ({portfolioId, userId}) => {
           liveDemo: project.links.live || ""
         }))
       };
+      console.log("Transformed Data:", transformedData);
 
       return transformedData;
     }
