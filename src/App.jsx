@@ -16,6 +16,7 @@ import PrivateRoute from "./Context/PrivateRoute.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PortFolios from "./pages/PortFolios";
+import Modern from "./templates/modern/Modern.jsx";
 
 function App() {
   const [portfolioData, setPortfolioData] = useState(null);
@@ -69,6 +70,14 @@ function App() {
                       <Navbar />
                       <Preview portfolioData={portfolioData} />
                       <Footer />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/modern"
+                  element={
+                    <PrivateRoute>
+                      <Modern />
                     </PrivateRoute>
                   }
                 />

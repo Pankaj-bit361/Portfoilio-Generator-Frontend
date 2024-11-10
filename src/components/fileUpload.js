@@ -137,3 +137,21 @@ export const getPortfolioData = async ({ portfolioId, userId }) => {
     return null;
   }
 };
+
+
+export const getPortfolioData2 = async ({ portfolioId, userId }) => {
+  try {
+    const response = await axios.get(
+      `${config.BASE_URL}api/portfolio/${portfolioId}?userId=${userId}`
+    );
+
+    if (response.data.success) {
+
+      return response.data.data;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error fetching portfolio data:", error);
+    return null;
+  }
+};

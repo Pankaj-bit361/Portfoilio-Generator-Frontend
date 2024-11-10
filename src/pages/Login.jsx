@@ -203,7 +203,7 @@ const LoginSignupForm = () => {
       <Navbar />
       <div
         id="container"
-        className={`container ${isSignIn ? "sign-in" : "sign-up"}`}
+        className={`q-login-container ${isSignIn ? "sign-in" : "sign-up"}`}
       >
         {isLoading && <GlassLoader />}
 

@@ -13,7 +13,7 @@
   box-sizing: border-box;
 }
 
-.container {
+.q-login-container {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
@@ -155,8 +155,8 @@
   cursor: pointer;
 }
 
-.container.sign-in .form.sign-in,
-.container.sign-up .form.sign-up {
+.q-login-container.sign-in .form.sign-in,
+.q-login-container.sign-up .form.sign-up {
   transform: scale(1);
 }
 
@@ -193,16 +193,16 @@
   transform: translateX(250%);
 }
 
-.container.sign-in .text.sign-in h2,
-.container.sign-in .text.sign-in p,
-.container.sign-in .img.sign-in img,
-.container.sign-up .text.sign-up h2,
-.container.sign-up .text.sign-up p,
-.container.sign-up .img.sign-up img {
+.q-login-container.sign-in .text.sign-in h2,
+.q-login-container.sign-in .text.sign-in p,
+.q-login-container.sign-in .img.sign-in img,
+.q-login-container.sign-up .text.sign-up h2,
+.q-login-container.sign-up .text.sign-up p,
+.q-login-container.sign-up .img.sign-up img {
   transform: translateX(0);
 }
 
-.container::before {
+.q-login-container::before {
   content: "";
   position: absolute;
   top: 0;
@@ -222,20 +222,20 @@
   border-top-left-radius: max(50vw, 50vh);
 }
 
-.container.sign-in::before {
+.q-login-container.sign-in::before {
   transform: translate(0, 0);
   right: 50%;
 }
 
-.container.sign-up::before {
+.q-login-container.sign-up::before {
   transform: translate(100%, 0);
   right: 50%;
 }
 
 @media only screen and (max-width: 425px) {
-  .container::before,
-  .container.sign-in::before,
-  .container.sign-up::before {
+  .q-login-container::before,
+  .q-login-container.sign-in::before,
+  .q-login-container.sign-up::before {
     height: 100vh;
     border-bottom-right-radius: 0;
     border-top-left-radius: 0;
@@ -244,8 +244,8 @@
     right: 0;
   }
 
-  .container.sign-in .col.sign-in,
-  .container.sign-up .col.sign-up {
+  .q-login-container.sign-in .col.sign-in,
+  .q-login-container.sign-up .col.sign-up {
     transform: translateY(0);
   }
 
@@ -372,8 +372,8 @@ input[name="otp"]:focus {
   }
 }
 @media screen and (max-width: 600px) {
-  .container.sign-in .col.sign-in,
-  .container.sign-up .col.sign-up {
+  .q-login-container.sign-in .col.sign-in,
+  .q-login-container.sign-up .col.sign-up {
     /* transform: translateY(-50%); */
     border-radius: 0px;
   }

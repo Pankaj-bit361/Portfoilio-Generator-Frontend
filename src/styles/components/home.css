@@ -84,6 +84,8 @@
   margin-bottom: clamp(0.75rem, 2vw, var(--spacing-md));
   transition-duration: 0.3s;
   /* animation: slide-in-top 10s linear infinite; */
+  display: flex;
+  justify-content: center;
 }
 
 .feature-title {

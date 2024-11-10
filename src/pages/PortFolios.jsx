@@ -111,7 +111,7 @@ const PortFolios = () => {
                 <button
                   className="portfolio-btn"
                   onClick={() =>
-                    navigate(`/preview?portfolioId=${portfolio.portfolioId}`)
+                    navigate(`/modern?portfolioId=${portfolio.portfolioId}`)
                   }
                 >
                   View Portfolio
