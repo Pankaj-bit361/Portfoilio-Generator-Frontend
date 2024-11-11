@@ -74,7 +74,7 @@ const Modern = () => {
   };
 
   return (
-    <>
+    <div className="q-modern-portfolio">
       {loading && <GlassLoader />}
       <ThemeProvider>
         <div className="min-h-screen">
@@ -87,7 +87,7 @@ const Modern = () => {
           <ThemeSwitcher />
         </div>
       </ThemeProvider>
-    </>
+    </div>
   );
 };
 

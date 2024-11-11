@@ -62,21 +62,20 @@ export const themes = {
       bgGradient: "from-gray-900 to-gray-800",
     },
   },
-  darkEmerald: {
-    name: "Dark Forest",
-    description: "Natural dark theme",
-    colors: {
-      primary: "emerald-500",
-      primaryHover: "emerald-400",
-      secondary: "emerald-900",
-      accent: "emerald-800",
-      text: "gray-100",
-      textLight: "gray-300",
-      bg: "gray-900",
-      bgGradient: "from-gray-900 to-gray-800",
-    },
+darkEmerald: {
+  name: "Dark Forest",
+  description: "Natural dark theme with deep emerald accents",
+  colors: {
+    primary: "emerald-500",
+    primaryHover: "emerald-400",
+    secondary: "emerald-700",
+    accent: "emerald-800",
+    text: "gray-200",        // brightened slightly for better readability
+    textLight: "gray-400",   // made lighter to reduce contrast
+    bg: "gray-950",         // darker background for less pop
+    bgGradient: "from-gray-950 to-gray-900", // more subtle gradient
   },
-
+},
   // Gradient Themes
   sunsetGradient: {
     name: "Sunset Gradient",

@@ -26,9 +26,9 @@ export const ThemeSwitcher = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-gray-700 hover:text-blue-600 transition-colors"
+        className="rounded-full bg-white shadow-lg flex items-center justify-center text-gray-700 hover:text-blue-600 transition-colors"
       >
-        <Palette className="w-6 h-6" />
+        <Palette width={'24px'}/>
       </motion.button>
 
       {/* Theme Preview Panel */}
