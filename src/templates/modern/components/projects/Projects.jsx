@@ -47,7 +47,6 @@ const Projects = ({ data }) => {
       : data.filter((project) => project.category === selectedFilter);
 
 
-      console.log(categories)
 
   return (
     <section className={`py-32 bg-gradient-to-br ${theme.bgGradient}`}>

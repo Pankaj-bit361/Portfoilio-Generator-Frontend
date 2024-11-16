@@ -152,8 +152,8 @@
   width: 100%;
   min-height: 100px;
   padding: var(--spacing-md);
-  border: 1px solid var(--text-primary);
-  background-color: var(--background-primary);
+  border: 2px solid #e2e8f0;
+  background-color: #f8f8f8;
   color: var(--text-primary);
   border-radius: var(--border-radius-sm);
   font-size: var(--font-size-md);

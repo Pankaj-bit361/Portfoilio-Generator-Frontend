@@ -359,15 +359,16 @@
   
   .form-input,
   .form-select,
-  .form-textarea {
+  .form-textarea,
+  .q-input-career {
     width: 100%;
     padding: 0.75rem;
     padding-left: 2.5rem;
-    border: 1px solid var(--border-color);
+    border: 2px solid #e2e8f0;
     border-radius: 6px;
     font-size: 0.875rem;
     color: var(--text-color);
-    background-color: var(--white);
+    background-color: #f8f8f8;
     transition: all 0.2s;
   }
   
@@ -377,12 +378,14 @@
     min-height: 100px;
   }
   
-  .form-input:focus,
-  .form-select:focus,
-  .form-textarea:focus {
+  .form-input:hover,
+  .form-select:hover,
+  .form-textarea:hover,
+  .q-input-career:hover {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    /* box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1); */
+    background-color: var(--white);
   }
   
   /* Button Styles */

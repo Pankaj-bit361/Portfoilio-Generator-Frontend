@@ -96,7 +96,6 @@ function Home() {
             </motion.button>
           </div>
 
-          {/* Features Section */}
           <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -117,7 +116,6 @@ function Home() {
             ))}
           </motion.div>
 
-          {/* Testimonials Section */}
           <div className="home-testimonials">
             <h2 className="section-title" style={{ color : 'white'}}>What Our Users Say</h2>
             <motion.div className="testimonial-cards">

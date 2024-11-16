@@ -50,7 +50,10 @@ const Modern = () => {
     home: moderPorfoliodata?.home,
     about: moderPorfoliodata?.skills,
     projects: moderPorfoliodata?.projects,
-    experience: [...(moderPorfoliodata?.experiences || []), ...(moderPorfoliodata?.educations || [])],
+    experience: [
+      ...(moderPorfoliodata?.experiences || []),
+      ...(moderPorfoliodata?.educations || []),
+    ],
     contact: moderPorfoliodata?.contact,
   };
 
@@ -73,6 +76,10 @@ const Modern = () => {
     experience: moderPorfoliodata?.experiences || [],
   };
 
+  console.log(moderPorfoliodata);
+
+  const contactData = moderPorfoliodata?.contact;
+
   return (
     <div className="q-modern-portfolio">
       {loading && <GlassLoader />}
@@ -83,7 +90,7 @@ const Modern = () => {
           <About data={aboutData} />
           <Projects data={projectsData} />
           <Experience data={experienceData} />
-          <Contact />
+          {contactData && <Contact data={contactData} />}
           <ThemeSwitcher />
         </div>
       </ThemeProvider>

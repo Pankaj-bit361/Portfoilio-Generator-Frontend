@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
-import PortfolioGenerator from "./pages/PortfolioGenerator";
+import PortfolioGenerator from "./pages/portfolioGenerator/PortfolioGenerator.jsx";
 import Preview from "./components/Preview";
 import "./styles/index.css";
 import Signup from "./pages/Signup";

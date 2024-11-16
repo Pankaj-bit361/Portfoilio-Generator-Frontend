@@ -1,38 +1,53 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send } from 'lucide-react';
-import { useTheme } from '../../context/ThemeContext';
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Github,
+  Linkedin,
+  Twitter,
+  Send,
+  Earth,
+} from "lucide-react";
+import { useTheme } from "../../context/ThemeContext";
 
-const Contact = () => {
+const Contact = ({ data }) => {
   const { theme } = useTheme();
 
+  console.log(data);
+
   const socialLinks = [
-    {
-      name: 'GitHub',
+    data.socialMedia?.github && {
+      name: "GitHub",
       icon: <Github className="w-6 h-6" />,
-      url: 'https://github.com',
+      url: data.socialMedia.github,
     },
-    {
-      name: 'LinkedIn',
+    data.socialMedia?.linkedin && {
+      name: "LinkedIn",
       icon: <Linkedin className="w-6 h-6" />,
-      url: 'https://linkedin.com',
+      url: data.socialMedia.linkedin,
     },
-    {
-      name: 'Twitter',
+    data.socialMedia?.twitter && {
+      name: "Twitter",
       icon: <Twitter className="w-6 h-6" />,
-      url: 'https://twitter.com',
-    }
-  ];
+      url: data.socialMedia.twitter,
+    },
+
+    data.socialMedia?.website && {
+      name: "Website",
+      icon: <Earth className="w-6 h-6" />,
+      url: data.socialMedia?.website,
+    },
+  ].filter(Boolean);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your form submission logic here
   };
 
   return (
     <section className={`py-32 bg-gradient-to-br ${theme.bgGradient}`}>
       <div className="max-w-7xl mx-auto px-8">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -54,9 +69,7 @@ const Contact = () => {
           </p>
         </motion.div>
 
-        {/* Contact Content */}
         <div className="grid lg:grid-cols-2 gap-16">
-          {/* Left Side - Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -69,75 +82,83 @@ const Contact = () => {
                 Get in Touch
               </h3>
               <p className={`text-${theme.textLight} leading-relaxed`}>
-                I'm currently available for freelance work and full-time positions. 
-                Feel free to reach out if you have any questions or would like to collaborate.
+                I'm currently available for freelance work and full-time
+                positions. Feel free to reach out if you have any questions or
+                would like to collaborate.
               </p>
             </div>
 
-            {/* Contact Details */}
             <div className="space-y-6">
               {[
-                {
+                data.email && {
                   icon: <Mail className="w-6 h-6" />,
                   label: "Email",
-                  value: "hello@example.com",
-                  link: "mailto:hello@example.com"
+                  value: data.email,
+                  link: `mailto:${data.email}`,
                 },
-                {
+                data.phone && {
                   icon: <Phone className="w-6 h-6" />,
                   label: "Phone",
-                  value: "+1 (234) 567-890",
-                  link: "tel:+1234567890"
+                  value: data.phone,
+                  link: `tel:${data.phone}`,
                 },
-                {
+                data.location && {
                   icon: <MapPin className="w-6 h-6" />,
                   label: "Location",
-                  value: "San Francisco, CA"
-                }
-              ].map((item, index) => (
-                <div key={index} className="flex items-center space-x-4">
-                  <div className={`w-12 h-12 bg-${theme.accent} rounded-xl flex items-center justify-center text-${theme.primary}`}>
-                    {item.icon}
+                  value: data.location,
+                },
+              ]
+                .filter(Boolean)
+                .map((item, index) => (
+                  <div key={index} className="flex items-center space-x-4">
+                    <div
+                      className={`w-12 h-12 bg-${theme.accent} rounded-xl flex items-center justify-center text-${theme.primary}`}
+                    >
+                      {item.icon}
+                    </div>
+                    <div>
+                      <p className={`text-sm text-${theme.textLight}`}>
+                        {item.label}
+                      </p>
+                      {item.link ? (
+                        <a
+                          href={item.link}
+                          className={`text-${theme.text} font-medium hover:text-${theme.primary} transition-colors`}
+                        >
+                          {item.value}
+                        </a>
+                      ) : (
+                        <p className={`text-${theme.text} font-medium`}>
+                          {item.value}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    <p className={`text-sm text-${theme.textLight}`}>{item.label}</p>
-                    {item.link ? (
-                      <a 
-                        href={item.link}
-                        className={`text-${theme.text} font-medium hover:text-${theme.primary} transition-colors`}
-                      >
-                        {item.value}
-                      </a>
-                    ) : (
-                      <p className={`text-${theme.text} font-medium`}>{item.value}</p>
-                    )}
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
 
-            {/* Social Links */}
-            <div className="space-y-4">
-              <h4 className={`text-${theme.text} font-medium`}>Follow Me</h4>
-              <div className="flex space-x-4">
-                {socialLinks.map((social) => (
-                  <motion.a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`p-3 bg-${theme.accent} rounded-xl text-${theme.textLight} hover:text-${theme.primary} transition-colors duration-300`}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {social.icon}
-                  </motion.a>
-                ))}
+            {socialLinks.length > 0 && (
+              <div className="space-y-4">
+                <h4 className={`text-${theme.text} font-medium`}>Follow Me</h4>
+                <div className="flex space-x-4">
+                  {socialLinks.map((social) => (
+                    <motion.a
+                      key={social.name}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`p-3 bg-${theme.accent} rounded-xl text-${theme.textLight} hover:text-${theme.primary} transition-colors duration-300`}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {social.icon}
+                    </motion.a>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </motion.div>
 
-          {/* Right Side - Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -148,8 +169,8 @@ const Contact = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 {["name", "email"].map((field) => (
                   <div key={field}>
-                    <label 
-                      htmlFor={field} 
+                    <label
+                      htmlFor={field}
                       className={`block text-sm font-medium text-${theme.textLight} mb-2 capitalize`}
                     >
                       {field}
@@ -159,7 +180,9 @@ const Contact = () => {
                       id={field}
                       name={field}
                       className={`w-full px-4 py-3 bg-${theme.accent} border border-${theme.accent} rounded-xl focus:outline-none focus:ring-2 focus:ring-${theme.primary} focus:bg-white transition-all duration-200`}
-                      placeholder={field === "name" ? "John Doe" : "john@example.com"}
+                      placeholder={
+                        field === "name" ? "Name" : "name@example.com"
+                      }
                       required
                     />
                   </div>
@@ -167,8 +190,8 @@ const Contact = () => {
               </div>
 
               <div>
-                <label 
-                  htmlFor="subject" 
+                <label
+                  htmlFor="subject"
                   className={`block text-sm font-medium text-${theme.textLight} mb-2`}
                 >
                   Subject
@@ -184,8 +207,8 @@ const Contact = () => {
               </div>
 
               <div>
-                <label 
-                  htmlFor="message" 
+                <label
+                  htmlFor="message"
                   className={`block text-sm font-medium text-${theme.textLight} mb-2`}
                 >
                   Message
