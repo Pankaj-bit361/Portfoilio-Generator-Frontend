@@ -141,10 +141,10 @@ const transformProjects = (projects = []) => {
   }));
 };
 
-export const getPortfolioData = async ({ portfolioId, userId }) => {
+export const getPortfolioData = async ({ portfolioId }) => {
   try {
     const response = await axios.get(
-      `${config.BASE_URL}api/portfolio/${portfolioId}?userId=${userId}`
+      `${config.BASE_URL}api/portfolio/${portfolioId}`
     );
 
     if (response?.data?.success) {

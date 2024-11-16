@@ -20,13 +20,13 @@ const Modern = () => {
       const portfolioId = urlParams.get("portfolioId");
       let userData = JSON.parse(localStorage.getItem("portfolioUser"));
 
-      if (!portfolioId || !userData) {
+      if (!portfolioId ) {
         throw new Error("Missing required parameters");
       }
 
       const data = await getPortfolioData2({
         portfolioId: portfolioId,
-        userId: userData.userId,
+        // userId: userData.userId,
       });
 
       if (!data) {
@@ -76,7 +76,6 @@ const Modern = () => {
     experience: moderPorfoliodata?.experiences || [],
   };
 
-  console.log(moderPorfoliodata);
 
   const contactData = moderPorfoliodata?.contact;
 
