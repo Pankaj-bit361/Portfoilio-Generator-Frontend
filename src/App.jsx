@@ -76,9 +76,9 @@ function App() {
                 <Route
                   path="/modern"
                   element={
-                    <PrivateRoute>
-                      <Modern />
-                    </PrivateRoute>
+                    <Modern />
+
+                  
                   }
                 />
               </Routes>
