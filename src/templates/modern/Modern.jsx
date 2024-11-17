@@ -28,7 +28,6 @@ const Modern = () => {
         portfolioId: portfolioId,
         // userId: userData.userId,
       });
-      console.log("data",data)
 
       if (!data) {
         throw new Error("Failed to fetch portfolio data");
