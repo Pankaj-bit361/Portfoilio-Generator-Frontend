@@ -32,36 +32,28 @@ export const GenerateDataFromApi = async (resumeText) => {
 const transformSkills = (skillsData) => {
   if (!skillsData) return null;
 
-  const getAllSkillsByProficiency = (skills = [], frameworks = []) => {
-    const combined = [...skills, ...frameworks];
-    return {
-      expert: combined
-        .filter((item) => item.proficiency === "Expert")
-        .map((item) => item.name),
-      advanced: combined
-        .filter((item) => item.proficiency === "Advanced")
-        .map((item) => item.name),
-      intermediate: combined
-        .filter((item) => item.proficiency === "Intermediate")
-        .map((item) => item.name),
-    };
-  };
-
-  const technical = getAllSkillsByProficiency(
-    skillsData.technical?.languages || [],
-    skillsData.technical?.frameworks || []
-  );
-
   return {
     technical: {
-      expert: technical.expert || [],
-      advanced: technical.advanced || [],
-      intermediate: technical.intermediate || [],
-      tools: skillsData.technical?.tools?.map((tool) => tool.name) || [],
+      languages: skillsData.technical?.languages?.map(lang => ({
+        name: lang.name,
+        proficiency: lang.proficiency
+      })) || [],
+      frameworks: skillsData.technical?.frameworks?.map(framework => ({
+        name: framework.name,
+        proficiency: framework.proficiency
+      })) || [],
+      tools: skillsData.technical?.tools?.map(tool => ({
+        name: tool.name,
+        proficiency: tool.proficiency
+      })) || []
     },
-    soft: skillsData.soft?.flatMap((category) => category.skills) || [],
+    soft: skillsData.soft?.map(category => ({
+      category: category.category,
+      skills: category.skills
+    })) || []
   };
 };
+
 
 const transformTheme = (themeData) => {
   if (!themeData) return null;
@@ -133,10 +125,18 @@ const transformProjects = (projects = []) => {
   return (Array.isArray(projects) ? projects : []).map((project) => ({
     title: project?.title || "",
     description: project?.description || "",
-    techStack: Array.isArray(project?.tools) ? project.tools : [],
+    role: project?.role || "",
+    type: project?.type,
+    status: project?.status,
+    tools: Array.isArray(project?.tools) ? project.tools : [],
     features: Array.isArray(project?.features) ? project.features : [],
-    githubRepo: project?.links?.github || "",
-    liveDemo: project?.links?.live || "",
+    challenges: Array.isArray(project?.challenges) ? project.challenges : [],
+    images: Array.isArray(project?.images) ? project.images : [],
+    links: {
+      github: project?.links?.github || "",
+      live: project?.links?.live || "",
+      documentation: project?.links?.documentation || "",
+    },
     projectId: project?.projectId || "",
   }));
 };

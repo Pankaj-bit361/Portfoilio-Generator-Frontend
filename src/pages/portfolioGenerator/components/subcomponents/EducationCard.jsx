@@ -11,7 +11,7 @@ import {
 import { toast } from "react-toastify";
 import axios from "axios";
 import { config } from "../../../../config/api";
-
+import General from "../../../../config/general";
 
 export const EducationCard = ({
   removeEducation,
@@ -33,12 +33,12 @@ export const EducationCard = ({
     }
 
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const portfolioId = urlParams.get("portfolioId");
-      let userData = JSON.parse(localStorage.getItem("portfolioUser"));
-
       const response = await axios.patch(
-        `${config.BASE_URL}api/portfolio/${portfolioId}/education/${educationData.educationId}?userId=${userData?.userId}`,
+        `${
+          config.BASE_URL
+        }api/portfolio/${General.getPortfolioId()}/education/${
+          educationData.educationId
+        }?userId=${General.getUserId()}`,
         educationData
       );
 
@@ -56,12 +56,10 @@ export const EducationCard = ({
 
   const addEducationCard = async () => {
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const portfolioId = urlParams.get("portfolioId");
-      let userData = JSON.parse(localStorage.getItem("portfolioUser"));
-
       const response = await axios.post(
-        `${config.BASE_URL}api/portfolio/${portfolioId}/education/?userId=${userData?.userId}`,
+        `${
+          config.BASE_URL
+        }api/portfolio/${General.getPortfolioId()}/education/?userId=${General.getUserId()}`,
         educationData
       );
 
@@ -81,12 +79,12 @@ export const EducationCard = ({
     if (!educationData && !educationData.educationId) return;
 
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const portfolioId = urlParams.get("portfolioId");
-      let userData = JSON.parse(localStorage.getItem("portfolioUser"));
-
       const response = await axios.delete(
-        `${config.BASE_URL}api/portfolio/${portfolioId}/education/${educationData.educationId}?userId=${userData?.userId}`
+        `${
+          config.BASE_URL
+        }api/portfolio/${General.getPortfolioId()}/education/${
+          educationData.educationId
+        }?userId=${General.getUserId()}`
       );
 
       if (response.data.success) {
@@ -107,7 +105,6 @@ export const EducationCard = ({
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-6 mb-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">
             Degree

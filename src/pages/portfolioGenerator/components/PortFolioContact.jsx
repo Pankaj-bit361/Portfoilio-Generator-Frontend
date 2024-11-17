@@ -12,18 +12,16 @@ import {
 import { toast } from "react-toastify";
 import { config } from "../../../config/api";
 import axios from "axios";
+import General from "../../../config/general";
 
 const PortFolioContact = ({ formData, setFormData, setFlag }) => {
   const updateHomeDetails = async () => {
     if (!formData && !formData.home) return;
 
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const portfolioId = urlParams.get("portfolioId");
-      let userData = JSON.parse(localStorage.getItem("portfolioUser"));
 
       const response = await axios.patch(
-        `${config.BASE_URL}api/portfolio/${portfolioId}/contact?userId=${userData?.userId}`,
+        `${config.BASE_URL}api/portfolio/${General.getPortfolioId()}/contact?userId=${General.getUserId()}`,
         formData.contact
       );
 

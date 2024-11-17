@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { config } from "../../../../config/api";
 import DeleteCard from "./DeleteCard";
+import General from "../../../../config/general";
 
 const inputClass =
   "w-full pl-10 pr-4 py-3 h-12 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors";
@@ -25,7 +26,7 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
 
   const removeExperience = (index) => {
     if (exp.experienceId) {
-      setIsDeleted(true)
+      setIsDeleted(true);
     } else {
       setFormData((prev) => ({
         ...prev,
@@ -93,12 +94,12 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
     }
 
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const portfolioId = urlParams.get("portfolioId");
-      let userData = JSON.parse(localStorage.getItem("portfolioUser"));
-
       const response = await axios.patch(
-        `${config.BASE_URL}api/portfolio/${portfolioId}/experience/${exp.experienceId}?userId=${userData?.userId}`,
+        `${
+          config.BASE_URL
+        }api/portfolio/${General.getPortfolioId()}/experience/${
+          exp.experienceId
+        }?userId=${General.getUserId()}`,
         exp
       );
 
@@ -116,17 +117,15 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
 
   const addExperienceCard = async () => {
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const portfolioId = urlParams.get("portfolioId");
-      let userData = JSON.parse(localStorage.getItem("portfolioUser"));
-
       const response = await axios.post(
-        `${config.BASE_URL}api/portfolio/${portfolioId}/experience?userId=${userData?.userId}`,
+        `${
+          config.BASE_URL
+        }api/portfolio/${General.getPortfolioId()}/experience?userId=${General.getUserId()}`,
         exp
       );
 
       if (response.data.success) {
-        toast.success("Added Education Information");
+        toast.success("Added Exprience Information");
         setFlag((prev) => !prev);
       } else {
         toast.error("Something went wrong");
@@ -137,8 +136,33 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
     }
   };
 
-  const removeExperinceCardFromApi = async() => {
-    const response =  await axios.delete(`${config.BASE_URL}`)
+  const removeExperinceCardFromApi = async () => {
+    if (!exp && !exp.experienceId) return;
+
+    try {
+      const headers = {
+        token: General.getAccessToken(),
+      };
+
+      const response = await axios.delete(
+        `${
+          config.BASE_URL
+        }api/portfolio/${General.getPortfolioId()}/experience/${
+          exp.experienceId
+        }?userId=${General.getUserId()}`,
+        { headers }
+      );
+
+      if (response.data.success) {
+        toast.success("Experience Information Removed Successfully");
+        setFlag((prev) => !prev);
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
   };
 
   return (
@@ -147,8 +171,8 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
         <DeleteCard
           callback={() => removeExperinceCardFromApi()}
           cancelCallback={() => setIsDeleted(false)}
-          title={'Remove Experience'}
-          desc={'Are you sure you want to remove this experience?'}
+          title={"Remove Experience"}
+          desc={"Are you sure you want to remove this experience?"}
         />
       )}
 

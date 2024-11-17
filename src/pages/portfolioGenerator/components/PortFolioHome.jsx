@@ -12,6 +12,7 @@ import {
 import { toast } from "react-toastify";
 import axios from "axios";
 import { config } from "../../../config/api";
+import General from "../../../config/general";
 
 const PortFolioHome = ({ formData, setFormData, setFlag }) => {
   const removeHighlight = (index) => {
@@ -40,12 +41,8 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
     if (!formData && !formData.home) return;
 
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const portfolioId = urlParams.get("portfolioId");
-      let userData = JSON.parse(localStorage.getItem("portfolioUser"));
-
       const response = await axios.patch(
-        `${config.BASE_URL}api/portfolio/${portfolioId}/home?userId=${userData?.userId}`,
+        `${config.BASE_URL}api/portfolio/${General.getPortfolioId()}/home?userId=${General.getUserId()}`,
         formData.home
       );
 
