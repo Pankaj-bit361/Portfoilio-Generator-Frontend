@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Briefcase,
   Building,
@@ -15,16 +15,23 @@ import {
 import { toast } from "react-toastify";
 import axios from "axios";
 import { config } from "../../../../config/api";
+import DeleteCard from "./DeleteCard";
 
 const inputClass =
   "w-full pl-10 pr-4 py-3 h-12 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors";
 
 const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
+  const [isDeleted, setIsDeleted] = useState(false);
+
   const removeExperience = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      experiences: prev.experiences.filter((_, i) => i !== index),
-    }));
+    if (exp.experienceId) {
+      setIsDeleted(true)
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        experiences: prev.experiences.filter((_, i) => i !== index),
+      }));
+    }
   };
 
   const addResponsibility = () => {
@@ -114,8 +121,8 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
       let userData = JSON.parse(localStorage.getItem("portfolioUser"));
 
       const response = await axios.post(
-        `${config.BASE_URL}api/portfolio/${portfolioId}/education/?userId=${userData?.userId}`,
-        educationData
+        `${config.BASE_URL}api/portfolio/${portfolioId}/experience?userId=${userData?.userId}`,
+        exp
       );
 
       if (response.data.success) {
@@ -130,9 +137,21 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
     }
   };
 
+  const removeExperinceCardFromApi = async() => {
+    const response =  await axios.delete(`${config.BASE_URL}`)
+  };
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-6 mb-6">
+      {isDeleted && (
+        <DeleteCard
+          callback={() => removeExperinceCardFromApi()}
+          cancelCallback={() => setIsDeleted(false)}
+          title={'Remove Experience'}
+          desc={'Are you sure you want to remove this experience?'}
+        />
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">

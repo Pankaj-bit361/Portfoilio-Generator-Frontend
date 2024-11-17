@@ -88,7 +88,7 @@ function PDFUploader({ onDataExtracted, setExtractedText }) {
     <div className="uploader">
       <input
         type="file"
-        accept=".pdf"
+        accept=".pdf, .txt"
         onChange={handleFileChange}
         style={{ display: "none" }}
         id="pdf-upload"
