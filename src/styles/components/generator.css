@@ -1,11 +1,11 @@
 .generator {
   min-height: 100vh;
   background-color: var(--background-secondary);
-  padding: var(--spacing-xl);
+  /* padding: var(--spacing-xl); */
 }
 
 .generator-container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   background-color: var(--background-primary);
   border-radius: var(--border-radius-lg);

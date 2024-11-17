@@ -36,6 +36,10 @@ import Footer from "../../components/Footer";
 import PortFolioHome from "./components/PortFolioHome";
 import PortFolioContact from "./components/PortFolioContact";
 import PortFolioEducation from "./components/PortFolioEducation";
+import PortFolioExperience from "./components/PortFolioExperience";
+import PortFolioProject from "./components/PortFolioProject";
+import PortfolioSkills from "./components/PortfolioSkills";
+import General from "../../config/general";
 
 function PortfolioGenerator({ setPortfolioData, type }) {
   const navigate = useNavigate();
@@ -140,18 +144,13 @@ function PortfolioGenerator({ setPortfolioData, type }) {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const urlParams = new URLSearchParams(window.location.search);
-        const portfolioId = urlParams.get("portfolioId");
-        let userData = JSON.parse(localStorage.getItem("portfolioUser"));
 
-        if (portfolioId) {
+        if (General.getPortfolioId()) {
           const data = await getPortfolioData({
-            portfolioId: portfolioId,
-            userId: userData.userId,
+            portfolioId: General.getPortfolioId(),
+            userId: General.getUserId(),
           });
           if (data) {
-            console.log("Fetched Portfolio Data:", data);
-            console.log(data);
             setFormData(data);
           }
         }
@@ -176,155 +175,6 @@ function PortfolioGenerator({ setPortfolioData, type }) {
     // navigate("/preview");
   };
 
-  const addCertificate = () => {
-    setFormData((prev) => ({
-      ...prev,
-      certificates: [
-        ...prev.certificates,
-        {
-          title: "",
-          issuer: "",
-          date: "",
-          credentialUrl: "",
-        },
-      ],
-    }));
-  };
-
-  const removeCertificate = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      certificates: prev.certificates.filter((_, i) => i !== index),
-    }));
-  };
-
-  const addProject = () => {
-    setFormData((prev) => ({
-      ...prev,
-      projects: [
-        ...prev.projects,
-        {
-          title: "",
-          description: "",
-          role: "",
-          type: "",
-          status: "",
-          tools: [],
-          features: [],
-          challenges: [],
-          links: {
-            live: "",
-            github: "",
-            documentation: "",
-          },
-        },
-      ],
-    }));
-  };
-
-  const removeProject = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      projects: prev.projects.filter((_, i) => i !== index),
-    }));
-  };
-
-  const addExperience = () => {
-    setFormData((prev) => ({
-      ...prev,
-      experiences: [
-        ...prev.experiences,
-        {
-          role: "",
-          company: "",
-          location: "",
-          type: "",
-          startDate: "",
-          endDate: "",
-          description: "",
-          responsibilities: [],
-          achievements: [],
-        },
-      ],
-    }));
-  };
-
-  const removeExperience = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      experiences: prev.experiences.filter((_, i) => i !== index),
-    }));
-  };
-
-  const addSkill = (category) => {
-    if (
-      category === "languages" ||
-      category === "frameworks" ||
-      category === "tools"
-    ) {
-      setFormData((prev) => ({
-        ...prev,
-        skills: {
-          ...prev.skills,
-          technical: {
-            ...prev.skills.technical,
-            [category]: [
-              ...prev.skills.technical[category],
-              { name: "", proficiency: "" },
-            ],
-          },
-        },
-      }));
-    } else if (category === "soft") {
-      setFormData((prev) => ({
-        ...prev,
-        skills: {
-          ...prev.skills,
-          soft: [...prev.skills.soft, { category: "", skills: [] }],
-        },
-      }));
-    }
-  };
-
-  const removeSkill = (category, index) => {
-    if (
-      category === "languages" ||
-      category === "frameworks" ||
-      category === "tools"
-    ) {
-      setFormData((prev) => ({
-        ...prev,
-        skills: {
-          ...prev.skills,
-          technical: {
-            ...prev.skills.technical,
-            [category]: prev.skills.technical[category].filter(
-              (_, i) => i !== index
-            ),
-          },
-        },
-      }));
-    } else if (category === "soft") {
-      setFormData((prev) => ({
-        ...prev,
-        skills: {
-          ...prev.skills,
-          soft: prev.skills.soft.filter((_, i) => i !== index),
-        },
-      }));
-    }
-  };
-
-  const removeHighlight = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      home: {
-        ...prev.home,
-        highlights: prev.home.highlights.filter((_, i) => i !== index),
-      },
-    }));
-  };
-
   const generatePortfolio = async () => {
     console.log("hsbmjndjhsbd fmsfd");
     if (!extractedContent) {
@@ -335,12 +185,13 @@ function PortfolioGenerator({ setPortfolioData, type }) {
       resumeText: extractedContent,
       template: selectedTemplate,
     };
-    let userData = JSON.parse(localStorage.getItem("portfolioUser"));
 
     try {
       setIsLoading(true);
       const response = await axios.post(
-        `${config.BASE_URL}api/portfolio/generate?userId=${userData.userId}`,
+        `${
+          config.BASE_URL
+        }api/portfolio/generate?userId=${General.getUserId()}`,
         body
       );
       if (response.data.success) {
@@ -389,459 +240,29 @@ function PortfolioGenerator({ setPortfolioData, type }) {
 
             <PortFolioContact formData={formData} setFormData={setFormData} />
 
-            {/* Education Section */}
-
             <PortFolioEducation
               formData={formData}
               setFormData={setFormData}
               setFlag={setFlag}
             />
-            {/* Experience Section */}
-            <div className="form-section">
-              <div className="section-header">
-                <h3 className="form-title">Experience</h3>
-                <button
-                  type="button"
-                  onClick={addExperience}
-                  className="add-button"
-                >
-                  <Briefcase className="icon" /> Add Experience
-                </button>
-              </div>
 
-              {formData?.experiences?.map((exp, index) => (
-                <div key={index} className="project-card">
-                  <div className="project-card-content">
-                    <input
-                      type="text"
-                      placeholder="Role/Position"
-                      value={exp.role}
-                      onChange={(e) => {
-                        const newExperiences = [...formData.experiences];
-                        newExperiences[index].role = e.target.value;
-                        setFormData({
-                          ...formData,
-                          experiences: newExperiences,
-                        });
-                      }}
-                      className="form-input"
-                    />
+            <PortFolioExperience
+              formData={formData}
+              setFormData={setFormData}
+              setFlag={setFlag}
+            />
 
-                    <input
-                      type="text"
-                      placeholder="Company"
-                      value={exp.company}
-                      onChange={(e) => {
-                        const newExperiences = [...formData.experiences];
-                        newExperiences[index].company = e.target.value;
-                        setFormData({
-                          ...formData,
-                          experiences: newExperiences,
-                        });
-                      }}
-                      className="form-input"
-                    />
+            <PortFolioProject
+              setFormData={setFormData}
+              formData={formData}
+              setFlag={setFlag}
+            />
 
-                    <input
-                      type="text"
-                      placeholder="Location"
-                      value={exp.location}
-                      onChange={(e) => {
-                        const newExperiences = [...formData.experiences];
-                        newExperiences[index].location = e.target.value;
-                        setFormData({
-                          ...formData,
-                          experiences: newExperiences,
-                        });
-                      }}
-                      className="form-input"
-                    />
-
-                    <select
-                      value={exp.type}
-                      onChange={(e) => {
-                        const newExperiences = [...formData.experiences];
-                        newExperiences[index].type = e.target.value;
-                        setFormData({
-                          ...formData,
-                          experiences: newExperiences,
-                        });
-                      }}
-                      className="form-select"
-                    >
-                      <option value="">Select Type</option>
-                      <option value="Full-time">Full-time</option>
-                      <option value="Part-time">Part-time</option>
-                      <option value="Internship">Internship</option>
-                      <option value="Contract">Contract</option>
-                    </select>
-
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        placeholder="Start Date"
-                        value={exp.startDate}
-                        onChange={(e) => {
-                          const newExperiences = [...formData.experiences];
-                          newExperiences[index].startDate = e.target.value;
-                          setFormData({
-                            ...formData,
-                            experiences: newExperiences,
-                          });
-                        }}
-                        className="form-input"
-                      />
-                      <input
-                        type="text"
-                        placeholder="End Date"
-                        value={exp.endDate}
-                        onChange={(e) => {
-                          const newExperiences = [...formData.experiences];
-                          newExperiences[index].endDate = e.target.value;
-                          setFormData({
-                            ...formData,
-                            experiences: newExperiences,
-                          });
-                        }}
-                        className="form-input"
-                      />
-                    </div>
-
-                    <textarea
-                      placeholder="Description"
-                      value={exp.description}
-                      onChange={(e) => {
-                        const newExperiences = [...formData.experiences];
-                        newExperiences[index].description = e.target.value;
-                        setFormData({
-                          ...formData,
-                          experiences: newExperiences,
-                        });
-                      }}
-                      className="form-textarea"
-                      rows={3}
-                    />
-
-                    <button
-                      type="button"
-                      onClick={() => removeExperience(index)}
-                      className="remove-button"
-                    >
-                      <Trash2 className="icon" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Skills Section */}
-            <div className="form-section">
-              <h3 className="form-title">Skills</h3>
-
-              {/* Technical Skills */}
-              <div className="subsection">
-                <h4 className="subsection-title">Technical Skills</h4>
-
-                {/* Languages */}
-                <div className="skill-category">
-                  <div className="flex justify-between items-center mb-2">
-                    <h5>Programming Languages</h5>
-                    <button
-                      type="button"
-                      onClick={() => addSkill("languages")}
-                      className="add-button"
-                    >
-                      <Code className="icon" /> Add Language
-                    </button>
-                  </div>
-                  {formData?.skills?.technical?.languages?.map(
-                    (lang, index) => (
-                      <div key={index} className="skill-item">
-                        <input
-                          type="text"
-                          placeholder="Language Name"
-                          value={lang.name}
-                          onChange={(e) => {
-                            const newLangs = [
-                              ...formData?.skills?.technical?.languages,
-                            ];
-                            newLangs[index].name = e.target.value;
-                            setFormData((prev) => ({
-                              ...prev,
-                              skills: {
-                                ...prev.skills,
-                                technical: {
-                                  ...prev?.skills?.technical,
-                                  languages: newLangs,
-                                },
-                              },
-                            }));
-                          }}
-                          className="form-input"
-                        />
-                        <select
-                          value={lang?.proficiency}
-                          onChange={(e) => {
-                            const newLangs = [
-                              ...formData?.skills?.technical?.languages,
-                            ];
-                            newLangs[index].proficiency = e.target.value;
-                            setFormData((prev) => ({
-                              ...prev,
-                              skills: {
-                                ...prev.skills,
-                                technical: {
-                                  ...prev.skills.technical,
-                                  languages: newLangs,
-                                },
-                              },
-                            }));
-                          }}
-                          className="form-select"
-                        >
-                          <option value="">Select Proficiency</option>
-                          <option value="Beginner">Beginner</option>
-                          <option value="Intermediate">Intermediate</option>
-                          <option value="Advanced">Advanced</option>
-                        </select>
-                        <button
-                          type="button"
-                          onClick={() => removeSkill("languages", index)}
-                          className="remove-button"
-                        >
-                          <Trash2 className="icon" />
-                        </button>
-                      </div>
-                    )
-                  )}
-                </div>
-
-                {/* Frameworks - Similar structure to Languages */}
-                <div className="skill-category mt-4">
-                  <div className="flex justify-between items-center mb-2">
-                    <h5>Frameworks & Libraries</h5>
-                    <button
-                      type="button"
-                      onClick={() => addSkill("frameworks")}
-                      className="add-button"
-                    >
-                      <Code className="icon" /> Add Framework
-                    </button>
-                  </div>
-                  {/* Similar mapping structure as languages */}
-                </div>
-
-                {/* Tools - Similar structure to Languages */}
-                <div className="skill-category mt-4">
-                  <div className="flex justify-between items-center mb-2">
-                    <h5>Tools & Technologies</h5>
-                    <button
-                      type="button"
-                      onClick={() => addSkill("tools")}
-                      className="add-button"
-                    >
-                      <Wrench className="icon" /> Add Tool
-                    </button>
-                  </div>
-                  {/* Similar mapping structure as languages */}
-                </div>
-              </div>
-
-              {/* Soft Skills */}
-              <div className="subsection mt-4">
-                <div className="flex justify-between items-center mb-2">
-                  <h4 className="subsection-title">Soft Skills</h4>
-                  <button
-                    type="button"
-                    onClick={() => addSkill("soft")}
-                    className="add-button"
-                  >
-                    <Brain className="icon" /> Add Soft Skill
-                  </button>
-                </div>
-                {/* Soft skills mapping similar to technical skills */}
-              </div>
-            </div>
-
-            {/* Projects Section */}
-            <div className="form-section">
-              <div className="section-header">
-                <h3 className="form-title">Projects</h3>
-                <button
-                  type="button"
-                  onClick={addProject}
-                  className="add-button"
-                >
-                  <Plus className="icon" /> Add Project
-                </button>
-              </div>
-
-              {formData?.projects?.map((project, index) => (
-                <div key={index} className="project-card">
-                  <div className="project-card-content">
-                    <input
-                      type="text"
-                      placeholder="Project Title"
-                      value={project.title}
-                      onChange={(e) => {
-                        const newProjects = [...formData.projects];
-                        newProjects[index].title = e.target.value;
-                        setFormData({ ...formData, projects: newProjects });
-                      }}
-                      className="form-input"
-                    />
-
-                    <textarea
-                      placeholder="Project Description"
-                      value={project.description}
-                      onChange={(e) => {
-                        const newProjects = [...formData.projects];
-                        newProjects[index].description = e.target.value;
-                        setFormData({ ...formData, projects: newProjects });
-                      }}
-                      className="form-textarea"
-                      rows={3}
-                    />
-
-                    <input
-                      type="text"
-                      placeholder="Your Role"
-                      value={project.role}
-                      onChange={(e) => {
-                        const newProjects = [...formData.projects];
-                        newProjects[index].role = e.target.value;
-                        setFormData({ ...formData, projects: newProjects });
-                      }}
-                      className="form-input"
-                    />
-
-                    <select
-                      value={project.type}
-                      onChange={(e) => {
-                        const newProjects = [...formData.projects];
-                        newProjects[index].type = e.target.value;
-                        setFormData({ ...formData, projects: newProjects });
-                      }}
-                      className="form-select"
-                    >
-                      <option value="">Select Project Type</option>
-                      <option value="Personal">Personal</option>
-                      <option value="Professional">Professional</option>
-                      <option value="Academic">Academic</option>
-                      <option value="Open Source">Open Source</option>
-                    </select>
-
-                    <select
-                      value={project.status}
-                      onChange={(e) => {
-                        const newProjects = [...formData.projects];
-                        newProjects[index].status = e.target.value;
-                        setFormData({ ...formData, projects: newProjects });
-                      }}
-                      className="form-select"
-                    >
-                      <option value="">Select Status</option>
-                      <option value="In Progress">In Progress</option>
-                      <option value="Completed">Completed</option>
-                      <option value="On Hold">On Hold</option>
-                    </select>
-
-                    <div className="input-group">
-                      <input
-                        type="text"
-                        placeholder="Tools & Technologies (comma-separated)"
-                        value={project?.tools?.join(", ")}
-                        onChange={(e) => {
-                          const newProjects = [...formData.projects];
-                          newProjects[index].tools = e.target.value
-                            .split(",")
-                            .map((tool) => tool?.trim());
-                          setFormData({ ...formData, projects: newProjects });
-                        }}
-                        className="form-input"
-                      />
-                    </div>
-
-                    <div className="input-group">
-                      <textarea
-                        placeholder="Key Features (one per line)"
-                        value={project.features.join("\n")}
-                        onChange={(e) => {
-                          const newProjects = [...formData.projects];
-                          newProjects[index].features = e.target.value
-                            .split("\n")
-                            .filter((feature) => feature?.trim() !== "");
-                          setFormData({ ...formData, projects: newProjects });
-                        }}
-                        className="form-textarea"
-                        rows={3}
-                      />
-                    </div>
-
-                    <div className="input-group">
-                      <textarea
-                        placeholder="Challenges Faced (one per line)"
-                        value={project?.challenges?.join("\n")}
-                        onChange={(e) => {
-                          const newProjects = [...formData.projects];
-                          newProjects[index].challenges = e.target.value
-                            .split("\n")
-                            .filter((challenge) => challenge.trim() !== "");
-                          setFormData({ ...formData, projects: newProjects });
-                        }}
-                        className="form-textarea"
-                        rows={3}
-                      />
-                    </div>
-
-                    <div className="project-links">
-                      <input
-                        type="url"
-                        placeholder="Live Demo URL"
-                        value={project?.links?.live}
-                        onChange={(e) => {
-                          const newProjects = [...formData.projects];
-                          newProjects[index].links.live = e.target.value;
-                          setFormData({ ...formData, projects: newProjects });
-                        }}
-                        className="form-input"
-                      />
-                      <input
-                        type="url"
-                        placeholder="GitHub Repository URL"
-                        value={project?.links?.github}
-                        onChange={(e) => {
-                          const newProjects = [...formData.projects];
-                          newProjects[index].links.github = e.target.value;
-                          setFormData({ ...formData, projects: newProjects });
-                        }}
-                        className="form-input"
-                      />
-                      <input
-                        type="url"
-                        placeholder="Documentation URL"
-                        value={project?.links?.documentation}
-                        onChange={(e) => {
-                          const newProjects = [...formData.projects];
-                          newProjects[index].links.documentation =
-                            e.target.value;
-                          setFormData({ ...formData, projects: newProjects });
-                        }}
-                        className="form-input"
-                      />
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => removeProject(index)}
-                      className="remove-button"
-                    >
-                      <Trash2 className="icon" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <PortfolioSkills
+              setFormData={setFormData}
+              setFlag={setFlag}
+              formData={formData}
+            />
 
             {/* Theme Customization Section */}
             <div className="form-section">
