@@ -36,6 +36,7 @@ import Footer from "../../components/Footer";
 import PortFolioHome from "./components/PortFolioHome";
 import PortFolioContact from "./components/PortFolioContact";
 import PortFolioEducation from "./components/PortFolioEducation";
+import PortFolioExperience from "./components/PortFolioExperience";
 
 function PortfolioGenerator({ setPortfolioData, type }) {
   const navigate = useNavigate();
@@ -229,33 +230,6 @@ function PortfolioGenerator({ setPortfolioData, type }) {
     }));
   };
 
-  const addExperience = () => {
-    setFormData((prev) => ({
-      ...prev,
-      experiences: [
-        ...prev.experiences,
-        {
-          role: "",
-          company: "",
-          location: "",
-          type: "",
-          startDate: "",
-          endDate: "",
-          description: "",
-          responsibilities: [],
-          achievements: [],
-        },
-      ],
-    }));
-  };
-
-  const removeExperience = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      experiences: prev.experiences.filter((_, i) => i !== index),
-    }));
-  };
-
   const addSkill = (category) => {
     if (
       category === "languages" ||
@@ -397,7 +371,7 @@ function PortfolioGenerator({ setPortfolioData, type }) {
               setFlag={setFlag}
             />
             {/* Experience Section */}
-            <div className="form-section">
+            {/* <div className="form-section">
               <div className="section-header">
                 <h3 className="form-title">Experience</h3>
                 <button
@@ -532,7 +506,12 @@ function PortfolioGenerator({ setPortfolioData, type }) {
                   </div>
                 </div>
               ))}
-            </div>
+            </div> */}
+            <PortFolioExperience
+              formData={formData}
+              setFormData={setFormData}
+              setFlag={setFlag}
+            />
 
             {/* Skills Section */}
             <div className="form-section">

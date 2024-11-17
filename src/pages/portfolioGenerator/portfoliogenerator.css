@@ -271,11 +271,11 @@
   .generator {
     min-height: 100vh;
     background-color: var(--background-color);
-    padding: 2rem 1rem;
+    /* padding: 2rem 1rem; */
   }
   
   .generator-container {
-    max-width: 1200px;
+    /* max-width: 1200px; */
     margin: 0 auto;
     background-color: var(--white);
     border-radius: 12px;
@@ -567,3 +567,106 @@
   ::-webkit-scrollbar-thumb:hover {
     background: var(--primary-dark);
   }
+
+
+  .q-box-shawdow{
+    box-shadow: 5px 5px rgba(145, 115, 255, 0.4),
+              10px 10px rgba(145, 115, 255, 0.3),
+              15px 15px rgba(145, 115, 255, 0.2),
+              20px 20px rgba(145, 115, 255, 0.1),
+              25px 25px rgba(145, 115, 255, 0.05);
+  }
+
+
+  /* remove card */
+  .q_delete_card {
+    overflow: hidden;
+    position: relative;
+    background-color: #ffffff;
+    text-align: left;
+    border-radius: 0.5rem;
+    max-width: 290px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .q_delete_header {
+    padding: 1.25rem 1rem 1rem 1rem;
+    background-color: #ffffff;
+  }
+  
+  .q_delete_image {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FEE2E2;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+  }
+  
+  .q_delete_image svg {
+    color: #DC2626;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .q_delete_content {
+    margin-top: 0.75rem;
+    text-align: center;
+  }
+  
+  .q_delete_title {
+    color: #111827;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+  }
+  
+  .q_delete_message {
+    margin-top: 0.5rem;
+    color: #6B7280;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  
+  .q_delete_actions {
+    margin: 0.75rem 1rem;
+    background-color: #F9FAFB;
+  }
+  
+  .q_delete_desactivate {
+    display: inline-flex;
+    padding: 0.5rem 1rem;
+    background-color: #DC2626;
+    color: #ffffff;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+    justify-content: center;
+    width: 100%;
+    border-radius: 0.375rem;
+    border-width: 1px;
+    border-color: transparent;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+  
+  .q_delete_cancel {
+    display: inline-flex;
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    background-color: #ffffff;
+    color: #374151;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+    justify-content: center;
+    width: 100%;
+    border-radius: 0.375rem;
+    border: 1px solid #D1D5DB;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  /* remove card */
