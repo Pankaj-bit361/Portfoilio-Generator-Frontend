@@ -2,11 +2,12 @@ import { motion } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
 import { ProjectCard } from "./ProjectCard";
+import { AnimatedBackground } from "./AnimatedBackground";
 
 export const Projects = ({ data }) => {
   return (
     <section id="projects" className="relative py-20">
-      <div className="absolute inset-0">
+      {/* <div className="absolute inset-0">
         <Canvas>
           <Stars
             radius={100}
@@ -19,7 +20,9 @@ export const Projects = ({ data }) => {
           />
           <ambientLight intensity={0.5} />
         </Canvas>
-      </div>
+      </div> */}
+
+      <AnimatedBackground />
 
       <div className="container relative mx-auto px-4 z-10">
         <motion.h2

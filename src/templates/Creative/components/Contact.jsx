@@ -10,6 +10,7 @@ import {
   Send,
 } from "lucide-react";
 import emailjs from "@emailjs/browser";
+import { AnimatedBackground } from "./AnimatedBackground";
 
 export const Contact = ({ data }) => {
   const formRef = useRef(null);
@@ -39,7 +40,8 @@ export const Contact = ({ data }) => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-black">
+    <section id="contact" className="relative py-20">
+    <AnimatedBackground />
       <div className="container mx-auto px-4">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -91,7 +93,7 @@ export const Contact = ({ data }) => {
               </h3>
               <div className="space-y-4">
                 <a
-                  href={data.socialMedia.github}
+                  href={data?.socialMedia?.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-4 text-gray-300 hover:text-white transition-colors"
@@ -101,7 +103,7 @@ export const Contact = ({ data }) => {
                 </a>
 
                 <a
-                  href={data.socialMedia.linkedin}
+                  href={data?.socialMedia?.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-4 text-gray-300 hover:text-white transition-colors"
@@ -111,7 +113,7 @@ export const Contact = ({ data }) => {
                 </a>
 
                 <a
-                  href={data.socialMedia.website}
+                  href={data?.socialMedia?.website}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-4 text-gray-300 hover:text-white transition-colors"

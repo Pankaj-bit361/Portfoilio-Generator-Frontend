@@ -23,7 +23,7 @@ export const About = ({ data }) => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-gray-300 text-lg mb-12 max-w-3xl mx-auto"
         >
-          {data.home.summary}
+          {data?.home?.summary}
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -39,9 +39,9 @@ export const About = ({ data }) => {
               <h3 className="text-xl font-semibold text-white">Languages</h3>
             </div>
             <ul className="space-y-2">
-              {data.skills.technical.languages.map((lang, index) => (
+              {data?.skills?.technical?.languages?.map((lang, index) => (
                 <li key={index} className="text-gray-300">
-                  {lang.name} - {lang.proficiency}
+                  {lang?.name} - {lang?.proficiency}
                 </li>
               ))}
             </ul>
@@ -59,9 +59,9 @@ export const About = ({ data }) => {
               <h3 className="text-xl font-semibold text-white">Frameworks</h3>
             </div>
             <ul className="space-y-2">
-              {data.skills.technical.frameworks.map((framework, index) => (
+              {data?.skills?.technical?.frameworks?.map((framework, index) => (
                 <li key={index} className="text-gray-300">
-                  {framework.name} - {framework.proficiency}
+                  {framework?.name} - {framework?.proficiency}
                 </li>
               ))}
             </ul>
@@ -79,9 +79,9 @@ export const About = ({ data }) => {
               <h3 className="text-xl font-semibold text-white">Tools</h3>
             </div>
             <ul className="space-y-2">
-              {data.skills.technical.tools.map((tool, index) => (
+              {data?.skills?.technical?.tools?.map((tool, index) => (
                 <li key={index} className="text-gray-300">
-                  {tool.name} - {tool.proficiency}
+                  {tool?.name} - {tool?.proficiency}
                 </li>
               ))}
             </ul>
