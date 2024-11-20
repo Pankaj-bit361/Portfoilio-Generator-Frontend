@@ -357,10 +357,6 @@ function PortfolioGenerator({ setPortfolioData, type }) {
                 </div>
               </div>
             </div>
-
-            <button type="submit" className="submit-button">
-              Generate Portfolio
-            </button>
           </form>
           {/* )} */}
           {type == "create" && (
