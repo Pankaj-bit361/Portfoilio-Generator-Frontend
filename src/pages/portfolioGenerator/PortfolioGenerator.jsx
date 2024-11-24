@@ -40,6 +40,7 @@ import PortFolioExperience from "./components/PortFolioExperience";
 import PortFolioProject from "./components/PortFolioProject";
 import PortfolioSkills from "./components/PortfolioSkills";
 import General from "../../config/general";
+import PortFolioTheme from "./components/PortFolioTheme";
 
 function PortfolioGenerator({ setPortfolioData, type }) {
   const navigate = useNavigate();
@@ -127,11 +128,14 @@ function PortfolioGenerator({ setPortfolioData, type }) {
     ],
     theme: {
       colors: {
-        primary: "#3B82F6",
-        secondary: "#10B981",
-        accent: "#6366F1",
-        background: "#FFFFFF",
-        text: "#111827",
+        primary: "",
+        secondary: "",
+        primaryHover: "",
+        accent: "",
+        bgGradient: "",
+        bg: "",
+        text: "",
+        textLight: "",
       },
       fonts: {
         primary: "Inter",
@@ -230,135 +234,48 @@ function PortfolioGenerator({ setPortfolioData, type }) {
             onSuggest={handleAISuggestion}
           />
 
-          {/* {loading && ( */}
-          <form onSubmit={handleSubmit} className="generator-form">
-            <PortFolioHome
-              formData={formData}
-              setFormData={setFormData}
-              setFlag={setFlag}
-            />
+          {type == "edit" && (
+            <form onSubmit={handleSubmit} className="generator-form">
+              <PortFolioHome
+                formData={formData}
+                setFormData={setFormData}
+                setFlag={setFlag}
+              />
 
-            <PortFolioContact formData={formData} setFormData={setFormData} />
+              <PortFolioContact formData={formData} setFormData={setFormData} />
 
-            <PortFolioEducation
-              formData={formData}
-              setFormData={setFormData}
-              setFlag={setFlag}
-            />
+              <PortFolioEducation
+                formData={formData}
+                setFormData={setFormData}
+                setFlag={setFlag}
+              />
 
-            <PortFolioExperience
-              formData={formData}
-              setFormData={setFormData}
-              setFlag={setFlag}
-            />
+              <PortFolioExperience
+                formData={formData}
+                setFormData={setFormData}
+                setFlag={setFlag}
+              />
 
-            <PortFolioProject
-              setFormData={setFormData}
-              formData={formData}
-              setFlag={setFlag}
-            />
+              <PortFolioProject
+                setFormData={setFormData}
+                formData={formData}
+                setFlag={setFlag}
+              />
 
-            <PortfolioSkills
-              setFormData={setFormData}
-              setFlag={setFlag}
-              formData={formData}
-            />
+              <PortfolioSkills
+                setFormData={setFormData}
+                setFlag={setFlag}
+                formData={formData}
+              />
 
-            {/* Theme Customization Section */}
-            <div className="form-section">
-              <h3 className="form-title">Theme Customization</h3>
-              <div className="theme-grid">
-                <div className="color-picker">
-                  <label>Primary Color</label>
-                  <input
-                    type="color"
-                    value={formData.theme.colors.primary}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        theme: {
-                          ...formData.theme,
-                          colors: {
-                            ...formData.theme.colors,
-                            primary: e.target.value,
-                          },
-                        },
-                      })
-                    }
-                    className="form-color-input"
-                  />
-                </div>
-
-                <div className="color-picker">
-                  <label>Secondary Color</label>
-                  <input
-                    type="color"
-                    value={formData.theme.colors.secondary}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        theme: {
-                          ...formData.theme,
-                          colors: {
-                            ...formData.theme.colors,
-                            secondary: e.target.value,
-                          },
-                        },
-                      })
-                    }
-                    className="form-color-input"
-                  />
-                </div>
-
-                <div className="color-picker">
-                  <label>Accent Color</label>
-                  <input
-                    type="color"
-                    value={formData.theme.colors.accent}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        theme: {
-                          ...formData.theme,
-                          colors: {
-                            ...formData.theme.colors,
-                            accent: e.target.value,
-                          },
-                        },
-                      })
-                    }
-                    className="form-color-input"
-                  />
-                </div>
-
-                <div className="font-selector">
-                  <label>Primary Font</label>
-                  <select
-                    value={formData.theme.fonts.primary}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        theme: {
-                          ...formData.theme,
-                          fonts: {
-                            ...formData.theme.fonts,
-                            primary: e.target.value,
-                          },
-                        },
-                      })
-                    }
-                    className="form-select"
-                  >
-                    <option value="Inter">Inter</option>
-                    <option value="Roboto">Roboto</option>
-                    <option value="Open Sans">Open Sans</option>
-                    <option value="Poppins">Poppins</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </form>
-          {/* )} */}
+              {/* Theme Customization Section */}
+              <PortFolioTheme
+                setFormData={setFormData}
+                setFlag={setFlag}
+                formData={formData}
+              />
+            </form>
+          )}
           {type == "create" && (
             <button
               onClick={() => generatePortfolio()}

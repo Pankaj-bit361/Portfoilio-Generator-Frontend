@@ -269,18 +269,17 @@
 
 /* Main Container */
 .generator {
-  min-height: 100vh;
   background-color: var(--background-color);
-  /* padding: 2rem 1rem; */
 }
 
 .generator-container {
-  /* max-width: 1200px; */
   margin: 0 auto;
   background-color: var(--white);
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 2rem;
+  padding-top: 100px;
+
 }
 
 .generator-title {

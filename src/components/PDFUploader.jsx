@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Upload, FileText, CheckCircle } from "lucide-react";
-import { GenerateDataFromApi } from "./fileUpload";
 import * as pdfjs from "pdfjs-dist";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
@@ -25,7 +24,7 @@ async function extractContentFromPdf(file) {
         .map((annotation) => ({
           url: annotation.url,
           rect: annotation.rect,
-          pageNumber: i
+          pageNumber: i,
         }));
 
       fullText += pageText + "\n";
@@ -44,6 +43,15 @@ async function extractContentFromPdf(file) {
   }
 }
 
+async function extractContentFromTxt(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error("Error reading .txt file"));
+    reader.readAsText(file);
+  });
+}
+
 function PDFUploader({ onDataExtracted, setExtractedText }) {
   const [file, setFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -56,33 +64,35 @@ function PDFUploader({ onDataExtracted, setExtractedText }) {
     setFile(selectedFile);
     setError(null);
     setExtractedContent(null);
-    setExtractedText(null)
+    setExtractedText(null);
 
     if (selectedFile) {
-      if (!selectedFile.type.includes("pdf")) {
-        setError("Please upload a PDF file");
-        return;
-      }
-
       setIsProcessing(true);
       setIsComplete(false);
 
       try {
-        const extractedText = await extractContentFromPdf(selectedFile);
+        let extractedText = "";
+        if (selectedFile.type.includes("pdf")) {
+          extractedText = await extractContentFromPdf(selectedFile);
+        } else if (selectedFile.type.includes("text/plain")) {
+          extractedText = await extractContentFromTxt(selectedFile);
+        } else {
+          setError("Please upload a valid PDF or TXT file");
+          return;
+        }
+
         setExtractedContent(extractedText);
-        setExtractedText(extractedText)
+        setExtractedText(extractedText);
         console.log("Extracted content:", extractedText);
       } catch (error) {
-        console.error("Error processing PDF:", error);
-        setError("Error processing PDF file");
+        console.error("Error processing file:", error);
+        setError("Error processing file");
       } finally {
         setIsProcessing(false);
+        setIsComplete(true);
       }
     }
   };
-
-
-
 
   return (
     <div className="uploader">
@@ -91,17 +101,17 @@ function PDFUploader({ onDataExtracted, setExtractedText }) {
         accept=".pdf, .txt"
         onChange={handleFileChange}
         style={{ display: "none" }}
-        id="pdf-upload"
+        id="file-upload"
       />
-      <label htmlFor="pdf-upload" className="uploader-label">
+      <label htmlFor="file-upload" className="uploader-label">
         {isComplete ? (
           <>
-            <CheckCircle className="w-5 h-5" /> Resume Processed
+            <CheckCircle className="w-5 h-5" /> File Processed
           </>
         ) : isProcessing ? (
           <div className="flex items-center gap-2">
             <FileText className="w-5 h-5 animate-pulse" />
-            Processing Resume...
+            Processing File...
           </div>
         ) : (
           <div className="uploader-label-section">
@@ -115,7 +125,7 @@ function PDFUploader({ onDataExtracted, setExtractedText }) {
                 <path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
               </svg>
             </button>
-            <p>Upload Resume(.pdf)</p>
+            <p>Upload File (.pdf, .txt)</p>
           </div>
         )}
       </label>

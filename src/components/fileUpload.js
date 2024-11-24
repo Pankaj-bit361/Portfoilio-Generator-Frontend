@@ -34,37 +34,45 @@ const transformSkills = (skillsData) => {
 
   return {
     technical: {
-      languages: skillsData.technical?.languages?.map(lang => ({
-        name: lang.name,
-        proficiency: lang.proficiency
-      })) || [],
-      frameworks: skillsData.technical?.frameworks?.map(framework => ({
-        name: framework.name,
-        proficiency: framework.proficiency
-      })) || [],
-      tools: skillsData.technical?.tools?.map(tool => ({
-        name: tool.name,
-        proficiency: tool.proficiency
-      })) || []
+      languages:
+        skillsData.technical?.languages?.map((lang) => ({
+          name: lang.name,
+          proficiency: lang.proficiency,
+        })) || [],
+      frameworks:
+        skillsData.technical?.frameworks?.map((framework) => ({
+          name: framework.name,
+          proficiency: framework.proficiency,
+        })) || [],
+      tools:
+        skillsData.technical?.tools?.map((tool) => ({
+          name: tool.name,
+          proficiency: tool.proficiency,
+        })) || [],
     },
-    soft: skillsData.soft?.map(category => ({
-      category: category.category,
-      skills: category.skills
-    })) || []
+    soft:
+      skillsData.soft?.map((category) => ({
+        category: category.category,
+        skills: category.skills,
+      })) || [],
   };
 };
 
-
 const transformTheme = (themeData) => {
+
+  console.log(themeData,'')
   if (!themeData) return null;
 
   return {
     colors: {
-      primary: themeData.colors?.primary || "#3B82F6", // Default blue
-      secondary: themeData.colors?.secondary || "#10B981", // Default green
-      accent: themeData.colors?.accent || "#6366F1", // Default indigo
-      background: themeData.colors?.background || "#FFFFFF", // Default white
-      text: themeData.colors?.text || "#111827", // Default dark gray
+      primary: themeData?.colors?.primary || "",
+      secondary:  themeData?.colors?.secondary || "",
+      primaryHover:themeData?.colors?.primaryHover || "",
+      accent:themeData?.colors?.accent || "",
+      bg:themeData?.colors?.bg || "",
+      bgGradient:themeData?.colors?.bgGradient || "",
+      text:themeData?.colors?.text || "",
+      textLight:themeData?.colors?.textLight || "",
     },
     fonts: {
       primary: themeData.fonts?.primary || "Inter",
