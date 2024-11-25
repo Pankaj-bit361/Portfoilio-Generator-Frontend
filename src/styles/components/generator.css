@@ -89,6 +89,14 @@
   color: var(--text-primary);
 }
 
+
+.generator-form input[type="text"],
+.generator-form input[type="email"],
+.generator-form input[type="number"] {
+    background: white;
+}
+
+
 .ai-button {
   display: flex;
   align-items: center;
