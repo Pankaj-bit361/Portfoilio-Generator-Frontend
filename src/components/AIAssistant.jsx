@@ -158,7 +158,7 @@ function AIAssistant({ portfolioData, onSuggest }) {
                 value={websiteUrl}
                 onChange={handleUrlChange}
                 disabled={isExtracting}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-dark)]"
+                className="w-full px-4 bg-white py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-dark)]"
               />
 
               {error && (
