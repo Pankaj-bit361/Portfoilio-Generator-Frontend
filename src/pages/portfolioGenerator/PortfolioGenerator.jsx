@@ -4,34 +4,12 @@ import { useNavigate } from "react-router-dom";
 import PDFUploader from "../../components/PDFUploader";
 import TemplateSelector from "../../components/TemplateSelector";
 import AIAssistant from "../../components/AIAssistant";
-import {
-  Github,
-  Linkedin,
-  Mail,
-  Phone,
-  MapPin,
-  Plus,
-  Trash2,
-  GraduationCap,
-  Award,
-  Contact,
-  UserRound,
-  Briefcase,
-  Code,
-  Brain,
-  History,
-  Wrench,
-  BookOpen,
-} from "lucide-react";
 import { getPortfolioData } from "../../components/fileUpload";
-import "./portfoliogenerator.css";
-import { data } from "autoprefixer";
+// import "./portfoliogenerator.css";
 import { toast } from "react-toastify";
 import { config } from "../../config/api";
-import { TbVariableMinus } from "react-icons/tb";
 import axios from "axios";
 import GlassLoader from "../../components/GlassLoader";
-import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import PortFolioHome from "./components/PortFolioHome";
 import PortFolioContact from "./components/PortFolioContact";
@@ -41,6 +19,28 @@ import PortFolioProject from "./components/PortFolioProject";
 import PortfolioSkills from "./components/PortfolioSkills";
 import General from "../../config/general";
 import PortFolioTheme from "./components/PortFolioTheme";
+import Navbar from "../../components/Home/Navbar";
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, x: -20 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.4 },
+  },
+};
 
 function PortfolioGenerator({ setPortfolioData, type }) {
   const navigate = useNavigate();
@@ -172,17 +172,14 @@ function PortfolioGenerator({ setPortfolioData, type }) {
   const handleAISuggestion = (suggestions) =>
     setFormData((prev) => ({ ...prev, ...suggestions }));
   const handlePDFData = (data) => setFormData((prev) => ({ ...prev, ...data }));
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setPortfolioData(formData);
-    // navigate("/preview");
   };
 
   const generatePortfolio = async () => {
-    console.log("hsbmjndjhsbd fmsfd");
     if (!extractedContent) {
-      toast.error("please upload the resume pdf");
+      toast.error("Please upload your resume PDF");
       return;
     }
     const body = {
@@ -199,95 +196,121 @@ function PortfolioGenerator({ setPortfolioData, type }) {
         body
       );
       if (response.data.success) {
-        toast.success("PortFolio Generated Successfully");
+        toast.success("Portfolio Generated Successfully");
         navigate("/portfolios");
       }
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
+      console.error(error);
+      toast.error("Failed to generate portfolio");
     }
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-blue-900/20 to-black">
       <Navbar />
+
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="generator"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        className="container mx-auto px-4 pt-24 pb-16"
       >
         {isLoading && <GlassLoader />}
-        <div className="generator-container">
-          <h2 className="generator-title">Create Your Portfolio</h2>
 
-          <PDFUploader
-            onDataExtracted={handlePDFData}
-            setExtractedText={setExtractedContent}
-          />
-          <TemplateSelector
-            selectedTemplate={selectedTemplate}
-            onSelect={handleTemplateSelect}
-          />
-          <AIAssistant
-            portfolioData={formData}
-            onSuggest={handleAISuggestion}
-          />
+        <motion.div variants={itemVariants} className="text-center mb-12">
+          <h1 className="text-5xl font-bold bg-gradient-to-tr from-blue-500 to-teal-500  bg-clip-text text-transparent mb-4">
+            Create Your Portfolio
+          </h1>
+          <p className="text-gray-300 text-lg">
+            Transform your resume into a stunning portfolio website
+          </p>
+        </motion.div>
 
-          {type == "edit" && (
-            <form onSubmit={handleSubmit} className="generator-form">
-              <PortFolioHome
-                formData={formData}
-                setFormData={setFormData}
-                setFlag={setFlag}
-              />
+        <motion.div variants={itemVariants} className="space-y-8 mb-0">
+          <div className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-5 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
+            <PDFUploader
+              onDataExtracted={handlePDFData}
+              setExtractedText={setExtractedContent}
+            />
+          </div>
 
-              <PortFolioContact formData={formData} setFormData={setFormData} />
+          <div className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
+            <TemplateSelector
+              selectedTemplate={selectedTemplate}
+              onSelect={handleTemplateSelect}
+            />
+          </div>
 
-              <PortFolioEducation
-                formData={formData}
-                setFormData={setFormData}
-                setFlag={setFlag}
-              />
+          <div className="rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
+            <AIAssistant
+              portfolioData={formData}
+              onSuggest={handleAISuggestion}
+            />
+          </div>
+        </motion.div>
 
-              <PortFolioExperience
-                formData={formData}
-                setFormData={setFormData}
-                setFlag={setFlag}
-              />
-
-              <PortFolioProject
-                setFormData={setFormData}
-                formData={formData}
-                setFlag={setFlag}
-              />
-
-              <PortfolioSkills
-                setFormData={setFormData}
-                setFlag={setFlag}
-                formData={formData}
-              />
-
-              {/* Theme Customization Section */}
-              <PortFolioTheme
-                setFormData={setFormData}
-                setFlag={setFlag}
-                formData={formData}
-              />
-            </form>
-          )}
-          {type == "create" && (
+        {type === "edit" ? (
+          <motion.form
+            variants={itemVariants}
+            onSubmit={handleSubmit}
+            className="space-y-8 mt-10"
+          >
+            <div className="flex flex-col justify-between gap-8">
+              <div className="space-y-8">
+                <PortFolioHome
+                  formData={formData}
+                  setFormData={setFormData}
+                  setFlag={setFlag}
+                />
+                <PortFolioContact
+                  formData={formData}
+                  setFormData={setFormData}
+                />
+                <PortFolioEducation
+                  formData={formData}
+                  setFormData={setFormData}
+                  setFlag={setFlag}
+                />
+              </div>
+              <div className="space-y-8">
+                <PortFolioExperience
+                  formData={formData}
+                  setFormData={setFormData}
+                  setFlag={setFlag}
+                />
+                <PortFolioProject
+                  setFormData={setFormData}
+                  formData={formData}
+                  setFlag={setFlag}
+                />
+                <PortfolioSkills
+                  setFormData={setFormData}
+                  setFlag={setFlag}
+                  formData={formData}
+                />
+              </div>
+            </div>
+            <PortFolioTheme
+              setFormData={setFormData}
+              setFlag={setFlag}
+              formData={formData}
+            />
+          </motion.form>
+        ) : (
+          <motion.div variants={itemVariants} className="flex justify-center mt-8">
             <button
-              onClick={() => generatePortfolio()}
-              className="submit-button"
+              onClick={generatePortfolio}
+              className="px-8 py-4 bg-gradient-to-r from-teal-400 to-blue-500 rounded-lg text-white font-semibold text-lg hover:from-teal-500 hover:to-blue-600 transform hover:scale-95 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 w-full"
             >
               Generate Portfolio
             </button>
-          )}
-        </div>
+          </motion.div>
+        )}
       </motion.div>
       <Footer />
-    </>
+    </div>
   );
 }
 

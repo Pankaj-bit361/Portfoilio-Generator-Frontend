@@ -21,7 +21,7 @@ import DeleteCard from "./DeleteCard";
 import General from "../../../../config/general";
 
 const inputClass =
-  "w-full pl-10 pr-4 py-3 h-12 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors";
+  "w-full pl-10 pr-4 py-3 h-12 text-base border-2 border-gray-500 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors bg-transparent text-white placeholder-gray-400";
 
 export const ProjectCard = ({
   setFormData,
@@ -113,10 +113,10 @@ export const ProjectCard = ({
     }
 
     try {
-    
-
       const response = await axios.patch(
-        `${config.BASE_URL}api/portfolio/${General.getPortfolioId()}/project/${project.projectId}?userId=${General.getUserId()}`,
+        `${config.BASE_URL}api/portfolio/${General.getPortfolioId()}/project/${
+          project.projectId
+        }?userId=${General.getUserId()}`,
         project
       );
 
@@ -134,10 +134,10 @@ export const ProjectCard = ({
 
   const addProjectCard = async () => {
     try {
-
-
       const response = await axios.post(
-        `${config.BASE_URL}api/portfolio/${General.getPortfolioId()}/project?userId=${General.getUserId()}`,
+        `${
+          config.BASE_URL
+        }api/portfolio/${General.getPortfolioId()}/project?userId=${General.getUserId()}`,
         project
       );
 
@@ -157,13 +157,14 @@ export const ProjectCard = ({
     if (!project && !project.projectId) return;
 
     try {
-
       const headers = {
         token: General.getAccessToken(),
       };
 
       const response = await axios.delete(
-        `${config.BASE_URL}api/portfolio/${General.getPortfolioId()}/project/${project.projectId}?userId=${General.getUserId()}`,
+        `${config.BASE_URL}api/portfolio/${General.getPortfolioId()}/project/${
+          project.projectId
+        }?userId=${General.getUserId()}`,
         { headers }
       );
 
@@ -180,7 +181,7 @@ export const ProjectCard = ({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-6 mb-6 shawdow-lg">
+    <div className=" space-y-6 mb-6">
       <div className="space-y-6">
         {isDeleted && (
           <DeleteCard
@@ -194,7 +195,7 @@ export const ProjectCard = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Project Title */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-white ">
               Project Title
             </label>
             <div className="relative">
@@ -215,7 +216,7 @@ export const ProjectCard = ({
 
           {/* Role */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-white ">
               Your Role
             </label>
             <div className="relative">
@@ -236,7 +237,7 @@ export const ProjectCard = ({
 
           {/* Project Type Select */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-white ">
               Project Type
             </label>
             <div className="relative">
@@ -248,7 +249,7 @@ export const ProjectCard = ({
                   newProjects[index].type = e.target.value;
                   setFormData({ ...formData, projects: newProjects });
                 }}
-                className="w-full pl-10 pr-10 py-3 h-12 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors appearance-none bg-white"
+                className="w-full pl-10 pr-10 py-3 h-12 text-base border-2 border-gray-500 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors appearance-none bg-gray-800 text-white"
               >
                 <option value="">Select Project Type</option>
                 <option value="Personal">Personal</option>
@@ -274,7 +275,7 @@ export const ProjectCard = ({
 
           {/* Project Status */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-white ">
               Project Status
             </label>
             <div className="relative">
@@ -286,7 +287,7 @@ export const ProjectCard = ({
                   newProjects[index].status = e.target.value;
                   setFormData({ ...formData, projects: newProjects });
                 }}
-                className="w-full pl-10 pr-10 py-3 h-12 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors appearance-none bg-white"
+                className="w-full pl-10 pr-10 py-3 h-12 text-base border-2 border-gray-500 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors appearance-none bg-gray-800 text-white"
               >
                 <option value="">Select Status</option>
                 <option value="In Progress">In Progress</option>
@@ -311,7 +312,7 @@ export const ProjectCard = ({
         </div>
         {/* Project Description */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             Project Description
           </label>
           <div className="relative">
@@ -324,14 +325,14 @@ export const ProjectCard = ({
                 newProjects[index].description = e.target.value;
                 setFormData({ ...formData, projects: newProjects });
               }}
-              className="w-full pl-10 pr-4 py-2 min-h-[120px] text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors"
+              className="w-full pl-10 pr-4 py-2 min-h-[120px] text-base border-2 border-gray-500 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors bg-transparent text-white placeholder:text-gray-400"
               rows={4}
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             Tools & Technologies
           </label>
           <div className="space-y-3">
@@ -349,14 +350,14 @@ export const ProjectCard = ({
                       addTool();
                     }
                   }}
-                  className="w-full pl-10 pr-4 py-3 h-12 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors"
+                  className="w-full pl-10 pr-4 py-3 h-12 text-base border-2 border-gray-500 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors bg-transparent text-white placeholder:text-gray-400"
                 />
               </div>
               <button
                 type="button" // Change from type="submit" to type="button"
                 onClick={addTool}
                 disabled={!toolInput.trim()}
-                className="px-4 h-12 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                className="inline-flex items-center gap-2 px-4 py-2 h-12  bg-gray-800/50 backdrop-blur-lg rounded-xl p-5 border-2 hover:border-blue-500/50 hover:bg-gray-800/50 hover:backdrop-blur-lg hover:shadow-md hover:shadow-blue-500/20  duration-300 text-blue-400 hover:scale-105 border-blue-500/50 transition-all"
               >
                 Add Tool
               </button>
@@ -367,24 +368,26 @@ export const ProjectCard = ({
               {project?.tools?.map((tool, toolIndex) => (
                 <span
                   key={toolIndex}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 text-purple-700 rounded-lg border border-purple-200 group"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-transparent text-white rounded-lg border border-purple-700 group"
                 >
                   <PenTool className="w-4 h-4" />
                   {tool}
                   <button
                     type="button"
                     onClick={() => removeTool(tool)}
-                    className="p-0.5 hover:bg-purple-100 rounded-full text-purple-600 hover:text-purple-700 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="p-0.5  rounded-full text-purple-600 hover:text-purple-700 opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <X className="w-4 h-4" />
                   </button>
                 </span>
               ))}
               {(!project?.tools || project.tools.length === 0) && (
-                <p className="text-sm text-gray-500 italic py-2">
-                  No tools added yet. Type a tool name and press Enter or click
-                  Add Tool.
-                </p>
+                <div className="border border-dashed border-gray-400 p-4 rounded-md">
+                  <p className="text-sm text-gray-400 italic py-2">
+                    No tools added yet. Type a tool name and press Enter or
+                    click Add Tool.
+                  </p>
+                </div>
               )}
             </div>
           </div>
@@ -392,13 +395,13 @@ export const ProjectCard = ({
 
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-white ">
               Key Features
             </label>
             <button
               type="button"
               onClick={addFeature}
-              className="inline-flex items-center gap-1 px-2 py-1 text-sm text-purple-600 hover:bg-purple-50 rounded-md"
+              className="inline-flex items-center gap-2 px-4 py-2 h-12  bg-gray-800/50 backdrop-blur-lg rounded-xl p-5 border-2 hover:border-blue-500/50 hover:bg-gray-800/50 hover:backdrop-blur-lg hover:shadow-md hover:shadow-blue-500/20  duration-300 text-blue-400 hover:scale-105 border-blue-500/50 transition-all"
             >
               <Plus className="w-4 h-4" />
               Add Feature
@@ -424,7 +427,7 @@ export const ProjectCard = ({
                   <button
                     type="button"
                     onClick={() => removeFeature(featureIndex)}
-                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md"
+                    className="p-2 text-gray-400 hover:text-red-500  rounded-md"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -432,16 +435,18 @@ export const ProjectCard = ({
               </div>
             ))}
             {project?.features?.length === 0 && (
-              <p className="text-sm text-gray-500 italic text-center py-2">
-                No features added yet. Click 'Add Feature' to begin.
-              </p>
+              <div className="border border-dashed border-gray-400 p-4 rounded-md">
+                <p className="text-sm text-gray-400 italic text-center py-2">
+                  No features added yet. Click 'Add Feature' to begin.
+                </p>
+              </div>
             )}
           </div>
         </div>
 
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-white ">
               Project Images
             </label>
             <button
@@ -454,7 +459,7 @@ export const ProjectCard = ({
                 newProjects[index].images.push("");
                 setFormData({ ...formData, projects: newProjects });
               }}
-              className="inline-flex items-center gap-1 px-2 py-1 text-sm text-purple-600 hover:bg-purple-50 rounded-md"
+              className="inline-flex items-center gap-2 px-4 py-2 h-12  bg-gray-800/50 backdrop-blur-lg rounded-xl p-5 border-2 hover:border-blue-500/50 hover:bg-gray-800/50 hover:backdrop-blur-lg hover:shadow-md hover:shadow-blue-500/20  duration-300 text-blue-400 hover:scale-105 border-blue-500/50 transition-all"
             >
               <ImagePlus className="w-4 h-4" />
               Add Image
@@ -483,7 +488,7 @@ export const ProjectCard = ({
                       newProjects[index].images.splice(imageIndex, 1);
                       setFormData({ ...formData, projects: newProjects });
                     }}
-                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md"
+                    className="p-2 text-gray-400 hover:text-red-500  rounded-md"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -491,22 +496,24 @@ export const ProjectCard = ({
               </div>
             ))}
             {(!project?.images || project.images.length === 0) && (
-              <p className="text-sm text-gray-500 italic text-center py-2">
-                No images added yet. Click 'Add Image' to begin.
-              </p>
+              <div className="border border-dashed border-gray-400 p-4 rounded-md">
+                <p className="text-sm text-gray-400 italic text-center py-2">
+                  No images added yet. Click 'Add Image' to begin.
+                </p>
+              </div>
             )}
           </div>
         </div>
 
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-white ">
               Challenges Faced
             </label>
             <button
               type="button"
               onClick={addChallenge}
-              className="inline-flex items-center gap-1 px-2 py-1 text-sm text-purple-600 hover:bg-purple-50 rounded-md"
+              className="inline-flex items-center gap-2 px-4 py-2 h-12  bg-gray-800/50 backdrop-blur-lg rounded-xl p-5 border-2 hover:border-blue-500/50 hover:bg-gray-800/50 hover:backdrop-blur-lg hover:shadow-md hover:shadow-blue-500/20  duration-300 text-blue-400 hover:scale-105 border-blue-500/50 transition-all"
             >
               <Plus className="w-4 h-4" />
               Add Challenge
@@ -529,7 +536,7 @@ export const ProjectCard = ({
                   <button
                     type="button"
                     onClick={() => removeChallenge(challengeIndex)}
-                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md"
+                    className="p-2 text-gray-400 hover:text-red-500 rounded-md"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -537,15 +544,17 @@ export const ProjectCard = ({
               </div>
             ))}
             {project?.challenges?.length === 0 && (
-              <p className="text-sm text-gray-500 italic text-center py-2">
-                No challenges added yet. Click 'Add Challenge' to begin.
-              </p>
+              <div className="border border-dashed border-gray-400 p-4 rounded-md">
+                <p className="text-sm text-gray-500 italic text-center py-2">
+                  No challenges added yet. Click 'Add Challenge' to begin.
+                </p>
+              </div>
             )}
           </div>
         </div>
         {/* Project Links */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             Project Links
           </label>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -603,7 +612,7 @@ export const ProjectCard = ({
           <button
             type="button"
             onClick={updateProjectCard}
-            className="inline-flex items-center gap-2 px-4 py-2 h-12 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-700"
+            className="inline-flex items-center gap-2 px-4 py-2 h-12 bg-transparent border border-gray-300 rounded-lg border-blue-500/50 transition-colors text-blue-500"
           >
             <Save className="w-4 h-4" />
             Save
@@ -612,7 +621,7 @@ export const ProjectCard = ({
           <button
             type="button"
             onClick={() => removeProject(index)}
-            className="inline-flex items-center gap-2 px-4 py-2 h-12 bg-white border border-red-300 rounded-lg hover:bg-red-50 transition-colors text-red-600"
+            className="inline-flex items-center gap-2 px-4 py-2 h-12 bg-red-500 rounded-lg hover:bg-red-700 transition-colors text-white"
           >
             <Trash2 className="w-4 h-4" />
             Remove Project

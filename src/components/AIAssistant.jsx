@@ -1,12 +1,6 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import {
-  FaRobot,
-  FaMagic,
-  FaLightbulb,
-  FaPalette,
-  FaTimes,
-} from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaRobot, FaPalette, FaTimes, FaMagic } from "react-icons/fa";
 import General from "../config/general";
 import { config } from "../config/api";
 import { toast } from "react-toastify";
@@ -41,26 +35,26 @@ function AIAssistant({ portfolioData, onSuggest }) {
   const handleUrlChange = (e) => {
     let url = e.target.value;
     // If user deletes the https://, add it back
-    if (!url.startsWith('https://')) {
-      url = 'https://' + url.replace('http://', '');
+    if (!url.startsWith("https://")) {
+      url = "https://" + url.replace("http://", "");
     }
     setWebsiteUrl(url);
   };
 
   const handleModalOpen = () => {
-    setWebsiteUrl('https://');
-    setError('');
+    setWebsiteUrl("https://");
+    setError("");
     setIsModalOpen(true);
   };
 
   const handleModalClose = () => {
-    setWebsiteUrl('https://');
-    setError('');
+    setWebsiteUrl("https://");
+    setError("");
     setIsModalOpen(false);
   };
 
   const handleExtractTheme = async () => {
-    if (!websiteUrl || websiteUrl === 'https://') {
+    if (!websiteUrl || websiteUrl === "https://") {
       setError("Please enter a website URL");
       return;
     }
@@ -74,7 +68,9 @@ function AIAssistant({ portfolioData, onSuggest }) {
       };
 
       const response = await axios.patch(
-        `${config.BASE_URL}api/theme/${General.getPortfolioId()}/extract?userId=${General.getUserId()}`,
+        `${
+          config.BASE_URL
+        }api/theme/${General.getPortfolioId()}/extract?userId=${General.getUserId()}`,
         json
       );
 
@@ -85,7 +81,8 @@ function AIAssistant({ portfolioData, onSuggest }) {
         toast.error(response.data.error || "Failed to extract theme");
       }
     } catch (err) {
-      const errorMessage = err.response?.data?.error || err.message || "Failed to extract theme";
+      const errorMessage =
+        err.response?.data?.error || err.message || "Failed to extract theme";
       toast.error(errorMessage);
       setError(errorMessage);
     } finally {
@@ -110,93 +107,162 @@ function AIAssistant({ portfolioData, onSuggest }) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <div className="flex items-center gap-3 mb-6">
-        <FaRobot className="text-2xl text-blue-600" />
-        <h3 className="text-xl font-semibold">AI Assistant</h3>
-      </div>
+    <div className="relative p-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="space-y-6"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            {" "}
+            <div className="p-3 bg-gradient-to-tr from-blue-500 to-teal-500 rounded-lg">
+              <FaRobot className="text-2xl text-white" />
+            </div>
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-teal-500 bg-clip-text text-transparent">
+              AI Assistant
+            </h3>
+          </div>
 
-      <div className="flex gap-3 mb-6">
+          {/* Action Button */}
+          <motion.div className="flex gap-4">
+            <motion.button
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500 to-teal-500 text-white rounded-lg font-medium shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-shadow"
+              onClick={handleModalOpen}
+            >
+              <FaPalette className="text-lg" />
+              Extract Theme
+            </motion.button>
+          </motion.div>
+        </div>
 
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 px-4 py-2 bg-[var(--primary-color)] text-white rounded-md hover:bg-[var(--primary-dark)]"
-          onClick={handleModalOpen}
+        {/* Tips Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50"
         >
-          <FaPalette /> Extract Theme
-        </motion.button>
-      </div>
-
-      <div className="text-sm text-gray-600">
-        <p className="font-medium mb-2">Tips:</p>
-        <ul className="list-disc list-inside space-y-1">
-          <li>Use action verbs in project descriptions</li>
-          <li>Highlight key achievements and metrics</li>
-          <li>Keep descriptions concise and impactful</li>
-        </ul>
-      </div>
+          <h4 className="font-medium text-blue-400 mb-3">Tips:</h4>
+          <ul className="space-y-2 text-gray-300">
+            <motion.li
+              whileHover={{ x: 2 }}
+              className="flex items-center gap-2"
+            >
+              <span className="w-1.5 h-1.5 bg-teal-500 rounded-full" />
+              Use action verbs in project descriptions
+            </motion.li>
+            <motion.li
+              whileHover={{ x: 2 }}
+              className="flex items-center gap-2"
+            >
+              <span className="w-1.5 h-1.5 bg-teal-500 rounded-full" />
+              Highlight key achievements and metrics
+            </motion.li>
+            <motion.li
+              whileHover={{ x: 2 }}
+              className="flex items-center gap-2"
+            >
+              <span className="w-1.5 h-1.5 bg-teal-500 rounded-full" />
+              Keep descriptions concise and impactful
+            </motion.li>
+          </ul>
+        </motion.div>
+      </motion.div>
 
       {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg w-full max-w-md p-6 m-4">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold">Extract Theme</h3>
-              <button
-                onClick={handleModalClose}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <FaTimes />
-              </button>
-            </div>
-
-            <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Enter website URL"
-                value={websiteUrl}
-                onChange={handleUrlChange}
-                disabled={isExtracting}
-                className="w-full px-4 bg-white py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-dark)]"
-              />
-
-              {error && (
-                <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
-                  {error}
-                </div>
-              )}
-
-              <div className="flex justify-end gap-3 mt-6">
-                <button
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="w-full max-w-md bg-gray-900 rounded-xl border border-gray-800 shadow-xl"
+            >
+              {/* Modal Header */}
+              <div className="flex justify-between items-center p-6 border-b border-gray-800">
+                <h3 className="text-xl font-semibold bg-gradient-to-r from-blue-500 to-teal-500 bg-clip-text text-transparent">
+                  Extract Theme
+                </h3>
+                <motion.button
+                  whileHover={{ rotate: 90 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={handleModalClose}
-                  disabled={isExtracting}
-                  className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
+                  className="text-gray-400 hover:text-white transition-colors"
                 >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleExtractTheme}
-                  disabled={isExtracting}
-                  className="flex items-center gap-2 px-4 py-2 bg-[var(--primary-color)] text-white rounded-md hover:bg-[var(--primary-dark)] disabled:opacity-50"
-                >
-                  {isExtracting ? (
-                    <>
-                      <FaMagic className="animate-spin" />
-                      Extracting...
-                    </>
-                  ) : (
-                    <>
-                      <FaPalette />
-                      Extract Theme
-                    </>
-                  )}
-                </button>
+                  <FaTimes />
+                </motion.button>
               </div>
-            </div>
-          </div>
-        </div>
-      )}
+
+              <div className="p-6 space-y-4">
+                {/* URL Input */}
+                <div className="space-y-2">
+                  <input
+                    type="text"
+                    placeholder="Enter website URL"
+                    value={websiteUrl}
+                    onChange={handleUrlChange}
+                    disabled={isExtracting}
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                  />
+                </div>
+
+                {/* Error Message */}
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400"
+                  >
+                    {error}
+                  </motion.div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="flex justify-end gap-3 pt-4">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleModalClose}
+                    disabled={isExtracting}
+                    className="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors"
+                  >
+                    Cancel
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleExtractTheme}
+                    disabled={isExtracting}
+                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-teal-500 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isExtracting ? (
+                      <>
+                        <FaMagic className="animate-spin" />
+                        Extracting...
+                      </>
+                    ) : (
+                      <>
+                        <FaPalette />
+                        Extract Theme
+                      </>
+                    )}
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

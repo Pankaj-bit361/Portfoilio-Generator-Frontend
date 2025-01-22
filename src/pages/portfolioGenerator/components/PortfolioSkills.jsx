@@ -74,12 +74,12 @@ const PortfolioSkills = ({ formData, setFormData, setFlag }) => {
   }
 
   return (
-    <div className="p-6 bg-white rounded-lg  space-y-8 q-box-shawdow">
-      <h3 className="text-2xl font-bold text-gray-800">Skills</h3>
+    <div className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-5 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
+      <h3 className="text-2xl font-bold text-white ">Skills</h3>
 
       <div className="space-y-8">
         <div className="space-y-6">
-          <h4 className="text-xl font-semibold text-gray-700">
+          <h4 className="text-xl font-semibold text-gray-300">
             Technical Skills
           </h4>
 
@@ -123,13 +123,13 @@ const PortfolioSkills = ({ formData, setFormData, setFlag }) => {
           />
         </div>
 
-        <div className="flex justify-end pt-4">
+        <div className="flex justify-end">
           <button
             type="button"
             onClick={updateApiskills}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-700 font-medium h-12"
+            className="inline-flex items-center gap-2 px-6 py-4 bg-gradient-to-r from-teal-400 to-blue-500 rounded-lg text-white font-semibold text-lg hover:from-teal-500 hover:to-blue-600 transform hover:scale-95 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
           >
-            <Contact2 size={16} />
+            <Contact2 size={20} />
             Update Skills
           </button>
         </div>

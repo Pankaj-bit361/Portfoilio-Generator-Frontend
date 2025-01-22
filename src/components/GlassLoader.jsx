@@ -9,7 +9,7 @@ const GlassLoader = () => {
           {[...Array(12)].map((_, index) => (
             <div
               key={index}
-              className="spinner-line"
+              className="spinner-line bg-gradient-to-r from-blue-500 to-teal-500"
               style={{
                 transform: `rotate(${index * 30}deg)`,
                 animationDelay: `${-0.0833333 * (12 - index)}s`,

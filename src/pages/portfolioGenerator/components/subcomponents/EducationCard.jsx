@@ -100,13 +100,13 @@ export const EducationCard = ({
   };
 
   const inputClass =
-    "w-full pl-10 pr-4 py-3 h-12 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors";
+    "w-full pl-10 pr-4 py-3 h-12 text-white border-2 border-gray-500 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors bg-transparent";
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-6 mb-6">
+    <div className="space-y-6 mb-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             Degree
           </label>
           <div className="relative">
@@ -127,7 +127,7 @@ export const EducationCard = ({
 
         {/* Field of Study Input - using BookOpen for field of study */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             Field of Study
           </label>
           <div className="relative">
@@ -148,7 +148,7 @@ export const EducationCard = ({
 
         {/* School Input - using Building for school/university */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             School/University
           </label>
           <div className="relative">
@@ -169,7 +169,7 @@ export const EducationCard = ({
 
         {/* Location Input - using MapPin for location */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             Location
           </label>
           <div className="relative">
@@ -190,7 +190,7 @@ export const EducationCard = ({
 
         {/* Start Date Input - using Calendar for dates */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             Start Date
           </label>
           <div className="relative">
@@ -211,7 +211,7 @@ export const EducationCard = ({
 
         {/* End Date Input - using Calendar for dates */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             End Date
           </label>
           <div className="relative">
@@ -236,7 +236,7 @@ export const EducationCard = ({
         <button
           type="button"
           onClick={updateEducationCard}
-          className="inline-flex items-center gap-2 px-4 py-2 h-12 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-700"
+          className="inline-flex items-center gap-2 px-4 py-2 h-12 bg-transparent border border-gray-300 rounded-lg transition-colors text-white "
         >
           <Save className="w-4 h-4" />
           Save
@@ -244,7 +244,7 @@ export const EducationCard = ({
         <button
           type="button"
           onClick={deleteEducationCard}
-          className="inline-flex items-center gap-2 px-4 py-2 h-12 bg-white border border-red-300 rounded-lg hover:bg-red-50 transition-colors text-red-600"
+          className="inline-flex items-center gap-2 px-4 py-2 h-12 bg-red-900 -300 rounded-lg transition-colors text-white "
         >
           <Trash2 className="w-4 h-4" />
           Delete
