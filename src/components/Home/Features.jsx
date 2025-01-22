@@ -25,7 +25,7 @@ const Features = () => {
   return (
     <section
       id="features"
-      className="py-20 bg-gradient-to-b from-black to-blue-900/20"
+      className="py-0 lg:py-24 bg-gradient-to-b from-black to-blue-900/20"
     >
       <div className="container mx-auto px-6">
         <motion.div
