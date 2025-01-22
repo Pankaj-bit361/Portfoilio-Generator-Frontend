@@ -35,7 +35,7 @@ const AnimatedSphere = () => {
 
 const Hero3D = () => {
   return (
-    <div className="relative h-screen">
+    <div className="relative mt-20 mb-20">
       <div className="absolute inset-0 bg-gradient-to-b from-black via-blue-900/20 to-black" />
 
       <div className="absolute inset-0">
@@ -60,14 +60,14 @@ const Hero3D = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <h1 className="text-7xl font-bold mb-6 leading-tight">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
                 Create Your{" "}
                 <span className="relative">
                   <span className="bg-gradient-to-r from-blue-500 to-teal-500 bg-clip-text text-transparent">
                     Professional Portfolio
                   </span>
                   <motion.span
-                    className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-teal-500"
+                    className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-teal-500 mb-3"
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 1, delay: 1 }}
@@ -81,7 +81,7 @@ const Hero3D = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-xl text-gray-300 mb-8"
+              className="text-xl text-gray-300 mb-8 p-2"
             >
               Generate stunning portfolios with our AI-powered platform. Stand
               out with 3D animations and innovative designs that capture
