@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import PortfolioGenerator from "./pages/portfolioGenerator/PortfolioGenerator.jsx";
@@ -17,6 +17,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PortFolios from "./pages/PortFolios";
 import Modern from "./templates/modern/Modern.jsx";
+import Navbar from "./components/Home/Navbar.jsx";
 
 function App() {
   const [portfolioData, setPortfolioData] = useState(null);
