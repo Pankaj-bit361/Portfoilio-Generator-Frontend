@@ -11,7 +11,8 @@ import Loader1 from "../components/GlassLoader";
 import GlassLoader from "../components/GlassLoader";
 import { useAuth } from "../Context/AuthContext.jsx";
 import { toast } from "react-toastify";
-import Navbar from "../components/Navbar.jsx";
+import Navbar from "../components/Home/Navbar.jsx";
+// import Navbar from "../components/Navbar.jsx";
 
 const LoginSignupForm = () => {
   const [formState, setFormState] = useState({
@@ -199,7 +200,7 @@ const LoginSignupForm = () => {
   });
 
   return (
-    <>
+    <div className="bg-gradient-to-b from-gray-900 via-blue-900/20 to-black">
       <Navbar />
       <div
         id="container"
@@ -207,11 +208,11 @@ const LoginSignupForm = () => {
       >
         {isLoading && <GlassLoader />}
 
-        <div className="row">
+        <div className="row ">
           {/* SIGN UP */}
-          <div className="col align-items-center flex-col sign-up">
+          <div className="col align-items-center flex-col sign-up ">
             <div className="form-wrapper align-items-center">
-              <div className="form sign-up">
+              <div className="form sign-up bg-gray-800/50 backdrop-blur-lg rounded-xl">
                 <div className="input-group">
                   <User size={24} />
                   <input
@@ -239,11 +240,11 @@ const LoginSignupForm = () => {
                     placeholder="About"
                     value={formState.bio}
                     onChange={handleInputChange}
-                    className="textarea-input" /* New class for specific textarea styling */
+                    className="textarea-input " /* New class for specific textarea styling */
                   />
                 </div>
-                <button onClick={handleSignUp}>Sign up</button>
-                <p>
+                <button className="bg-gradient-to-r from-teal-400 to-blue-500"  onClick={handleSignUp}>Sign up</button>
+                <p className="text-gray-400 gap-2 flex items-center justify-center">
                   <span>Already have an account?</span>
                   <b onClick={handleToggle} className="pointer">
                     Sign in here
@@ -256,10 +257,10 @@ const LoginSignupForm = () => {
           <div className="col align-items-center flex-col sign-in">
             <div className="form-wrapper align-items-center">
               <form
-                className="form sign-in"
+                className="form sign-in bg-gray-800/50 backdrop-blur-lg rounded-xl "
                 onSubmit={showOTP ? handleSubmit : handleGetOTP}
               >
-                <div className="input-group">
+                <div className="input-group bg-transparent">
                   <Mail size={24} />
                   <input
                     type="email"
@@ -267,6 +268,8 @@ const LoginSignupForm = () => {
                     placeholder="Email"
                     value={formState.email}
                     onChange={handleInputChange}
+                    required
+                    className="bg-transparent border-none"
                   />
                 </div>
                 {showOTP && (
@@ -300,7 +303,7 @@ const LoginSignupForm = () => {
                     </p>
                   </div>
                 )}
-                <button type="submit" disabled={isLoading}>
+                <button type="submit" disabled={isLoading} className="bg-gradient-to-r from-teal-400 to-blue-500">
                   {showOTP ? "Verify OTP" : "Get OTP"}
                 </button>
 
@@ -311,14 +314,14 @@ const LoginSignupForm = () => {
                 <button
                   type="button"
                   onClick={() => googleLogin()}
-                  className="google-btn"
+                  className="google-btn bg-gradient-to-r from-teal-400 to-blue-500 text-white"
                   disabled={isLoading}
                 >
-                  <img src={googleIcon} alt="Google" className="google-icon" />
+                  <img src={googleIcon} alt="Google" className="google-icon text-white" />
                   Sign in with Google
                 </button>
 
-                <p>
+                <p className="text-gray-400 gap-2 flex items-center justify-center">
                   <span>Don't have an account?</span>
                   <b onClick={handleToggle} className="pointer">
                     Sign up here
@@ -330,8 +333,8 @@ const LoginSignupForm = () => {
         </div>
 
         {/* CONTENT SECTION */}
-        <div className="row content-row">
-          <div className="col align-items-center flex-col">
+        <div className="row content-row ">
+          <div className="col align-items-center flex-col ">
             <div className="text sign-in">
               <h2>Welcome Back</h2>
             </div>
@@ -346,7 +349,7 @@ const LoginSignupForm = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
