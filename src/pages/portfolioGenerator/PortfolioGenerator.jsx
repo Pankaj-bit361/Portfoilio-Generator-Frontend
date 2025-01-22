@@ -219,11 +219,11 @@ function PortfolioGenerator({ setPortfolioData, type }) {
       >
         {isLoading && <GlassLoader />}
 
-        <motion.div variants={itemVariants} className="text-center mb-12">
-          <h1 className="text-5xl font-bold bg-gradient-to-tr from-blue-500 to-teal-500  bg-clip-text text-transparent mb-4">
+        <motion.div variants={itemVariants} className="text-center mb-4 lg:mb-12">
+          <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-tr from-blue-500 to-teal-500  bg-clip-text text-transparent mb-4">
             Create Your Portfolio
           </h1>
-          <p className="text-gray-300 text-lg">
+          <p className="text-gray-300 text-lg p-2">
             Transform your resume into a stunning portfolio website
           </p>
         </motion.div>

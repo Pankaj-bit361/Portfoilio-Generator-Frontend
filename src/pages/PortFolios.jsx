@@ -70,32 +70,36 @@ const PortFolios = () => {
       />
       <Navbar />
 
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12 mt-10 lg:mt-0">
         {loading && <GlassLoader />}
 
         {/* Header Section */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-12 flex justify-between items-center mt-14"
-        >
-          <div>
-            <h1 className="text-4xl font-bold">My Portfolios</h1>
-            <p className="text-gray-400 mt-2">
-              Manage and customize your professional portfolios
-            </p>
-          </div>
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="mb-6 md:mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-center mt-6 md:mt-14 px-4 sm:px-6"
+    >
+      <div className="mb-4 sm:mb-0">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">My Portfolios</h1>
+        <p className="text-gray-400 mt-1 md:mt-2 text-sm md:text-base">
+          Manage and customize your professional portfolios
+        </p>
+      </div>
 
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl hover:opacity-90 transition-all duration-300 shadow-lg shadow-purple-500/20 bg-gradient-to-r from-blue-500 to-teal-500"
-            onClick={() => navigate("/generator/create")}
-          >
-            <Plus size={20} />
-            Create New
-          </motion.button>
-        </motion.div>
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 md:px-6 py-2 md:py-3 rounded-lg md:rounded-xl 
+                   hover:opacity-90 transition-all duration-300 
+                   shadow-lg shadow-purple-500/20 
+                   bg-gradient-to-r from-blue-500 to-teal-500
+                   text-sm md:text-base"
+        onClick={() => navigate("/generator/create")}
+      >
+        <Plus size={16} className="md:w-5 md:h-5" />
+        Create New
+      </motion.button>
+    </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {portfolios.map((portfolio, index) => (

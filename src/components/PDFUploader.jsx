@@ -133,7 +133,7 @@ function PDFUploader({ onDataExtracted, setExtractedText }) {
       />
       <motion.label
         htmlFor="file-upload"
-        className="flex flex-row items-center cursor-pointer justify-center rounded-xl bg-gradient-to-r from-blue-500 to-teal-500 shadow-lg w-[50%] mx-auto"
+        className="flex flex-row items-center cursor-pointer justify-center rounded-xl bg-gradient-to-r from-blue-500 to-teal-500 shadow-lg w-full lg:w-[50%] mx-auto"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -157,7 +157,7 @@ function PDFUploader({ onDataExtracted, setExtractedText }) {
               <span className="text-white">Processing File...</span>
             </motion.div>
           ) : (
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1 lg:gap-4 justify-center ">
               <motion.div
                 variants={uploadButtonVariants}
                 initial="initial"
@@ -173,7 +173,7 @@ function PDFUploader({ onDataExtracted, setExtractedText }) {
                   <path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
                 </svg>
               </motion.div>
-              <span className="text-lg font-medium text-white">
+              <span className="text-sm lg:text-lg font-medium text-white">
                 Upload File (.pdf, .txt)
               </span>
             </div>

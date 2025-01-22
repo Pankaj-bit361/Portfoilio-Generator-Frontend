@@ -107,34 +107,40 @@ function AIAssistant({ portfolioData, onSuggest }) {
   };
 
   return (
-    <div className="relative p-4">
+    <div className="relative p-2 sm:p-3 md:p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="space-y-6"
+        className="space-y-4 sm:space-y-5 md:space-y-6"
       >
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            {" "}
-            <div className="p-3 bg-gradient-to-tr from-blue-500 to-teal-500 rounded-lg">
-              <FaRobot className="text-2xl text-white" />
+        <div className="flex items-center justify-between flex-wrap sm:flex-nowrap gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="p-2 sm:p-3 bg-gradient-to-tr from-blue-500 to-teal-500 rounded-lg">
+              <FaRobot className="text-xl sm:text-2xl text-white" />
             </div>
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-teal-500 bg-clip-text text-transparent">
+            <h3 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-500 to-teal-500 bg-clip-text text-transparent">
               AI Assistant
             </h3>
           </div>
 
           {/* Action Button */}
-          <motion.div className="flex gap-4">
+          <motion.div className="flex gap-2 sm:gap-3 md:gap-4">
             <motion.button
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500 to-teal-500 text-white rounded-lg font-medium shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-shadow"
+              className="flex items-center justify-center gap-1 sm:gap-2 
+                        px-3 sm:px-4 md:px-5 lg:px-6 
+                        py-2 sm:py-2.5 md:py-3 
+                        bg-gradient-to-r from-blue-500 to-teal-500 
+                        text-white rounded-lg 
+                        text-sm sm:text-base
+                        font-medium shadow-lg shadow-blue-500/20 
+                        hover:shadow-blue-500/30 transition-all"
               onClick={handleModalOpen}
             >
-              <FaPalette className="text-lg" />
-              Extract Theme
+              <FaPalette className="text-base sm:text-lg" />
+              <span>Extract Theme</span>
             </motion.button>
           </motion.div>
         </div>
@@ -144,10 +150,10 @@ function AIAssistant({ portfolioData, onSuggest }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50"
+          className="p-3 sm:p-4 bg-gray-800/50 rounded-lg border border-gray-700/50"
         >
-          <h4 className="font-medium text-blue-400 mb-3">Tips:</h4>
-          <ul className="space-y-2 text-gray-300">
+          <h4 className="font-medium text-blue-400 mb-2 sm:mb-3 text-sm sm:text-base">Tips:</h4>
+          <ul className="space-y-1.5 sm:space-y-2 text-sm sm:text-base text-gray-300">
             <motion.li
               whileHover={{ x: 2 }}
               className="flex items-center gap-2"
@@ -180,30 +186,30 @@ function AIAssistant({ portfolioData, onSuggest }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4"
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="w-full max-w-md bg-gray-900 rounded-xl border border-gray-800 shadow-xl"
+              className="w-full max-w-[90%] sm:max-w-md bg-gray-900 rounded-xl border border-gray-800 shadow-xl"
             >
               {/* Modal Header */}
-              <div className="flex justify-between items-center p-6 border-b border-gray-800">
-                <h3 className="text-xl font-semibold bg-gradient-to-r from-blue-500 to-teal-500 bg-clip-text text-transparent">
+              <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-800">
+                <h3 className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-blue-500 to-teal-500 bg-clip-text text-transparent">
                   Extract Theme
                 </h3>
                 <motion.button
                   whileHover={{ rotate: 90 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleModalClose}
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-gray-400 hover:text-white transition-colors p-1"
                 >
-                  <FaTimes />
+                  <FaTimes className="text-base sm:text-lg" />
                 </motion.button>
               </div>
 
-              <div className="p-6 space-y-4">
+              <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
                 {/* URL Input */}
                 <div className="space-y-2">
                   <input
@@ -212,7 +218,11 @@ function AIAssistant({ portfolioData, onSuggest }) {
                     value={websiteUrl}
                     onChange={handleUrlChange}
                     disabled={isExtracting}
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-800 
+                             border border-gray-700 rounded-lg text-sm sm:text-base
+                             text-white placeholder-gray-400 focus:outline-none 
+                             focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 
+                             transition-all"
                   />
                 </div>
 
@@ -221,20 +231,23 @@ function AIAssistant({ portfolioData, onSuggest }) {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400"
+                    className="p-3 sm:p-4 bg-red-500/10 border border-red-500/20 
+                             rounded-lg text-red-400 text-sm sm:text-base"
                   >
                     {error}
                   </motion.div>
                 )}
 
                 {/* Action Buttons */}
-                <div className="flex justify-end gap-3 pt-4">
+                <div className="flex justify-end gap-2 sm:gap-3 pt-3 sm:pt-4">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleModalClose}
                     disabled={isExtracting}
-                    className="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors"
+                    className="px-3 sm:px-4 py-2 bg-gray-800 text-gray-300 
+                             text-sm sm:text-base rounded-lg hover:bg-gray-700 
+                             transition-colors"
                   >
                     Cancel
                   </motion.button>
@@ -243,17 +256,20 @@ function AIAssistant({ portfolioData, onSuggest }) {
                     whileTap={{ scale: 0.98 }}
                     onClick={handleExtractTheme}
                     disabled={isExtracting}
-                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-teal-500 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center gap-2 px-3 sm:px-4 py-2 
+                             bg-gradient-to-r from-blue-500 to-teal-500 
+                             text-white rounded-lg font-medium text-sm sm:text-base
+                             disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isExtracting ? (
                       <>
-                        <FaMagic className="animate-spin" />
-                        Extracting...
+                        <FaMagic className="animate-spin text-base sm:text-lg" />
+                        <span>Extracting...</span>
                       </>
                     ) : (
                       <>
-                        <FaPalette />
-                        Extract Theme
+                        <FaPalette className="text-base sm:text-lg" />
+                        <span>Extract Theme</span>
                       </>
                     )}
                   </motion.button>
