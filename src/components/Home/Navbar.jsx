@@ -138,7 +138,7 @@ const Navbar = () => {
               </a>
               {user ? (
                 <div className="flex flex-col space-y-4 px-2">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-center gap-2">
                     <img
                       src={user.profileImage || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtuphMb4mq-EcVWhMVT8FCkv5dqZGgvn_QiA&s"}
                       alt="Profile"
