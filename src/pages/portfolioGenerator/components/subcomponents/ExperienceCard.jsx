@@ -19,7 +19,7 @@ import DeleteCard from "./DeleteCard";
 import General from "../../../../config/general";
 
 const inputClass =
-  "w-full pl-10 pr-4 py-3 h-12 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors";
+  "w-full pl-10 pr-4 py-3 h-12 text-white border-2 border-gray-500 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors bg-transparent";
 
 const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
   const [isDeleted, setIsDeleted] = useState(false);
@@ -166,7 +166,7 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-6 mb-6">
+    <div className="space-y-6 mb-6">
       {isDeleted && (
         <DeleteCard
           callback={() => removeExperinceCardFromApi()}
@@ -178,7 +178,7 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             Role/Position
           </label>
           <div className="relative">
@@ -202,7 +202,7 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
 
         {/* Company Input */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             Company
           </label>
           <div className="relative">
@@ -226,7 +226,7 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
 
         {/* Location Input */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             Location
           </label>
           <div className="relative">
@@ -250,7 +250,7 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
 
         {/* Employment Type Select */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             Employment Type
           </label>
           <div className="relative">
@@ -265,14 +265,26 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
                   experiences: newExperiences,
                 });
               }}
-              className="w-full pl-10 pr-10 py-3 h-12 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors appearance-none bg-white"
+              className="w-full pl-10 pr-10 py-3 h-12 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors appearance-none bg-gray-800 text-white placeholder-gray-400"
             >
-              <option value="">Select Type</option>
-              <option value="Full-time">Full-time</option>
-              <option value="Part-time">Part-time</option>
-              <option value="Internship">Internship</option>
-              <option value="Contract">Contract</option>
-              <option value="Freelance">Freelance</option>
+              <option className="text-white" value="">
+                Select Type
+              </option>
+              <option className="text-white" value="Full-time">
+                Full-time
+              </option>
+              <option className="text-white" value="Part-time">
+                Part-time
+              </option>
+              <option className="text-white" value="Internship">
+                Internship
+              </option>
+              <option className="text-white" value="Contract">
+                Contract
+              </option>
+              <option className="text-white" value="Freelance">
+                Freelance
+              </option>
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
               <svg
@@ -292,7 +304,7 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
 
         {/* Date Inputs */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             Start Date
           </label>
           <div className="relative">
@@ -315,7 +327,7 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-white ">
             End Date
           </label>
           <div className="relative">
@@ -339,7 +351,7 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
       </div>
 
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-white ">
           Description
         </label>
         <div className="relative">
@@ -355,25 +367,25 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
                 experiences: newExperiences,
               });
             }}
-            className="w-full pl-10 pr-4 py-2 min-h-[120px] text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors"
+            className="w-full pl-10 pr-4 py-2 min-h-[120px] text-base border-2 border-gray-500 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors bg-transparent text-white placeholder-gray-400"
             rows={4}
           />
         </div>
       </div>
 
       {/* Improved Responsibilities Section */}
-      <div className="space-y-4 bg-gray-50 rounded-lg p-6">
+      <div className="space-y-4">
         <div className="flex justify-between items-center border-b border-gray-200 pb-4">
           <div className="flex items-center gap-2">
             <ListChecks className="text-gray-400 w-5 h-5" />
-            <h3 className="text-base font-medium text-gray-700">
+            <h3 className="text-base font-medium text-white ">
               Key Responsibilities & Achievements
             </h3>
           </div>
           <button
             type="button"
             onClick={addResponsibility}
-            className="inline-flex items-center gap-2 px-3 py-2 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-700"
+            className="inline-flex items-center gap-2 px-4 py-2 h-12  bg-gray-800/50 backdrop-blur-lg rounded-xl p-5 border-2 hover:border-blue-500/50 hover:bg-gray-800/50 hover:backdrop-blur-lg hover:shadow-md hover:shadow-blue-500/20  duration-300 text-blue-400 hover:scale-105 border-blue-500/50 transition-all"
           >
             <Plus className="w-4 h-4" />
             Add Responsibility
@@ -382,15 +394,12 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
 
         <div className="space-y-6">
           {exp.responsibilities?.map((resp, respIndex) => (
-            <div
-              key={resp._id || respIndex}
-              className="bg-white rounded-lg border border-gray-200 p-4 space-y-4"
-            >
+            <div key={resp._id || respIndex} className="space-y-4">
               {/* Responsibility Input */}
               <div className="relative">
                 <div className="flex items-center gap-2 mb-2">
                   <ListChecks className="text-gray-400 w-4 h-4" />
-                  <label className="text-sm font-medium text-gray-600">
+                  <label className="text-sm font-medium text-white ">
                     Responsibility {respIndex + 1}
                   </label>
                   <button
@@ -414,7 +423,7 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
                       experiences: newExperiences,
                     });
                   }}
-                  className="w-full p-3 min-h-[80px] text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors"
+                  className="w-full p-3 min-h-[80px] text-base border-2 border-gray-500 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors bg-transparent text-white placeholder-gray-400"
                   rows={2}
                 />
               </div>
@@ -424,14 +433,14 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <Trophy className="text-gray-400 w-4 h-4" />
-                    <label className="text-sm font-medium text-gray-600">
+                    <label className="text-sm font-medium text-white ">
                       Key Achievements
                     </label>
                   </div>
                   <button
                     type="button"
                     onClick={() => addAchievement(respIndex)}
-                    className="text-sm text-gray-600 hover:text-[#7153dc] transition-colors flex items-center gap-1"
+                    className="inline-flex items-center gap-2 px-4 py-2 h-12  bg-gray-800/50 backdrop-blur-lg rounded-xl p-5 border-2 hover:border-blue-500/50 hover:bg-gray-800/50 hover:backdrop-blur-lg hover:shadow-md hover:shadow-blue-500/20  duration-300 text-blue-400 hover:scale-105 border-blue-500/50 transition-all"
                   >
                     <Plus className="w-3 h-3" />
                     Add
@@ -454,7 +463,7 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
                             experiences: newExperiences,
                           });
                         }}
-                        className="w-full p-3 min-h-[60px] text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors pr-8"
+                        className="w-full p-3 min-h-[60px] text-base border-2 border-gray-500 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors pr-8 bg-transparent text-white placeholder-gray-400"
                         rows={2}
                       />
                       <button
@@ -481,8 +490,8 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
           ))}
 
           {exp.responsibilities?.length === 0 && (
-            <div className="text-center py-6 bg-white rounded-lg border border-dashed border-gray-300">
-              <p className="text-gray-500">
+            <div className="text-center py-6 rounded-lg border border-dashed border-gray-300">
+              <p className="text-gray-400">
                 No responsibilities added yet. Click the button above to add
                 your key responsibilities.
               </p>
@@ -497,16 +506,16 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
         <button
           type="button"
           onClick={updateExpericeCard}
-          className="inline-flex items-center gap-2 px-4 py-2 h-12 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-700"
+          className="inline-flex items-center gap-2 px-4 py-2 h-12 bg-transparent border border-gray-300 rounded-lg border-blue-500/50 transition-colors text-blue-500"
         >
-          <Save className="w-4 h-4" />
+          <Save className="w-4 h-4 " />
           Save
         </button>
 
         <button
           type="button"
           onClick={() => removeExperience(index)}
-          className="inline-flex items-center gap-2 px-4 py-2 h-12 bg-white border border-red-300 rounded-lg hover:bg-red-50 transition-colors text-red-600"
+          className="inline-flex items-center gap-2 px-4 py-2 h-12 bg-red-500 rounded-lg hover:bg-red-700 transition-colors text-white"
         >
           <Trash2 className="w-4 h-4" />
           Remove Experience

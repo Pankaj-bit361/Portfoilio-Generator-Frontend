@@ -42,7 +42,9 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
 
     try {
       const response = await axios.patch(
-        `${config.BASE_URL}api/portfolio/${General.getPortfolioId()}/home?userId=${General.getUserId()}`,
+        `${
+          config.BASE_URL
+        }api/portfolio/${General.getPortfolioId()}/home?userId=${General.getUserId()}`,
         formData.home
       );
 
@@ -59,21 +61,27 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
   };
 
   // Common input class with increased height
-  const inputClass = "w-full pl-10 pr-4 py-3 h-12 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors";
+  const inputClass =
+    "w-full pl-10 pr-4 py-3 h-12 text-white border-2 border-gray-700 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors bg-transparent";
 
   return (
-    <div className="p-6 bg-white rounded-lg q-box-shawdow">
-      <h3 className="text-2xl font-bold text-gray-800 mb-6">Personal Information</h3>
-      
+    <div className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-5 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
+      <h3 className="text-2xl font-bold bg-gradient-to-tr from-blue-500 to-teal-500  bg-clip-text text-transparent  mb-6">
+        Personal Information
+      </h3>
+
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Name Input */}
           <div className="space-y-2">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-white"
+            >
               Full Name
             </label>
             <div className="relative">
-              <UserRound className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <UserRound className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300 w-5 h-5" />
               <input
                 id="name"
                 type="text"
@@ -92,7 +100,10 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
 
           {/* Email Input */}
           <div className="space-y-2">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-white"
+            >
               Email Address
             </label>
             <div className="relative">
@@ -115,7 +126,10 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
 
           {/* Profession Input */}
           <div className="space-y-2">
-            <label htmlFor="profession" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="profession"
+              className="block text-sm font-medium text-white"
+            >
               Profession
             </label>
             <div className="relative">
@@ -138,7 +152,10 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
 
           {/* Tag Line Input */}
           <div className="space-y-2">
-            <label htmlFor="tagline" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="tagline"
+              className="block text-sm font-medium text-white"
+            >
               Tag Line
             </label>
             <div className="relative">
@@ -162,7 +179,10 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
 
         {/* Experience Input */}
         <div className="space-y-2">
-          <label htmlFor="experience" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="experience"
+            className="block text-sm font-medium text-white"
+          >
             Years of Experience
           </label>
           <div className="relative">
@@ -175,7 +195,10 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  home: { ...formData.home, yearsOfExperience: +e.target.value },
+                  home: {
+                    ...formData.home,
+                    yearsOfExperience: +e.target.value,
+                  },
                 })
               }
               className={inputClass}
@@ -185,7 +208,10 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
 
         {/* Summary Textarea */}
         <div className="space-y-2">
-          <label htmlFor="summary" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="summary"
+            className="block text-sm font-medium text-white"
+          >
             Professional Summary
           </label>
           <textarea
@@ -198,22 +224,24 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
                 home: { ...formData.home, summary: e.target.value },
               })
             }
-            className="w-full p-4 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors h-32"
+            className="w-full p-4 text-base border-2 border-gray-700 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors h-32 bg-transparent"
             rows={4}
           />
         </div>
 
         {/* Career Highlights Section */}
-        <div className="bg-gray-50 rounded-lg p-6 space-y-4">
+        <div className="border-2 border-gray-700 rounded-lg p-6 space-y-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
-              <Award className="text-gray-600 w-5 h-5" />
-              <h4 className="text-lg font-semibold text-gray-800">Career Highlights</h4>
+              <Award className="text-gray-400 w-5 h-5" />
+              <h4 className="text-lg font-semibold text-white">
+                Career Highlights
+              </h4>
             </div>
             <button
               type="button"
               onClick={addHighlight}
-              className="inline-flex items-center gap-2 px-4 py-2 h-12 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 h-12  bg-gray-800/50 backdrop-blur-lg rounded-xl p-5 border-2 hover:border-blue-500/50 hover:bg-gray-800/50 hover:backdrop-blur-lg hover:shadow-md hover:shadow-blue-500/20  duration-300 text-blue-400 hover:scale-105 border-blue-500/50 transition-all"
             >
               <Plus className="w-4 h-4" />
               <span>Add Highlight</span>
@@ -222,16 +250,17 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
 
           <div className="space-y-3">
             {formData?.home?.highlights?.length === 0 ? (
-              <div className="text-center py-8 bg-white rounded-lg border border-dashed border-gray-300">
-                <p className="text-gray-500">
-                  No highlights added yet. Click the button above to add your first career highlight.
+              <div className="text-center py-8 bg-transparent rounded-lg border border-dashed border-gray-300">
+                <p className="text-gray-400">
+                  No highlights added yet. Click the button above to add your
+                  first career highlight.
                 </p>
               </div>
             ) : (
               formData?.home?.highlights?.map((highlight, index) => (
                 <div
                   key={index}
-                  className="group relative flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200 h-12"
+                  className="group relative flex items-center gap-3 p-3 bg-transparent rounded-lg border border-gray-500 hover:border-[#7153dc] transition-all duration-200 h-12 "
                 >
                   <input
                     type="text"
@@ -248,12 +277,12 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
                         },
                       });
                     }}
-                    className="flex-1 bg-transparent border-none focus:outline-none text-gray-700 placeholder-gray-400 text-base h-full"
+                    className="flex-1 bg-transparent border-none placeholder-gray-400 text-white h-full focus:outline-none focus:border-[#7153dc] transition-color"
                   />
                   <button
                     type="button"
                     onClick={() => removeHighlight(index)}
-                    className="opacity-0 group-hover:opacity-100 p-2 hover:bg-red-50 rounded-md transition-opacity duration-200"
+                    className="opacity-0 group-hover:opacity-100 p-2 rounded-md transition-opacity duration-200"
                   >
                     <Trash2 className="w-4 h-4 text-red-500" />
                   </button>
@@ -264,13 +293,13 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
         </div>
 
         {/* Update Button */}
-        <div className="flex justify-end pt-4">
+        <div className="flex justify-end">
           <button
             type="button"
             onClick={updateHomeDetails}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-700 font-medium h-12"
+            className="inline-flex items-center gap-2 justify-center hover:bg-gray-50 px-8 py-4 bg-gradient-to-r from-teal-600 to-blue-500 rounded-lg text-white font-semibold text-lg hover:from-teal-500 hover:to-blue-700 transform hover:scale-95 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
           >
-            <Contact2 size={16} />
+            <Contact2 size={20} />
             Update Personal Details
           </button>
         </div>

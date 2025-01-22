@@ -1,4 +1,4 @@
-.uploader {
+/* .uploader {
   margin-bottom: var(--spacing-xl);
   padding: var(--spacing-md);
   border: 2px dashed var(--text-secondary);
@@ -27,7 +27,6 @@
 .uploader-label-section {
   display: flex;
   flex-direction: row;
-  /* gap: var(--spacing-sm); */
   align-items: center;
 }
 
@@ -69,4 +68,4 @@
     transform: translateY(0px);
     opacity: 1;
   }
-}
+} */
