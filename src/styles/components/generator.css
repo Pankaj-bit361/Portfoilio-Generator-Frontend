@@ -1,16 +1,15 @@
 .generator {
-  min-height: 100vh;
   background-color: var(--background-secondary);
-  padding: var(--spacing-xl);
 }
 
 .generator-container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   background-color: var(--background-primary);
-  border-radius: var(--border-radius-lg);
-  padding: var(--spacing-xl);
+  border-radius: 0px;
   box-shadow: var(--shadow-lg);
+  padding-top: 100px;
+
 }
 
 .generator-title {
@@ -88,6 +87,18 @@
 .ai-title {
   font-size: var(--font-size-lg);
   color: var(--text-primary);
+}
+
+
+.generator-form input[type="text"],
+.generator-form input[type="email"],
+.generator-form input[type="number"],
+.generator-form input[type="url"],
+.generator-form input[type="tel"],
+
+.generator-form input[type="color"],
+.generator-form textarea {
+    background: white;
 }
 
 .ai-button {

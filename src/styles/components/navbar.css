@@ -1,4 +1,4 @@
-.navbar {
+/* .navbar {
   position: fixed;
   top: 0;
   width: 100%;
@@ -15,7 +15,6 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  /* max-width: 1200px; */
   margin: 0 auto;
   padding: 0 var(--spacing-md);
 }
@@ -74,7 +73,7 @@
 .navbar-link:hover {
   color: var(--primary-color);
   transform: translateY(-2px);
-}
+} */
 
 .login-Btn, .logout-Btn {
   display: flex;
@@ -91,6 +90,7 @@
 .login-Btn {
   background-color: var(--primary-color);
   color: var(--background-primary);
+  padding: 12px;
 }
 
 .logout-Btn {
@@ -104,6 +104,7 @@
   align-items: center;
   justify-content: center;
   color: var(--background-primary);
+  
 
 }
 
