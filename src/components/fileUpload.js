@@ -5,7 +5,6 @@ import { useAuth } from "../Context/AuthContext";
 
 export const GenerateDataFromApi = async (resumeText) => {
   const { user } = useAuth();
-  console.log("user", user, resumeText);
   if (!resumeText) return null;
 
   try {
@@ -13,13 +12,17 @@ export const GenerateDataFromApi = async (resumeText) => {
       `${config.BASE_URL}api/portfolio/generate?userId=${user.userId}`,
       { resumeText }
     );
-    console.log("API Response:", response.data);
 
     if (response.data.success && response.data.data.portfolioId) {
+      // Optionally set a default template
+      await axios.post(
+        `${config.BASE_URL}api/portfolio/${response.data.data.portfolioId}/template?userId=${user.userId}`,
+        { template: "modern" }
+      );
+
       const portfolioData = await getPortfolioData(
         response.data.data.portfolioId
       );
-      console.log("Portfolio Data:", portfolioData);
       return portfolioData;
     }
     return response.data;
@@ -59,20 +62,20 @@ const transformSkills = (skillsData) => {
 };
 
 const transformTheme = (themeData) => {
-
-  console.log(themeData,'')
+  
+  console.log(themeData, "");
   if (!themeData) return null;
 
   return {
     colors: {
       primary: themeData?.colors?.primary || "",
-      secondary:  themeData?.colors?.secondary || "",
-      primaryHover:themeData?.colors?.primaryHover || "",
-      accent:themeData?.colors?.accent || "",
-      bg:themeData?.colors?.bg || "",
-      bgGradient:themeData?.colors?.bgGradient || "",
-      text:themeData?.colors?.text || "",
-      textLight:themeData?.colors?.textLight || "",
+      secondary: themeData?.colors?.secondary || "",
+      primaryHover: themeData?.colors?.primaryHover || "",
+      accent: themeData?.colors?.accent || "",
+      bg: themeData?.colors?.bg || "",
+      bgGradient: themeData?.colors?.bgGradient || "",
+      text: themeData?.colors?.text || "",
+      textLight: themeData?.colors?.textLight || "",
     },
     fonts: {
       primary: themeData.fonts?.primary || "Inter",
@@ -159,6 +162,7 @@ export const getPortfolioData = async ({ portfolioId }) => {
       const data = response.data.data || {};
 
       const transformedData = {
+        template: data.template || "",
         contact: {
           phone: safeAccess(data, "contact.phone"),
           email: safeAccess(data, "contact.email"),
