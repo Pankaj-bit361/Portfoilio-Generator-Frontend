@@ -1,13 +1,14 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { scrollY } = useScroll();
+  const navigate = useNavigate();
 
   const navBackground = useTransform(
     scrollY,
@@ -65,6 +66,7 @@ const Navbar = () => {
               className="relative text-white hover:text-blue-400 transition-colors"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => navigate("/portfolios")}
             >
               <span>Portfolios</span>
               <motion.span
@@ -132,7 +134,7 @@ const Navbar = () => {
               <a
                 href="portfolios"
                 className="text-white hover:text-blue-400 transition-colors px-2 flex items-center justify-center w-full"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => navigate("/portfolios")}
               >
                 Portfolios
               </a>

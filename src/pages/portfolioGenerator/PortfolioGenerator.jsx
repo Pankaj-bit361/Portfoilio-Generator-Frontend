@@ -168,7 +168,20 @@ function PortfolioGenerator({ setPortfolioData, type }) {
     type == "edit" && fetchData();
   }, [flag]);
 
-  const handleTemplateSelect = (template) => setSelectedTemplate(template);
+  const handleTemplateSelect = (template) => {
+    setSelectedTemplate(template);
+    try {
+      axios.post(
+        `${
+          config.BASE_URL
+        }api/portfolio/${General.getPortfolioId()}/template?userId=${General.getUserId()}`,
+        { template: template }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleAISuggestion = (suggestions) =>
     setFormData((prev) => ({ ...prev, ...suggestions }));
   const handlePDFData = (data) => setFormData((prev) => ({ ...prev, ...data }));
@@ -196,6 +209,13 @@ function PortfolioGenerator({ setPortfolioData, type }) {
         body
       );
       if (response.data.success) {
+        await axios.post(
+          `${config.BASE_URL}api/portfolio/${
+            response.data.data.portfolioId
+          }/template?userId=${General.getUserId()}`,
+          { template: selectedTemplate }
+        );
+
         toast.success("Portfolio Generated Successfully");
         navigate("/portfolios");
       }
@@ -206,6 +226,40 @@ function PortfolioGenerator({ setPortfolioData, type }) {
       toast.error("Failed to generate portfolio");
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+
+        if (General.getPortfolioId()) {
+          const data = await getPortfolioData({
+            portfolioId: General.getPortfolioId(),
+            userId: General.getUserId(),
+          });
+          const templateResponse = await axios.get(
+            `${
+              config.BASE_URL
+            }api/portfolio/${General.getPortfolioId()}/template?userId=${General.getUserId()}`
+          );
+
+          if (data) {
+            setFormData(data);
+          }
+
+          if (templateResponse.data.success) {
+            setSelectedTemplate(templateResponse.data.data);
+          }
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error loading portfolio data:", error);
+        setIsLoading(false);
+      }
+    };
+
+    type == "edit" && fetchData();
+  }, [flag]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-blue-900/20 to-black">
@@ -219,9 +273,14 @@ function PortfolioGenerator({ setPortfolioData, type }) {
       >
         {isLoading && <GlassLoader />}
 
-        <motion.div variants={itemVariants} className="text-center mb-4 lg:mb-12">
+        <motion.div
+          variants={itemVariants}
+          className="text-center mb-4 lg:mb-12"
+        >
           <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-tr from-blue-500 to-teal-500  bg-clip-text text-transparent mb-4">
-            Create Your Portfolio
+            {type === "edit"
+              ? "Edit Your Portfolio"
+              : "Generate Your Portfolio"}
           </h1>
           <p className="text-gray-300 text-lg p-2">
             Transform your resume into a stunning portfolio website
@@ -229,17 +288,20 @@ function PortfolioGenerator({ setPortfolioData, type }) {
         </motion.div>
 
         <motion.div variants={itemVariants} className="space-y-8 mb-0">
-          <div className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-5 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
-            <PDFUploader
-              onDataExtracted={handlePDFData}
-              setExtractedText={setExtractedContent}
-            />
-          </div>
+          {type !== "edit" ? (
+            <div className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-5 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
+              <PDFUploader
+                onDataExtracted={handlePDFData}
+                setExtractedText={setExtractedContent}
+              />
+            </div>
+          ) : null}
 
           <div className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
             <TemplateSelector
               selectedTemplate={selectedTemplate}
               onSelect={handleTemplateSelect}
+              portfolioId={General.getPortfolioId()}
             />
           </div>
 
@@ -299,7 +361,10 @@ function PortfolioGenerator({ setPortfolioData, type }) {
             />
           </motion.form>
         ) : (
-          <motion.div variants={itemVariants} className="flex justify-center mt-8">
+          <motion.div
+            variants={itemVariants}
+            className="flex justify-center mt-8"
+          >
             <button
               onClick={generatePortfolio}
               className="px-8 py-4 bg-gradient-to-r from-teal-400 to-blue-500 rounded-lg text-white font-semibold text-lg hover:from-teal-500 hover:to-blue-600 transform hover:scale-95 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 w-full"

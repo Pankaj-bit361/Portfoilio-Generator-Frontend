@@ -26,7 +26,7 @@ const Modern = () => {
 
       const data = await getPortfolioData2({
         portfolioId: portfolioId,
-        // userId: userData.userId,
+        userId: userData.userId,
       });
 
       if (!data) {
