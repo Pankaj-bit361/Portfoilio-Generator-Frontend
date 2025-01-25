@@ -1,19 +1,14 @@
 import React from "react";
 import {
-  Palette,
   Type,
   Sun,
   AlertCircle,
-  Save,
   Text,
   Layout,
-  ThermometerSunIcon,
   ThermometerSnowflake,
 } from "lucide-react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import General from "../../../config/general";
-import { config } from "../../../config/api";
 
 const ColorPicker = ({ label, value, onChange, description }) => (
   <div className="space-y-2">
@@ -252,14 +247,9 @@ const PortFolioTheme = ({ formData, setFormData, setFlag }) => {
     try {
       if (!formData && !formData.theme) return;
 
-      const response = await axios.patch(
-        `${
-          config.BASE_URL
-        }api/portfolio/${General.getPortfolioId()}/theme?userId=${General.getUserId()}`,
-        formData.theme
-      );
+      const response = await General.updateTheme(formData.theme);
 
-      if (response.data.success) {
+      if (response.success) {
         toast.success("Theme Updated Successfully");
         setFlag((prev) => !prev);
       } else {

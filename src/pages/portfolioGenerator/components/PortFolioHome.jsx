@@ -10,8 +10,6 @@ import {
   Mail,
 } from "lucide-react";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { config } from "../../../config/api";
 import General from "../../../config/general";
 
 const PortFolioHome = ({ formData, setFormData, setFlag }) => {
@@ -41,22 +39,17 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
     if (!formData && !formData.home) return;
 
     try {
-      const response = await axios.patch(
-        `${
-          config.BASE_URL
-        }api/portfolio/${General.getPortfolioId()}/home?userId=${General.getUserId()}`,
-        formData.home
-      );
+      const response = await General.updateHomeDetails(formData.home);
 
-      if (response.data.success) {
+      if (response.success) {
         toast.success("Personal Information Updated Successfully");
         setFlag((prev) => !prev);
       } else {
-        toast.error("something went wrong");
+        toast.error("Something went wrong");
       }
     } catch (error) {
       console.log(error);
-      toast.error("something went wrong");
+      toast.error("Something went wrong");
     }
   };
 
@@ -224,7 +217,7 @@ const PortFolioHome = ({ formData, setFormData, setFlag }) => {
                 home: { ...formData.home, summary: e.target.value },
               })
             }
-            className="w-full p-4 text-base border-2 border-gray-700 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors h-32 bg-transparent"
+            className="w-full p-4 text-base border-2 border-gray-700 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors h-32 bg-transparent text-white placeholder:text-gray-400"
             rows={4}
           />
         </div>

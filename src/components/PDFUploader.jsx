@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Upload, FileText, CheckCircle } from "lucide-react";
+import { FileText, CheckCircle } from "lucide-react";
 import * as pdfjs from "pdfjs-dist";
 import { motion } from "framer-motion";
 
@@ -142,16 +142,16 @@ function PDFUploader({ onDataExtracted, setExtractedText }) {
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg shadow-lg hover:shadow-xl"
+              className="flex items-center gap-2 px-6 py-3  text-white rounded-lg shadow-lg hover:shadow-xl"
             >
-              <CheckCircle className="w-5 h-5 text-white" />
-              <span>File Processed</span>
+              <CheckCircle className="w-5 h-5 animate-bounce group-hover:animate-spin group-hover:scale-125" />
+              <span className="font-bold">File Processed</span>
             </motion.div>
           ) : isProcessing ? (
             <motion.div
               animate={{ opacity: [1, 0.5, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-teal-500 text-white rounded-lg shadow-lg"
+              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-tr from-blue-500 to-teal-500 text-white rounded-lg shadow-lg"
             >
               <FileText className="w-5 h-5" />
               <span className="text-white">Processing File...</span>
@@ -185,7 +185,7 @@ function PDFUploader({ onDataExtracted, setExtractedText }) {
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-4 text-gray-500 text-sm"
+          className="mt-4 text-white text-sm"
         >
           Uploaded: {file.name}
         </motion.p>

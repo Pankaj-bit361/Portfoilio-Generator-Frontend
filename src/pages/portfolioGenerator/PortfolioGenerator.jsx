@@ -4,11 +4,7 @@ import { useNavigate } from "react-router-dom";
 import PDFUploader from "../../components/PDFUploader";
 import TemplateSelector from "../../components/TemplateSelector";
 import AIAssistant from "../../components/AIAssistant";
-import { getPortfolioData } from "../../components/fileUpload";
-// import "./portfoliogenerator.css";
 import { toast } from "react-toastify";
-import { config } from "../../config/api";
-import axios from "axios";
 import GlassLoader from "../../components/GlassLoader";
 import Footer from "../../components/Footer";
 import PortFolioHome from "./components/PortFolioHome";
@@ -149,13 +145,11 @@ function PortfolioGenerator({ setPortfolioData, type }) {
       try {
         setIsLoading(true);
 
-        if (General.getPortfolioId()) {
-          const data = await getPortfolioData({
-            portfolioId: General.getPortfolioId(),
-            userId: General.getUserId(),
-          });
-          if (data) {
-            setFormData(data);
+        const portfolioId = General.getPortfolioId();
+        if (portfolioId) {
+          const data = await General.getPortfolioData(portfolioId);
+          if (data.success) {
+            setFormData(data.data);
           }
         }
         setIsLoading(false);
@@ -168,23 +162,21 @@ function PortfolioGenerator({ setPortfolioData, type }) {
     type == "edit" && fetchData();
   }, [flag]);
 
-  const handleTemplateSelect = (template) => {
-    setSelectedTemplate(template);
+  const handleTemplateSelect = async (template) => {
     try {
-      axios.post(
-        `${
-          config.BASE_URL
-        }api/portfolio/${General.getPortfolioId()}/template?userId=${General.getUserId()}`,
-        { template: template }
-      );
+      const portfolioId = General.getPortfolioId();
+      await General.createPortfolioTemplate(portfolioId, template);
+      setSelectedTemplate(template);
     } catch (err) {
       console.log(err);
+      toast.info(
+        "Firs time,Don't change template selected. After that you can change it."
+      );
     }
   };
 
-  const handleAISuggestion = (suggestions) =>
-    setFormData((prev) => ({ ...prev, ...suggestions }));
   const handlePDFData = (data) => setFormData((prev) => ({ ...prev, ...data }));
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setPortfolioData(formData);
@@ -195,25 +187,18 @@ function PortfolioGenerator({ setPortfolioData, type }) {
       toast.error("Please upload your resume PDF");
       return;
     }
-    const body = {
-      resumeText: extractedContent,
-      template: selectedTemplate,
-    };
 
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        `${
-          config.BASE_URL
-        }api/portfolio/generate?userId=${General.getUserId()}`,
-        body
-      );
-      if (response.data.success) {
-        await axios.post(
-          `${config.BASE_URL}api/portfolio/${
-            response.data.data.portfolioId
-          }/template?userId=${General.getUserId()}`,
-          { template: selectedTemplate }
+      const response = await General.generatePortfolio({
+        resumeText: extractedContent,
+        template: selectedTemplate,
+      });
+
+      if (response.success) {
+        await General.createPortfolioTemplate(
+          response.data.portfolioId,
+          selectedTemplate
         );
 
         toast.success("Portfolio Generated Successfully");
@@ -222,7 +207,6 @@ function PortfolioGenerator({ setPortfolioData, type }) {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      console.error(error);
       toast.error("Failed to generate portfolio");
     }
   };
@@ -231,24 +215,19 @@ function PortfolioGenerator({ setPortfolioData, type }) {
     const fetchData = async () => {
       try {
         setIsLoading(true);
+        const portfolioId = General.getPortfolioId();
 
-        if (General.getPortfolioId()) {
-          const data = await getPortfolioData({
-            portfolioId: General.getPortfolioId(),
-            userId: General.getUserId(),
-          });
-          const templateResponse = await axios.get(
-            `${
-              config.BASE_URL
-            }api/portfolio/${General.getPortfolioId()}/template?userId=${General.getUserId()}`
-          );
-
-          if (data) {
-            setFormData(data);
+        if (portfolioId) {
+          const portfolioData = await General.getPortfolioData(portfolioId);
+          if (portfolioData.success) {
+            setFormData(portfolioData.data);
           }
 
-          if (templateResponse.data.success) {
-            setSelectedTemplate(templateResponse.data.data);
+          const templateResponse = await General.getPortfolioTemplate(
+            portfolioId
+          );
+          if (templateResponse.success) {
+            setSelectedTemplate(templateResponse.data);
           }
         }
         setIsLoading(false);
@@ -258,8 +237,10 @@ function PortfolioGenerator({ setPortfolioData, type }) {
       }
     };
 
-    type == "edit" && fetchData();
-  }, [flag]);
+    if (type === "edit") {
+      fetchData();
+    }
+  }, [type]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-blue-900/20 to-black">
@@ -306,10 +287,7 @@ function PortfolioGenerator({ setPortfolioData, type }) {
           </div>
 
           <div className="rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
-            <AIAssistant
-              portfolioData={formData}
-              onSuggest={handleAISuggestion}
-            />
+            <AIAssistant />
           </div>
         </motion.div>
 
@@ -329,6 +307,7 @@ function PortfolioGenerator({ setPortfolioData, type }) {
                 <PortFolioContact
                   formData={formData}
                   setFormData={setFormData}
+                  setFlag={setFlag}
                 />
                 <PortFolioEducation
                   formData={formData}

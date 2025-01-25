@@ -13,8 +13,6 @@ import {
   Save,
 } from "lucide-react";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { config } from "../../../../config/api";
 import DeleteCard from "./DeleteCard";
 import General from "../../../../config/general";
 
@@ -88,44 +86,20 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
       return;
     }
 
-    if (!exp.experienceId) {
-      addExperienceCard();
-      return;
-    }
-
     try {
-      const response = await axios.patch(
-        `${
-          config.BASE_URL
-        }api/portfolio/${General.getPortfolioId()}/experience/${
-          exp.experienceId
-        }?userId=${General.getUserId()}`,
-        exp
-      );
-
-      if (response.data.success) {
-        toast.success("Experience Information Updated Successfully");
-        setFlag((prev) => !prev);
+      let response;
+      if (!exp.experienceId) {
+        response = await General.addExperience(exp);
       } else {
-        toast.error("Something went wrong");
+        response = await General.updateExperience(exp.experienceId, exp);
       }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
-    }
-  };
 
-  const addExperienceCard = async () => {
-    try {
-      const response = await axios.post(
-        `${
-          config.BASE_URL
-        }api/portfolio/${General.getPortfolioId()}/experience?userId=${General.getUserId()}`,
-        exp
-      );
-
-      if (response.data.success) {
-        toast.success("Added Exprience Information");
+      if (response.success) {
+        toast.success(
+          exp.experienceId
+            ? "Experience Information Updated Successfully"
+            : "Added Experience Information"
+        );
         setFlag((prev) => !prev);
       } else {
         toast.error("Something went wrong");
@@ -140,20 +114,9 @@ const ExperienceCard = ({ index, exp, formData, setFormData, setFlag }) => {
     if (!exp && !exp.experienceId) return;
 
     try {
-      const headers = {
-        token: General.getAccessToken(),
-      };
+      const response = await General.deleteExperience(exp.experienceId);
 
-      const response = await axios.delete(
-        `${
-          config.BASE_URL
-        }api/portfolio/${General.getPortfolioId()}/experience/${
-          exp.experienceId
-        }?userId=${General.getUserId()}`,
-        { headers }
-      );
-
-      if (response.data.success) {
+      if (response.success) {
         toast.success("Experience Information Removed Successfully");
         setFlag((prev) => !prev);
       } else {

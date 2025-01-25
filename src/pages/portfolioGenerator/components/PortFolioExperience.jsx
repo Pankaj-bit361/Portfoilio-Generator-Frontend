@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Briefcase,
-  Building,
-  MapPin,
-  Calendar,
-  Trash2,
-  Save,
-  Users,
-  FileText,
-} from "lucide-react";
+import { Briefcase } from "lucide-react";
 import ExperienceCard from "./subcomponents/ExperienceCard";
 
 const PortFolioExperience = ({ formData, setFormData, setFlag }) => {

@@ -1,11 +1,9 @@
-import { BookOpen, Brain, Code, Contact2, Trash2, Wrench } from "lucide-react";
+import { BookOpen, Code, Contact2, Wrench } from "lucide-react";
 import React from "react";
 import SkillSection from "./subcomponents/SkillSection";
 import SoftSkillSection from "./subcomponents/SoftSkillSection";
 import General from "../../../config/general";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { config } from "../../../config/api";
 
 const PortfolioSkills = ({ formData, setFormData, setFlag }) => {
   const addSkill = (category) => {
@@ -50,28 +48,23 @@ const PortfolioSkills = ({ formData, setFormData, setFlag }) => {
     setFormData(newFormData);
   };
 
-
-  const updateApiskills = async() =>{
+  const updateApiskills = async () => {
     if (!formData && !formData.home) return;
 
     try {
+      const response = await General.updateSkills(formData.skills);
 
-      const response = await axios.patch(
-        `${config.BASE_URL}api/portfolio/${General.getPortfolioId()}/skills?userId=${General.getUserId()}`,
-        formData.skills
-      );
-
-      if (response.data.success) {
+      if (response.success) {
         toast.success("Personal Information Updated Successfully");
         setFlag((prev) => !prev);
       } else {
-        toast.error("something went wrong");
+        toast.error("Something went wrong");
       }
     } catch (error) {
       console.log(error);
-      toast.error("something went wrong");
+      toast.error("Something went wrong");
     }
-  }
+  };
 
   return (
     <div className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-5 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
