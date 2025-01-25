@@ -6,6 +6,7 @@ import Navbar from "../components/Home/Navbar";
 import Footer from "../components/Footer";
 import PortfolioList from "../components/Protfolio/PortfolioList";
 import General from "../config/general";
+import { toast } from "react-toastify";
 
 const Portfolios = () => {
   const [portfolios, setPortfolios] = useState([]);
@@ -51,18 +52,29 @@ const Portfolios = () => {
     navigate(`${templateRoute}?portfolioId=${portfolio.portfolioId}`);
   };
 
-  const handleDelete = (portfolioId) => {
-    setPortfolios((prevPortfolios) =>
-      prevPortfolios.filter(
-        (portfolio) => portfolio.portfolioId !== portfolioId
-      )
-    );
+  const handleDelete = async () => {
+    try {
+      const data = await General.fetchPortfolios({ page: currentPage });
 
-    if (portfolios.length === 1 && currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
+      if (data && data.portfolios.length > 0) {
+        setPortfolios(data.portfolios);
+        setTotalPages(data.pagination.totalPages);
+        toast.success("Portfolio deleted successfully");
+      } else if (currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+        toast.success("Portfolio deleted successfully");
+      } else {
+        setPortfolios([]);
+        toast.success("Portfolio deleted successfully");
+      }
+    } catch (error) {
+      console.error(
+        "Error deleting portfolio:",
+        error.response?.data || error.message
+      );
+      toast.error("Error deleting portfolio");
     }
   };
-
   const getTemplateRoute = (template) => {
     const templateRoutes = {
       modern: "/modern",
@@ -128,4 +140,3 @@ const Portfolios = () => {
 };
 
 export default Portfolios;
-
