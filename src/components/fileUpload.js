@@ -63,7 +63,7 @@ const transformSkills = (skillsData) => {
 
 const transformTheme = (themeData) => {
   
-  console.log(themeData, "");
+  // console.log(themeData, "");
   if (!themeData) return null;
 
   return {
@@ -203,7 +203,7 @@ export const getPortfolioData = async ({ portfolioId }) => {
         projects: transformProjects(data?.projects),
       };
 
-      console.log("Transformed Data:", transformedData);
+      // console.log("Transformed Data:", transformedData);
       return transformedData;
     }
     return {

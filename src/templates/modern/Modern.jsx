@@ -35,7 +35,7 @@ const Modern = () => {
       setLoading(false);
       setModernPortFolioData(data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
     } finally {
       setLoading(false);

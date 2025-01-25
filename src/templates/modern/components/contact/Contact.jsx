@@ -15,7 +15,7 @@ import { useTheme } from "../../context/ThemeContext";
 const Contact = ({ data }) => {
   const { theme } = useTheme();
 
-  console.log(data);
+  // console.log(data);
 
   const socialLinks = [
     data.socialMedia?.github && {
