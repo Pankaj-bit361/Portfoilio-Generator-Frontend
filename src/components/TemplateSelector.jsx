@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import General from "../config/general";
 import GlassLoader from "./GlassLoader";
+import { BookOpen, Palette, Briefcase } from "lucide-react";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -29,21 +30,39 @@ const templateOptions = [
   {
     id: "modern",
     name: "Modern",
-    description: "Clean and professional design",
-    image: "/path/to/modern-template-preview.jpg",
+    description: "Sleek, clean design with maximum impact and simplicity",
+    icon: BookOpen,
+    features: [
+      "Responsive grid layout",
+      "Subtle animations",
+      "Dark mode support"
+    ],
+    accentColor: "from-blue-900 to-teal-800"
   },
   {
     id: "creative",
     name: "Creative",
-    description: "Bold and innovative layout",
-    image: "/path/to/creative-template-preview.jpg",
+    description: "Dynamic, narrative-driven portfolio with interactive elements",
+    icon: Palette,
+    features: [
+      "Scroll-triggered animations",
+      "Interactive project showcases",
+      "Microinteractions"
+    ],
+    accentColor: "from-blue-900 to-teal-800"
   },
   {
     id: "professional",
-    name: "Professional",
-    description: "Classic and elegant style",
-    image: "/path/to/professional-template-preview.jpg",
-  },
+    name: "Professional Executive",
+    description: "Sophisticated, data-driven presentation with executive appeal",
+    icon: Briefcase,
+    features: [
+      "Advanced data visualizations",
+      "Professional color schemes",
+      "Performance metrics integration"
+    ],
+    accentColor: "from-blue-900 to-teal-800"
+  }
 ];
 
 function TemplateSelector({
@@ -53,6 +72,7 @@ function TemplateSelector({
   isEditable = true,
 }) {
   const [isUpdating, setIsUpdating] = useState(false);
+  const [hoveredTemplate, setHoveredTemplate] = useState(null);
 
   const handleTemplateUpdate = async (template) => {
     if (!portfolioId) return;
@@ -83,7 +103,7 @@ function TemplateSelector({
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="mb-12 px-4 relative"
+      className="w-full px-4 md:px-6 lg:px-8 py-6 md:py-8 lg:py-12 relative"
     >
       {isUpdating && (
         <div className="absolute inset-0 z-50 flex items-center justify-center">
@@ -91,63 +111,129 @@ function TemplateSelector({
         </div>
       )}
 
-      <motion.h3 className="text-2xl md:text-3xl font-bold text-center mb-8 bg-gradient-to-r from-blue-400 to-blue-500 bg-clip-text text-transparent">
-        Choose Your Template
+      <motion.h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-8 md:mb-10 lg:mb-12 bg-gradient-to-r from-blue-400 to-blue-500 bg-clip-text text-transparent">
+        Select Your Portfolio Canvas
       </motion.h3>
 
       <motion.div
-        className={`grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6 max-w-6xl mx-auto ${
-          isUpdating ? "opacity-50 pointer-events-none" : ""
-        }`}
+        className={`
+          grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+          gap-4 sm:gap-6 lg:gap-8 
+          max-w-full sm:max-w-2xl lg:max-w-6xl 
+          mx-auto 
+          ${isUpdating ? "opacity-50 pointer-events-none" : ""}
+        `}
       >
-        {templateOptions.map((template) => (
-          <motion.div
-            key={template.id}
-            variants={cardVariants}
-            whileHover={{
-              scale: 1.03,
-              transition: { duration: 0.2 },
-            }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() =>
-              isEditable
-                ? portfolioId
-                  ? handleTemplateUpdate(template.id)
-                  : onSelect(template.id)
-                : null
-            }
-            className={`
-              relative overflow-hidden p-6 rounded-xl cursor-pointer
-              border-2 transition-all duration-300
-              ${
-                selectedTemplate === template.id
-                  ? "border-blue-500 bg-blue-500/10"
-                  : "border-gray-700/30 hover:border-blue-500/50 bg-gray-800/50"
+        {templateOptions.map((template) => {
+          const TemplateIcon = template.icon;
+          return (
+            <motion.div
+              key={template.id}
+              variants={cardVariants}
+              whileHover={{
+                scale: 1.05,
+                transition: { duration: 0.2 },
+              }}
+              whileTap={{ scale: 0.98 }}
+              onMouseEnter={() => setHoveredTemplate(template.id)}
+              onMouseLeave={() => setHoveredTemplate(null)}
+              onClick={() =>
+                isEditable
+                  ? portfolioId
+                    ? handleTemplateUpdate(template.id)
+                    : onSelect(template.id)
+                  : null
               }
-              backdrop-blur-sm
-              group
-            `}
-          >
-            {selectedTemplate === template.id && (
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="absolute top-3 right-3 w-3 h-3 rounded-full bg-blue-500"
-              />
-            )}
+              className={`
+                relative overflow-hidden 
+                p-4 sm:p-5 lg:p-6 
+                rounded-xl sm:rounded-2xl 
+                cursor-pointer
+                border-2 transition-all duration-300 group
+                ${
+                  selectedTemplate === template.id
+                    ? `border-blue-500 bg-gradient-to-br ${template.accentColor} bg-opacity-20`
+                    : "border-gray-700/30 hover:border-blue-500/50 bg-gray-800/50"
+                }
+                backdrop-blur-md
+                transform hover:shadow-2xl
+                h-full flex flex-col
+              `}
+            >
+              {selectedTemplate === template.id && (
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute top-3 sm:top-4 right-3 sm:right-4 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-blue-500"
+                />
+              )}
 
-            <motion.div className="relative z-10">
-              <h4 className="text-xl font-semibold mb-3 text-white group-hover:text-blue-400 transition-colors">
-                {template.name}
-              </h4>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                {template.description}
-              </p>
+              <div className="relative z-10 flex flex-col flex-grow">
+                <div className="flex items-center mb-3 sm:mb-4">
+                  <TemplateIcon 
+                    className={`
+                      w-8 h-8 sm:w-10 sm:h-10 mr-3 sm:mr-4
+                      ${
+                        selectedTemplate === template.id
+                          ? "text-white"
+                          : "text-gray-400 group-hover:text-blue-400"
+                      }
+                      transition-colors
+                    `}
+                  />
+                  <h4 className={`
+                    text-lg sm:text-xl font-semibold
+                    ${
+                      selectedTemplate === template.id
+                        ? "text-white"
+                        : "text-white group-hover:text-blue-300"
+                    }
+                    transition-colors
+                  `}>
+                    {template.name}
+                  </h4>
+                </div>
+
+                <p className="text-xs sm:text-sm text-gray-300 leading-relaxed mb-3 sm:mb-4 flex-grow">
+                  {template.description}
+                </p>
+
+                <div className="mt-auto">
+                  <div className="border-t border-gray-700/50 pt-3 sm:pt-4">
+                    <h5 className="text-2xs sm:text-xs uppercase tracking-wider text-gray-500 mb-1 sm:mb-2">
+                      Key Features
+                    </h5>
+                    <ul className="space-y-1">
+                      {template.features.map((feature, index) => (
+                        <li 
+                          key={index} 
+                          className={`
+                            text-2xs sm:text-xs
+                            ${
+                              hoveredTemplate === template.id
+                                ? "text-white"
+                                : "text-gray-400"
+                            }
+                            transition-colors
+                          `}
+                        >
+                          • {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div className={`
+                absolute inset-0 bg-gradient-to-br 
+                ${template.accentColor}
+                opacity-0 group-hover:opacity-10 
+                transition-opacity duration-500
+              `} />
             </motion.div>
-
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          </motion.div>
-        ))}
+          );
+        })}
       </motion.div>
     </motion.div>
   );
