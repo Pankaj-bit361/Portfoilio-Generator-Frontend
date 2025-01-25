@@ -106,7 +106,7 @@ function PDFUploader({ onDataExtracted, setExtractedText }) {
 
         setExtractedContent(extractedText);
         setExtractedText(extractedText);
-        console.log("Extracted content:", extractedText);
+        // console.log("Extracted content:", extractedText);
       } catch (error) {
         console.error("Error processing file:", error);
         setError("Error processing file");

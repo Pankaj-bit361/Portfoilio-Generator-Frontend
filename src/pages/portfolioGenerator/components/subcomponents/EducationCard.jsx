@@ -37,7 +37,7 @@ export const EducationCard = ({
       );
       setFlag((prev) => !prev);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Something went wrong");
     }
   };
@@ -55,7 +55,7 @@ export const EducationCard = ({
         toast.error("Something went wrong");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Something went wrong");
     }
   };

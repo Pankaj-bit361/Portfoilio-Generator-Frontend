@@ -168,7 +168,7 @@ function PortfolioGenerator({ setPortfolioData, type }) {
       await General.createPortfolioTemplate(portfolioId, template);
       setSelectedTemplate(template);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       toast.info(
         "Firs time,Don't change template selected. After that you can change it."
       );

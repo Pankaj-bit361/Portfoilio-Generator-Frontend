@@ -61,7 +61,7 @@ const PortfolioSkills = ({ formData, setFormData, setFlag }) => {
         toast.error("Something went wrong");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Something went wrong");
     }
   };
