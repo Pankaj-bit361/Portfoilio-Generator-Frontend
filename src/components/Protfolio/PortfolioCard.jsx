@@ -35,7 +35,7 @@ const PortfolioCard = ({ portfolio, onEdit, onView, onDelete }) => {
     setIsDeleting(true);
     try {
       await General.deletePortfolio(portfolio.portfolioId);
-      onDelete(portfolio.portfolioId);
+      onDelete();
     } catch (error) {
       console.error(
         "Error deleting portfolio:",
