@@ -10,6 +10,7 @@ import GlassLoader from "../components/GlassLoader";
 import { useAuth } from "../Context/AuthContext.jsx";
 import { toast } from "react-toastify";
 import Navbar from "../components/Home/Navbar.jsx";
+import General from "../config/general";
 
 const LoginSignupForm = () => {
   const [formState, setFormState] = useState({
