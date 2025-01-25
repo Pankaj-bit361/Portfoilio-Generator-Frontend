@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { config } from "../config/api";
 import GlassLoader from "../components/GlassLoader";
 import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useSpring } from "framer-motion";
 import Navbar from "../components/Home/Navbar";
 import Footer from "../components/Footer";
 import PortfolioList from "../components/Protfolio/PortfolioList";
+import General from "../config/general";
 
 const Portfolios = () => {
   const [portfolios, setPortfolios] = useState([]);
@@ -26,17 +25,13 @@ const Portfolios = () => {
     const fetchPortfolios = async () => {
       setLoading(true);
       try {
-        let data = JSON.parse(localStorage.getItem("portfolioUser"));
-        const response = await axios.get(
-          `${config.BASE_URL}api/portfolio?userId=${data.userId}&page=${currentPage}&limit=5`
-        );
-        if (response.data.success) {
-          setPortfolios(response.data.data.portfolios);
-          setTotalPages(response.data.data.pagination.totalPages);
+        const data = await General.fetchPortfolios({ page: currentPage });
+        if (data) {
+          setPortfolios(data.portfolios);
+          setTotalPages(data.pagination.totalPages);
         }
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching portfolios:", error);
         setLoading(false);
       }
     };
@@ -133,3 +128,4 @@ const Portfolios = () => {
 };
 
 export default Portfolios;
+

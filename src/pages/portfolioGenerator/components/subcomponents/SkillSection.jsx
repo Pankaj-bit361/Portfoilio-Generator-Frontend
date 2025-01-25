@@ -1,11 +1,7 @@
 import React from "react";
 import {
-  Brain,
-  Code,
   Trash2,
-  Wrench,
   Plus,
-  X,
   BookOpen,
   PenTool,
 } from "lucide-react";

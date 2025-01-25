@@ -2,35 +2,13 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaRobot, FaPalette, FaTimes, FaMagic } from "react-icons/fa";
 import General from "../config/general";
-import { config } from "../config/api";
 import { toast } from "react-toastify";
-import axios from "axios";
 
-function AIAssistant({ portfolioData, onSuggest }) {
-  const [isThinking, setIsThinking] = useState(false);
+function AIAssistant() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [websiteUrl, setWebsiteUrl] = useState("https://");
   const [error, setError] = useState("");
   const [isExtracting, setIsExtracting] = useState(false);
-
-  const generateSuggestions = () => {
-    setIsThinking(true);
-
-    setTimeout(() => {
-      const suggestions = {
-        home: {
-          ...portfolioData.home,
-          tagline: enhanceTagline(portfolioData.home.tagline),
-          summary: enhanceSummary(portfolioData.home.summary),
-        },
-        skills: enhanceSkills(portfolioData.skills),
-        projects: enhanceProjects(portfolioData.projects),
-      };
-
-      onSuggest(suggestions);
-      setIsThinking(false);
-    }, 1500);
-  };
 
   const handleUrlChange = (e) => {
     let url = e.target.value;
@@ -63,22 +41,13 @@ function AIAssistant({ portfolioData, onSuggest }) {
       setIsExtracting(true);
       setError("");
 
-      const json = {
-        url: websiteUrl,
-      };
+      const response = await General.extractTheme(websiteUrl);
 
-      const response = await axios.patch(
-        `${
-          config.BASE_URL
-        }api/theme/${General.getPortfolioId()}/extract?userId=${General.getUserId()}`,
-        json
-      );
-
-      if (response.data.success) {
+      if (response.success) {
         toast.success("Theme extracted successfully!");
         handleModalClose();
       } else {
-        toast.error(response.data.error || "Failed to extract theme");
+        toast.error(response.error || "Failed to extract theme");
       }
     } catch (err) {
       const errorMessage =
@@ -152,7 +121,9 @@ function AIAssistant({ portfolioData, onSuggest }) {
           transition={{ delay: 0.2 }}
           className="p-3 sm:p-4 bg-gray-800/50 rounded-lg border border-gray-700/50"
         >
-          <h4 className="font-medium text-blue-400 mb-2 sm:mb-3 text-sm sm:text-base">Tips:</h4>
+          <h4 className="font-medium text-blue-400 mb-2 sm:mb-3 text-sm sm:text-base">
+            Tips:
+          </h4>
           <ul className="space-y-1.5 sm:space-y-2 text-sm sm:text-base text-gray-300">
             <motion.li
               whileHover={{ x: 2 }}

@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Mail, Lock, FileText, User } from "lucide-react";
+import { Mail, FileText, User } from "lucide-react";
 import "./login.css";
 import googleIcon from "../assets/google.svg";
 import { useGoogleLogin } from "@react-oauth/google";
 import OTPInput from "react-otp-input";
-import { config } from "../config/api";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Loader1 from "../components/GlassLoader";
 import GlassLoader from "../components/GlassLoader";
 import { useAuth } from "../Context/AuthContext.jsx";
 import { toast } from "react-toastify";
 import Navbar from "../components/Home/Navbar.jsx";
-// import Navbar from "../components/Navbar.jsx";
 
 const LoginSignupForm = () => {
   const [formState, setFormState] = useState({
@@ -58,16 +55,12 @@ const LoginSignupForm = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const response = await axios.post(`${config.BASE_URL}api/auth/login`, {
-        email: formState.email,
-      });
-
+      const response = await General.login(formState.email);
       if (response.data) {
         setShowOTP(true);
       }
     } catch (error) {
       toast.error("Error getting OTP. Please try again.");
-      console.error("OTP Error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -76,29 +69,25 @@ const LoginSignupForm = () => {
   const handleSignUp = async () => {
     try {
       setIsLoading(true);
-      if (formState && !formState.email) {
-      }
-
-      const response = await axios.post(`${config.BASE_URL}api/auth/signup`, {
+      const response = await General.signup({
         email: formState.email,
         name: formState.name,
         bio: formState?.bio || "",
       });
-      console.log(response.data);
-      if (response.data.success) {
+
+      if (response.success) {
         toast.success("User Created successful!");
         setIsSignIn(true);
       } else {
         toast.error("Error submitting form. Please try again.");
       }
-      setIsLoading(false);
     } catch (error) {
-      console.log(error.response.data.message);
       toast.error(
         error.response.data.message
           ? error.response.data.message
           : "Error submitting form. Please try again."
       );
+    } finally {
       setIsLoading(false);
     }
   };
@@ -108,29 +97,18 @@ const LoginSignupForm = () => {
     try {
       setIsLoading(true);
       if (isSignIn && showOTP) {
-        const response = await axios.post(
-          `${config.BASE_URL}api/auth/verify-otp`,
-          {
-            email: formState.email,
-            otp: otp,
-          }
-        );
+        const response = await General.verifyOTP(formState.email, otp);
         if (response.data) {
-          localStorage.setItem(
-            "accessToken",
-            response.data.data.tokens.accessToken
-          );
+          localStorage.setItem("accessToken", response.data.tokens.accessToken);
           localStorage.setItem(
             "refreshToken",
-            response.data.data.tokens.refreshToken
+            response.data.tokens.refreshToken
           );
-          // console.log(response.data.data.user);
           localStorage.setItem(
             "portfolioUser",
-            JSON.stringify(response.data.data.user)
+            JSON.stringify(response.data.user)
           );
-          // console.log(response.data.data.tokens);
-          login(response.data.data.user, response.data.data.tokens);
+          login(response.data.user, response.data.tokens);
           toast.success("Login successful!");
           navigate("/generator/create");
         } else {
@@ -139,7 +117,6 @@ const LoginSignupForm = () => {
       }
     } catch (error) {
       toast.error("Error submitting form. Please try again.");
-      console.error("Submit Error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -158,28 +135,19 @@ const LoginSignupForm = () => {
         }
       );
 
-      const authResponse = await axios.post(
-        `${config.BASE_URL}api/auth/google`,
-        {
-          token: credentialResponse.access_token,
-          userInfo: userInfoResponse.data,
-        }
+      const authResponse = await General.googleAuth(
+        credentialResponse.access_token,
+        userInfoResponse.data
       );
-      if (authResponse.data) {
-        localStorage.setItem(
-          "accessToken",
-          authResponse.data.tokens.accessToken
-        );
-        localStorage.setItem(
-          "refreshToken",
-          authResponse.data.tokens.refreshToken
-        );
+
+      if (authResponse) {
+        localStorage.setItem("accessToken", authResponse.tokens.accessToken);
+        localStorage.setItem("refreshToken", authResponse.tokens.refreshToken);
         localStorage.setItem(
           "portfolioUser",
-          JSON.stringify(authResponse.data.user)
+          JSON.stringify(authResponse.user)
         );
-        // console.log(authResponse.data.tokens);
-        login(authResponse.data.user, authResponse.data.tokens);
+        login(authResponse.user, authResponse.tokens);
         toast.success("Login successful!");
         navigate("/generator/create");
       } else {
@@ -243,7 +211,12 @@ const LoginSignupForm = () => {
                     className="textarea-input " /* New class for specific textarea styling */
                   />
                 </div>
-                <button className="bg-gradient-to-r from-teal-400 to-blue-500"  onClick={handleSignUp}>Sign up</button>
+                <button
+                  className="bg-gradient-to-r from-teal-400 to-blue-500"
+                  onClick={handleSignUp}
+                >
+                  Sign up
+                </button>
                 <p className="text-gray-400 gap-2 flex items-center justify-center">
                   <span>Already have an account?</span>
                   <b onClick={handleToggle} className="pointer">
@@ -303,7 +276,11 @@ const LoginSignupForm = () => {
                     </p>
                   </div>
                 )}
-                <button type="submit" disabled={isLoading} className="bg-gradient-to-r from-teal-400 to-blue-500">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="bg-gradient-to-r from-teal-400 to-blue-500"
+                >
                   {showOTP ? "Verify OTP" : "Get OTP"}
                 </button>
 
@@ -317,7 +294,11 @@ const LoginSignupForm = () => {
                   className="google-btn bg-gradient-to-r from-teal-400 to-blue-500 text-white"
                   disabled={isLoading}
                 >
-                  <img src={googleIcon} alt="Google" className="google-icon text-white" />
+                  <img
+                    src={googleIcon}
+                    alt="Google"
+                    className="google-icon text-white"
+                  />
                   Sign in with Google
                 </button>
 

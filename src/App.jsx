@@ -1,13 +1,11 @@
 import "./App.css";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import PortfolioGenerator from "./pages/portfolioGenerator/PortfolioGenerator.jsx";
 import Preview from "./components/Preview";
 import "./styles/index.css";
-import Signup from "./pages/Signup";
 import LoginSignupForm from "./pages/Login";
 import { config } from "./config/api";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -33,7 +31,6 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<LoginSignupForm />} />
-                <Route path="/signup" element={<Signup />} />
                 <Route
                   path="/generator/create"
                   element={
@@ -75,14 +72,7 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-                <Route
-                  path="/modern"
-                  element={
-                    <Modern />
-
-                  
-                  }
-                />
+                <Route path="/modern" element={<Modern />} />
                 <Route
                   path="/creative"
                   element={

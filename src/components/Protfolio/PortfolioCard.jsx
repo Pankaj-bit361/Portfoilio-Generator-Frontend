@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Edit2, Eye, Trash2, Lock, Globe, Calendar, Code } from "lucide-react";
 import { Tilt } from "react-tilt";
-import axios from "axios";
-import { config } from "../../config/api";
 import General from "../../config/general";
 
 const defaultTiltOptions = {
@@ -36,19 +34,8 @@ const PortfolioCard = ({ portfolio, onEdit, onView, onDelete }) => {
     e.stopPropagation();
     setIsDeleting(true);
     try {
-      const userId = General.getUserId();
-      const headers = {
-        token: General.getAccessToken(),
-      };
-
-      const response = await axios.delete(
-        `${config.BASE_URL}api/portfolio/${portfolio.portfolioId}?userId=${userId}`,
-        { headers }
-      );
-
-      if (response.data.success) {
-        onDelete(portfolio.portfolioId);
-      }
+      await General.deletePortfolio(portfolio.portfolioId);
+      onDelete(portfolio.portfolioId);
     } catch (error) {
       console.error(
         "Error deleting portfolio:",
@@ -102,7 +89,7 @@ const PortfolioCard = ({ portfolio, onEdit, onView, onDelete }) => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               className="p-2 rounded-full bg-white/5 hover:bg-red-500/10 transition-colors"
-              onClick={handleDelete}
+              onClick={(e) => handleDelete(e, portfolio)}
               disabled={isDeleting}
             >
               <Trash2

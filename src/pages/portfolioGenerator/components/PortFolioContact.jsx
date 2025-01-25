@@ -10,33 +10,26 @@ import {
   Twitter,
 } from "lucide-react";
 import { toast } from "react-toastify";
-import { config } from "../../../config/api";
-import axios from "axios";
 import General from "../../../config/general";
 
 const PortFolioContact = ({ formData, setFormData, setFlag }) => {
   const updateHomeDetails = async () => {
-    if (!formData && !formData.home) return;
+    if (!formData && !formData.contact) return;
 
     try {
+      const response = await General.updateContactDetails(formData.contact);
 
-      const response = await axios.patch(
-        `${config.BASE_URL}api/portfolio/${General.getPortfolioId()}/contact?userId=${General.getUserId()}`,
-        formData.contact
-      );
-
-      if (response.data.success) {
-        toast.success("Personal Information Updated Successfully");
+      if (response.success) {
+        toast.success("Contact Information Updated Successfully");
         setFlag((prev) => !prev);
       } else {
-        toast.error("something went wrong");
+        toast.error("Something went wrong");
       }
     } catch (error) {
       console.log(error);
-      toast.error("something went wrong");
+      toast.error("Something went wrong");
     }
   };
-  
 
   const inputClass =
     "w-full pl-10 pr-4 py-3 h-12 text-white border-2 border-gray-600 rounded-lg focus:outline-none focus:border-[#7153dc] transition-colors bg-transparent";

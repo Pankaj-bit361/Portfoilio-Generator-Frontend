@@ -15,8 +15,6 @@ import {
   ImagePlus,
 } from "lucide-react";
 import { toast } from "react-toastify";
-import { config } from "../../../../config/api";
-import axios from "axios";
 import DeleteCard from "./DeleteCard";
 import General from "../../../../config/general";
 
@@ -107,42 +105,20 @@ export const ProjectCard = ({
       return;
     }
 
-    if (!project.projectId) {
-      addProjectCard();
-      return;
-    }
-
     try {
-      const response = await axios.patch(
-        `${config.BASE_URL}api/portfolio/${General.getPortfolioId()}/project/${
-          project.projectId
-        }?userId=${General.getUserId()}`,
-        project
-      );
-
-      if (response.data.success) {
-        toast.success("Project Information Updated Successfully");
-        setFlag((prev) => !prev);
+      let response;
+      if (!project.projectId) {
+        response = await General.addProject(project);
       } else {
-        toast.error("Something went wrong");
+        response = await General.updateProject(project.projectId, project);
       }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
-    }
-  };
 
-  const addProjectCard = async () => {
-    try {
-      const response = await axios.post(
-        `${
-          config.BASE_URL
-        }api/portfolio/${General.getPortfolioId()}/project?userId=${General.getUserId()}`,
-        project
-      );
-
-      if (response.data.success) {
-        toast.success("Added Project Information");
+      if (response.success) {
+        toast.success(
+          project.projectId
+            ? "Project Information Updated Successfully"
+            : "Added Project Information"
+        );
         setFlag((prev) => !prev);
       } else {
         toast.error("Something went wrong");
@@ -157,19 +133,10 @@ export const ProjectCard = ({
     if (!project && !project.projectId) return;
 
     try {
-      const headers = {
-        token: General.getAccessToken(),
-      };
+      const response = await General.deleteProject(project.projectId);
 
-      const response = await axios.delete(
-        `${config.BASE_URL}api/portfolio/${General.getPortfolioId()}/project/${
-          project.projectId
-        }?userId=${General.getUserId()}`,
-        { headers }
-      );
-
-      if (response.data.success) {
-        toast.success("Experience Information Removed Successfully");
+      if (response.success) {
+        toast.success("Project Information Removed Successfully");
         setFlag((prev) => !prev);
       } else {
         toast.error("Something went wrong");

@@ -1,10 +1,8 @@
 import { motion } from "framer-motion";
-import React, { useState } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { config } from '../config/api';
-import General from '../config/general';
-import GlassLoader from "./GlassLoader"; 
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import General from "../config/general";
+import GlassLoader from "./GlassLoader";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -28,53 +26,53 @@ const cardVariants = {
 };
 
 const templateOptions = [
-  { 
-    id: 'modern', 
-    name: 'Modern', 
-    description: 'Clean and professional design',
-    image: '/path/to/modern-template-preview.jpg'
+  {
+    id: "modern",
+    name: "Modern",
+    description: "Clean and professional design",
+    image: "/path/to/modern-template-preview.jpg",
   },
-  { 
-    id: 'creative', 
-    name: 'Creative', 
-    description: 'Bold and innovative layout',
-    image: '/path/to/creative-template-preview.jpg'
+  {
+    id: "creative",
+    name: "Creative",
+    description: "Bold and innovative layout",
+    image: "/path/to/creative-template-preview.jpg",
   },
-  { 
-    id: 'professional', 
-    name: 'Professional', 
-    description: 'Classic and elegant style',
-    image: '/path/to/professional-template-preview.jpg'
-  }
+  {
+    id: "professional",
+    name: "Professional",
+    description: "Classic and elegant style",
+    image: "/path/to/professional-template-preview.jpg",
+  },
 ];
 
-function TemplateSelector({ 
-  selectedTemplate, 
-  onSelect, 
-  portfolioId, 
-  isEditable = true 
+function TemplateSelector({
+  selectedTemplate,
+  onSelect,
+  portfolioId,
+  isEditable = true,
 }) {
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleTemplateUpdate = async (template) => {
     if (!portfolioId) return;
-    
+
     try {
       setIsUpdating(true);
-      const response = await axios.patch(
-        `${config.BASE_URL}api/portfolio/${portfolioId}/template?userId=${General.getUserId()}`,
-        { template: template } 
+      const response = await General.updatePortfolioTemplate(
+        portfolioId,
+        template
       );
-  
-      if (response.data.success) {
+
+      if (response.success) {
         onSelect(template);
-        toast.success('Template updated successfully');
+        toast.success("Template updated successfully");
       } else {
-        toast.error(response.data.error || 'Failed to update template');
+        toast.error(response.error || "Failed to update template");
       }
     } catch (error) {
-      console.error('Template update error:', error);
-      toast.error('Failed to update template');
+      console.error("Template update error:", error);
+      toast.error("Failed to update template");
     } finally {
       setIsUpdating(false);
     }
@@ -97,8 +95,10 @@ function TemplateSelector({
         Choose Your Template
       </motion.h3>
 
-      <motion.div 
-        className={`grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6 max-w-6xl mx-auto ${isUpdating ? 'opacity-50 pointer-events-none' : ''}`}
+      <motion.div
+        className={`grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6 max-w-6xl mx-auto ${
+          isUpdating ? "opacity-50 pointer-events-none" : ""
+        }`}
       >
         {templateOptions.map((template) => (
           <motion.div
@@ -109,11 +109,13 @@ function TemplateSelector({
               transition: { duration: 0.2 },
             }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => isEditable 
-              ? (portfolioId 
-                ? handleTemplateUpdate(template.id) 
-                : onSelect(template.id)) 
-              : null}
+            onClick={() =>
+              isEditable
+                ? portfolioId
+                  ? handleTemplateUpdate(template.id)
+                  : onSelect(template.id)
+                : null
+            }
             className={`
               relative overflow-hidden p-6 rounded-xl cursor-pointer
               border-2 transition-all duration-300

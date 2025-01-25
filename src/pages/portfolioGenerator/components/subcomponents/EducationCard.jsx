@@ -9,8 +9,6 @@ import {
   Calendar,
 } from "lucide-react";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { config } from "../../../../config/api";
 import General from "../../../../config/general";
 
 export const EducationCard = ({
@@ -26,49 +24,18 @@ export const EducationCard = ({
       toast.error("Degree and school are required fields");
       return;
     }
-
-    if (!educationData.educationId) {
-      addEducationCard();
-      return;
-    }
-
+  
     try {
-      const response = await axios.patch(
-        `${
-          config.BASE_URL
-        }api/portfolio/${General.getPortfolioId()}/education/${
-          educationData.educationId
-        }?userId=${General.getUserId()}`,
-        educationData
+      const response = educationData.educationId 
+        ? await General.updateEducation(educationData.educationId, educationData)
+        : await General.addEducation(educationData);
+  
+      toast.success(
+        educationData.educationId 
+          ? "Education Information Updated Successfully" 
+          : "Education Information Added Successfully"
       );
-
-      if (response.data.success) {
-        toast.success("Education Information Updated Successfully");
-        setFlag((prev) => !prev);
-      } else {
-        toast.error("Something went wrong");
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
-    }
-  };
-
-  const addEducationCard = async () => {
-    try {
-      const response = await axios.post(
-        `${
-          config.BASE_URL
-        }api/portfolio/${General.getPortfolioId()}/education/?userId=${General.getUserId()}`,
-        educationData
-      );
-
-      if (response.data.success) {
-        toast.success("Added Education Information");
-        setFlag((prev) => !prev);
-      } else {
-        toast.error("Something went wrong");
-      }
+      setFlag((prev) => !prev);
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
@@ -76,18 +43,12 @@ export const EducationCard = ({
   };
 
   const deleteEducationCard = async () => {
-    if (!educationData && !educationData.educationId) return;
+    if (!educationData.educationId) return;
 
     try {
-      const response = await axios.delete(
-        `${
-          config.BASE_URL
-        }api/portfolio/${General.getPortfolioId()}/education/${
-          educationData.educationId
-        }?userId=${General.getUserId()}`
-      );
+      const response = await General.deleteEducation(educationData.educationId);
 
-      if (response.data.success) {
+      if (response.success) {
         toast.success("Education Information Deleted Successfully");
         setFlag((prev) => !prev);
       } else {
