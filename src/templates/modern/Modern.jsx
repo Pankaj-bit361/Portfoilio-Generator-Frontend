@@ -9,34 +9,31 @@ import GlassLoader from "../../components/GlassLoader";
 import { ThemeProvider } from "./context/ThemeContext";
 import { ThemeSwitcher } from "./theme/ThemeSwitcher";
 import Hero from "./components/hero/Hero";
+import General from "../../config/general";
+import { ScrollProvider } from "./context/ScrollProvider";
 
 const Modern = () => {
-  const [moderPorfoliodata, setModernPortFolioData] = useState();
+  const [modernPortfolioData, setModernPortfolioData] = useState();
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const portfolioId = urlParams.get("portfolioId");
-      let userData = JSON.parse(localStorage.getItem("portfolioUser"));
-
-      if (!portfolioId ) {
+      if (!General.getPortfolioId()) {
         throw new Error("Missing required parameters");
       }
 
       const data = await getPortfolioData2({
-        portfolioId: portfolioId,
-        // userId: userData.userId,
+        portfolioId: General.getPortfolioId(),
       });
 
       if (!data) {
         throw new Error("Failed to fetch portfolio data");
       }
-      setLoading(false);
-      setModernPortFolioData(data);
+
+      setModernPortfolioData(data);
     } catch (error) {
-      console.log(error);
-      setLoading(false);
+      console.error("Portfolio data fetch error:", error);
+      toast.error("Failed to load portfolio data");
     } finally {
       setLoading(false);
     }
@@ -46,53 +43,70 @@ const Modern = () => {
     fetchData();
   }, []);
 
+  // Prepare data for different sections
   const navbarData = {
-    home: moderPorfoliodata?.home,
-    about: moderPorfoliodata?.skills,
-    projects: moderPorfoliodata?.projects,
+    home: modernPortfolioData?.home,
+    about: modernPortfolioData?.skills,
+    projects: modernPortfolioData?.projects,
     experience: [
-      ...(moderPorfoliodata?.experiences || []),
-      ...(moderPorfoliodata?.educations || []),
+      ...(modernPortfolioData?.experiences || []),
+      ...(modernPortfolioData?.educations || []),
     ],
-    contact: moderPorfoliodata?.contact,
+    contact: modernPortfolioData?.contact,
   };
 
   const heroData = {
-    home: moderPorfoliodata?.home,
-    contact: moderPorfoliodata?.contact,
-    projects: moderPorfoliodata?.projects,
+    home: modernPortfolioData?.home,
+    contact: modernPortfolioData?.contact,
+    projects: modernPortfolioData?.projects,
   };
 
   const aboutData = {
-    home: moderPorfoliodata?.home,
-    skills: moderPorfoliodata?.skills,
-    contact: moderPorfoliodata?.contact,
+    home: modernPortfolioData?.home,
+    skills: modernPortfolioData?.skills,
+    contact: modernPortfolioData?.contact,
   };
 
-  const projectsData = moderPorfoliodata?.projects || [];
+  const projectsData = modernPortfolioData?.projects || [];
 
   const experienceData = {
-    education: moderPorfoliodata?.educations || [],
-    experience: moderPorfoliodata?.experiences || [],
+    education: modernPortfolioData?.educations || [],
+    experience: modernPortfolioData?.experiences || [],
   };
 
-
-  const contactData = moderPorfoliodata?.contact;
+  const contactData = modernPortfolioData?.contact;
 
   return (
     <div className="q-modern-portfolio">
-      {loading && <GlassLoader />}
-      <ThemeProvider>
-        <div className="min-h-screen">
-          <Navbar data={navbarData} />
-          <Hero data={heroData} />
-          <About data={aboutData} />
-          <Projects data={projectsData} />
-          <Experience data={experienceData} />
-          {contactData && <Contact data={contactData} />}
-          <ThemeSwitcher />
-        </div>
-      </ThemeProvider>
+      <ScrollProvider>
+        <ThemeProvider>
+          {loading ? (
+            <GlassLoader />
+          ) : (
+            <div className="min-h-screen">
+              <Navbar data={navbarData} />
+              <section id="home">
+                <Hero data={heroData} />
+              </section>
+              <section id="about">
+                <About data={aboutData} />
+              </section>
+              <section id="projects">
+                <Projects data={projectsData} />
+              </section>
+              <section id="experience">
+                <Experience data={experienceData} />
+              </section>
+              {contactData && (
+                <section id="contact">
+                  <Contact data={contactData} />
+                </section>
+              )}
+              <ThemeSwitcher />
+            </div>
+          )}
+        </ThemeProvider>
+      </ScrollProvider>
     </div>
   );
 };
